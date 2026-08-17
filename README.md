@@ -122,5 +122,6 @@ cannot be expressed in dL — are listed in each directory's README.
 
 ## Licence
 
-[MIT](LICENSE), except `DISSERT.pdf`, which is the author's dissertation and is
-included for reference.
+The formalisations and accompanying notes are [MIT](LICENSE) licensed.
+`DISSERT.pdf` is the author's MSc dissertation (UFRN, 2018), included for
+reference; the MIT licence does not extend to it.
