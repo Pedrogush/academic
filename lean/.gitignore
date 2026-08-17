@@ -1,0 +1,8 @@
+# Lake build artefacts.  In this checkout `.lake` is a *symlink* into $HOME
+# (see README.md) because /mnt/c is a slow Windows mount and Mathlib's oleans
+# are several GB.  Never commit it.
+.lake/
+/.lake
+*.olean
+*.ilean
+*.trace

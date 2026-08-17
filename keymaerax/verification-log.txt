@@ -1,0 +1,259 @@
+KeYmaera X verification log
+===========================
+
+Toolchain (all installed rootlessly under $HOME, no sudo):
+  KeYmaera X 5.1.2   ~/kyx-tools/keymaerax.jar
+                     https://github.com/LS-Lab/KeYmaeraX-release/releases/download/5.1.2/keymaerax.jar
+  Temurin JDK 21.0.12+8   ~/kyx-tools/jdk-21.0.12+8
+                     https://api.adoptium.net/v3/binary/latest/21/ga/linux/x64/jdk/hotspot/normal/eclipse
+  Z3 5.0.0           ~/kyx-tools/z3-5.0.0-x64-glibc-2.39/bin/z3
+                     https://github.com/Z3Prover/z3/releases/download/z3-5.0.0/z3-5.0.0-x64-glibc-2.39.zip
+
+Command used for every file (4-core / 7 GB box, so the JVM is capped and niced):
+
+  timeout <N> nice -n 15 ~/kyx-tools/jdk-21.0.12+8/bin/java -Xmx2g -Xss20M \
+    -jar ~/kyx-tools/keymaerax.jar -launch -prove <file>.kyx \
+    -tool z3 -z3path ~/kyx-tools/z3-5.0.0-x64-glibc-2.39/bin/z3 -timeout <N>
+
+Note on first use: KeYmaera X derives its ~450-lemma derived-axiom base on
+first run and caches it under ~/.keymaerax/cache/lemmadb.  On this machine
+that took roughly an hour of wall time spread over several `-setup` runs.
+Until the cache is complete, every `-prove` invocation stalls in startup.
+
+IMPORTANT: with Z3 as the only arithmetic backend, KeYmaera X cannot derive 19
+of its own lemmas and prints, on every run:
+
+  WARNING: Encountered 19 errors when trying to populate DerivedAxioms database.
+  Unable to derive: timesDivInverse powNegOne powerLemma timesPowersBoth
+  powerEven powerOdd divideNumber divideRat divideNeg normalizeCoeff0
+  powerDivideEven powerDivideOdd ratFormAdd ratFormMinus ratFormDivide
+  ratFormTimes ratFormNeg taylorModelPowerEven taylorModelPowerOdd
+  Timed out while trying to derive lemmas. Continuing with restricted functionality!
+  DETAILS: QE with Z3 gives SAT. Cannot reduce the following formula to True:
+  \forall y \forall x 1/x*y=y/x
+
+These are rational-function / real-exponent normalisation lemmas (e.g.
+x^i*x^j = x^(i+j) with i,j real) that Z3 cannot decide; Mathematica can.
+KeYmaera X continues with "restricted functionality".  Retrying them costs
+about 3.5 minutes of start-up on EVERY run, which is why the wall-clock times
+below are all ~3.5 min regardless of how long the proof itself took (the
+per-entry "duration=" figures are the real proof times).
+
+To stop Z3 hanging forever on those queries, Z3 is invoked through a wrapper
+~/kyx-tools/z3wrap/z3 that adds a hard limit:
+
+  #!/bin/sh
+  exec ~/kyx-tools/z3-5.0.0-x64-glibc-2.39/bin/z3 -T:25 "$@"
+
+Without it, `-setup` and `-prove` block indefinitely on the first such query.
+
+=== SMOKE TEST ===
+
+$ timeout 560 nice -n 15 java -Xmx2g -Xss20M -jar keymaerax.jar -launch \
+    -prove t1.kyx -tool z3 -z3path ~/kyx-tools/z3wrap/z3 -timeout 240
+  (t1.kyx:  x^2+y^2=1 -> [{x'=y, y'=-x}] x^2+y^2=1,  tactic implyR(1); dI(1))
+
+Done /home/pedrogush/kyx-work/t1.kyx#Circle (proved)
+PROVED Circle: tactic=P,tacticsize=2,budget=240[s],duration=436[ms],qe=160[ms],rcf=0,steps=197
+EXIT=0
+
+=== RESULTS ===
+
+--------------------------------------------------------------------------
+04_eq458_discrepancy.kyx        ALL 5 ENTRIES PROVED    exit 0   (3m35s wall)
+--------------------------------------------------------------------------
+Done ...#SLA/4.58 exact derivative of the dissertation's V (M=2) (proved)
+Done ...#SLA/4.58 the factor N does not follow (N=3, M=2) (proved)
+Done ...#SLA/4.58 (4.57) is not a Lyapunov function: Vdot can be positive (proved)
+Done ...#SLA/4.58 explicit witness E=(2,-1), alphatilde=(-1/3,-5/3) (proved)
+Done ...#SLA/4.58 corrected candidate: Vdot <= 0 for every state (M=2) (proved)
+PROVED SLA/4.58 exact derivative of the dissertation's V (M=2): tactic=by QE,tacticsize=1,budget=200[s],duration=226[ms],qe=224[ms],rcf=0,steps=155
+PROVED SLA/4.58 the factor N does not follow (N=3, M=2): tactic=by QE,tacticsize=1,budget=200[s],duration=51[ms],qe=50[ms],rcf=0,steps=5
+PROVED SLA/4.58 (4.57) is not a Lyapunov function: Vdot can be positive: tactic=by QE,tacticsize=1,budget=200[s],duration=148[ms],qe=146[ms],rcf=0,steps=5
+PROVED SLA/4.58 explicit witness E=(2,-1), alphatilde=(-1/3,-5/3): tactic=by QE,tacticsize=1,budget=200[s],duration=83[ms],qe=79[ms],rcf=0,steps=5
+PROVED SLA/4.58 corrected candidate: Vdot <= 0 for every state (M=2): tactic=by QE,tacticsize=1,budget=200[s],duration=103[ms],qe=102[ms],rcf=0,steps=112
+
+--------------------------------------------------------------------------
+02_hull_invariance.kyx          ALL 3 ENTRIES PROVED    exit 0   (3m40s wall)
+--------------------------------------------------------------------------
+Done 02_hull_invariance.kyx#SLA/hull invariance: theta* stays in the convex hull (d=1, N=3) (proved)
+Done 02_hull_invariance.kyx#SLA/hull invariance via the Lyapunov function W (d=1, N=3) (proved)
+Done 02_hull_invariance.kyx#SLA/4.45 e_alpha is identically zero (d=1, N=3) (proved)
+PROVED SLA/hull invariance: theta* stays in the convex hull (d=1, N=3): tactic=hull invariance by Darboux (automatic ODE invariant),tacticsize=2,budget=200[s],duration=3420[ms],qe=2026[ms],rcf=0,steps=1236
+PROVED SLA/hull invariance via the Lyapunov function W (d=1, N=3): tactic=W <= 0 is a differential invariant,tacticsize=2,budget=200[s],duration=403[ms],qe=196[ms],rcf=0,steps=494
+PROVED SLA/4.45 e_alpha is identically zero (d=1, N=3): tactic=hull invariant, then e_alpha = 0 follows,tacticsize=6,budget=200[s],duration=881[ms],qe=350[ms],rcf=0,steps=1545
+
+--------------------------------------------------------------------------
+03_second_level.kyx             ALL 3 ENTRIES PROVED    exit 0   (3m35s wall)
+--------------------------------------------------------------------------
+Done 03_second_level.kyx#SLA/4.56-4.58 reduced Lyapunov function is nonincreasing (M=2) (proved)
+Done 03_second_level.kyx#SLA/4.58 corrected: Vrdot = -gn (E at)^2 - gn (E at)(e_alpha/m2) (proved)
+Done 03_second_level.kyx#SLA/4.49-4.51 E_f alpha*_f = -eps_N + e_alpha/m^2 (N=3) (proved)
+PROVED SLA/4.56-4.58 reduced Lyapunov function is nonincreasing (M=2): tactic=reduced V by differential invariant,tacticsize=2,budget=200[s],duration=527[ms],qe=235[ms],rcf=0,steps=320
+PROVED SLA/4.58 corrected: Vrdot = -gn (E at)^2 - gn (E at)(e_alpha/m2): tactic=by QE,tacticsize=1,budget=200[s],duration=172[ms],qe=166[ms],rcf=0,steps=132
+PROVED SLA/4.49-4.51 E_f alpha*_f = -eps_N + e_alpha/m^2 (N=3): tactic=by QE,tacticsize=1,budget=200[s],duration=93[ms],qe=92[ms],rcf=0,steps=157
+
+--------------------------------------------------------------------------
+01_first_level.kyx              ALL 3 ENTRIES PROVED    exit 0   (3m36s wall)
+--------------------------------------------------------------------------
+Done 01_first_level.kyx#SLA/4.23 first-level Lyapunov decrease (scaled), d=2 (proved)
+Done 01_first_level.kyx#SLA/4.22-4.23 first-level Lyapunov decrease (literal V), d=2 (proved)
+Done 01_first_level.kyx#SLA/4.23 exact identity Vdot = -eps^2 m^2 (d=2) (proved)
+PROVED SLA/4.23 first-level Lyapunov decrease (scaled), d=2: tactic=4.23 by differential invariant,tacticsize=2,budget=200[s],duration=634[ms],qe=293[ms],rcf=0,steps=484
+PROVED SLA/4.22-4.23 first-level Lyapunov decrease (literal V), d=2: tactic=4.23 by differential invariant,tacticsize=2,budget=200[s],duration=730[ms],qe=537[ms],rcf=0,steps=542
+PROVED SLA/4.23 exact identity Vdot = -eps^2 m^2 (d=2): tactic=by QE,tacticsize=1,budget=200[s],duration=117[ms],qe=117[ms],rcf=0,steps=197
+
+--------------------------------------------------------------------------
+06_slaff.kyx                    ALL 4 ENTRIES PROVED    exit 0   (3m37s wall)
+--------------------------------------------------------------------------
+Done 06_slaff.kyx#SLA/M_f is positive semidefinite (Coq: Mf_psd), M=2 (proved)
+Done 06_slaff.kyx#SLA/M_f(0)=0 implies the quadratic form starts at 0 (M=2) (proved)
+Done 06_slaff.kyx#SLA/4.69 the residual M_f alpha* + v_f vanishes when e_alpha = 0 (M=2) (proved)
+Done 06_slaff.kyx#SLA/4.68-4.69 SLAFF Lyapunov function is nonincreasing (M=2) (proved)
+PROVED SLA/M_f is positive semidefinite (Coq: Mf_psd), M=2: tactic=Darboux inequality with cofactor -sigma,tacticsize=2,budget=120[s],duration=573[ms],qe=251[ms],rcf=0,steps=417
+PROVED SLA/M_f(0)=0 implies the quadratic form starts at 0 (M=2): tactic=by QE,tacticsize=1,budget=120[s],duration=107[ms],qe=106[ms],rcf=0,steps=79
+PROVED SLA/4.69 the residual M_f alpha* + v_f vanishes when e_alpha = 0 (M=2): tactic=automatic ODE invariant search,tacticsize=2,budget=120[s],duration=1599[ms],qe=451[ms],rcf=0,steps=625
+PROVED SLA/4.68-4.69 SLAFF Lyapunov function is nonincreasing (M=2): tactic=differential invariant using PSD of M_f from the domain,tacticsize=2,budget=120[s],duration=314[ms],qe=186[ms],rcf=0,steps=556
+
+--------------------------------------------------------------------------
+07_instance.kyx                 ALL 4 ENTRIES PROVED    exit 0   (3m40s wall)
+--------------------------------------------------------------------------
+Done 07_instance.kyx#SLA/instance: hull invariance at d=1, N=3, phi=1, Gamma=2 (proved)
+Done 07_instance.kyx#SLA/instance: non-degeneracy (Coq: inst_models_are_distinct) (proved)
+Done 07_instance.kyx#SLA/instance: E_f is nowhere zero (Coq: inst_E_nonzero) (proved)
+Done 07_instance.kyx#SLA/instance: e_alpha = 0 and E_f alpha* = -eps_2 = 0 (proved)
+PROVED SLA/instance: hull invariance at d=1, N=3, phi=1, Gamma=2: tactic=automatic ODE invariant search,tacticsize=2,budget=120[s],duration=1591[ms],qe=318[ms],rcf=0,steps=504
+PROVED SLA/instance: non-degeneracy (Coq: inst_models_are_distinct): tactic=automatic ODE invariant search,tacticsize=2,budget=120[s],duration=1955[ms],qe=975[ms],rcf=0,steps=807
+PROVED SLA/instance: E_f is nowhere zero (Coq: inst_E_nonzero): tactic=automatic ODE invariant search,tacticsize=2,budget=120[s],duration=1447[ms],qe=898[ms],rcf=0,steps=654
+PROVED SLA/instance: e_alpha = 0 and E_f alpha* = -eps_2 = 0: tactic=hull invariant, then arithmetic,tacticsize=9,budget=120[s],duration=791[ms],qe=379[ms],rcf=0,steps=1054
+
+--------------------------------------------------------------------------
+05_eq458_dI_fails.kyx    BOTH ENTRIES UNFINISHED  exit 255  (4m14s wall)
+                         *** THIS IS THE EXPECTED OUTCOME ***
+--------------------------------------------------------------------------
+Done 05_eq458_dI_fails.kyx#SLA/4.57 dissertation's Lyapunov candidate -- dI attempt (M=2) (unfinished)
+Done 05_eq458_dI_fails.kyx#SLA/4.57 dissertation's candidate at the explicit counterexample (unfinished)
+UNFINISHED SLA/4.57 dissertation's Lyapunov candidate -- dI attempt (M=2): tactic=dI attempt (expected not to close),tacticsize=2,budget=100[s],duration=818[ms],qe=474[ms],rcf=0,steps=178
+UNFINISHED SLA/4.57 dissertation's candidate at the explicit counterexample: tactic=automatic ODE invariant search (expected not to close),tacticsize=2,budget=100[s],duration=38686[ms],qe=31468[ms],rcf=0,steps=770
+
+READ CAREFULLY: "UNFINISHED" means the tactic did not close the goal.  It is
+NOT a proof that the formula is false.  The machine-checked refutation of
+(4.58) is the QE result in 04_eq458_discrepancy.kyx above, in particular the
+entries "(4.57) is not a Lyapunov function: Vdot can be positive" and
+"explicit witness E=(2,-1), alphatilde=(-1/3,-5/3)".
+
+=== SUMMARY ===
+
+  01_first_level.kyx          3/3 entries proved
+  02_hull_invariance.kyx      3/3 entries proved
+  03_second_level.kyx         3/3 entries proved
+  04_eq458_discrepancy.kyx    5/5 entries proved
+  05_eq458_dI_fails.kyx       0/2 entries closed  (intended)
+  06_slaff.kyx                4/4 entries proved
+  07_instance.kyx             4/4 entries proved
+  --------------------------------------------------
+  22 of 22 intended proof obligations discharged;
+  2 intentionally-unprovable attempts did not close.
+
+No file timed out.  No file failed unexpectedly.
+
+
+==========================================================================
+=== AMENDMENT RUN: corrected design rule  N = 2n+1 = d+1  exactly       ===
+=== (see ../NOTE_convex_uniqueness.md)                                  ===
+==========================================================================
+
+Files touched: 02 (content), 03 / 04 / 06 (comment only), 07 (rebuilt),
+08 (new).  05 was not touched and was not re-run.  Same command as above.
+
+--------------------------------------------------------------------------
+07_instance.kyx   REBUILT at d=1, N=2, M=1   ALL 7 PROVED  exit 0  (3m40s)
+--------------------------------------------------------------------------
+Done 07_instance.kyx#SLA/instance: hull invariance at d=1, N=2, phi=1, Gamma=2 (proved)
+Done 07_instance.kyx#SLA/instance: alpha* is UNIQUE at N = d+1 = 2 (Coq: inst_astar_unique) (proved)
+Done 07_instance.kyx#SLA/instance: non-degeneracy, and eps_M is now nonzero (proved)
+Done 07_instance.kyx#SLA/instance: E_f is nowhere zero (Coq: inst_E_nonzero) (proved)
+Done 07_instance.kyx#SLA/instance: 4.51  E_f alpha*_f = -eps_M  (M=1) (proved)
+Done 07_instance.kyx#SLA/instance: M_f >= 0 along (4.66) (Coq: Mf_psd) (proved)
+Done 07_instance.kyx#SLA/instance: the residual M_f alpha* + v_f vanishes, with v_f nonzero (proved)
+PROVED SLA/instance: hull invariance at d=1, N=2, phi=1, Gamma=2: tactic=automatic ODE invariant search,tacticsize=2,budget=120[s],duration=1412[ms],qe=257[ms],rcf=0,steps=305
+PROVED SLA/instance: alpha* is UNIQUE at N = d+1 = 2 (Coq: inst_astar_unique): tactic=by QE,tacticsize=1,budget=120[s],duration=84[ms],qe=80[ms],rcf=0,steps=57
+PROVED SLA/instance: non-degeneracy, and eps_M is now nonzero: tactic=automatic ODE invariant search,tacticsize=2,budget=120[s],duration=1648[ms],qe=828[ms],rcf=0,steps=540
+PROVED SLA/instance: E_f is nowhere zero (Coq: inst_E_nonzero): tactic=automatic ODE invariant search,tacticsize=2,budget=120[s],duration=511[ms],qe=328[ms],rcf=0,steps=302
+PROVED SLA/instance: 4.51  E_f alpha*_f = -eps_M  (M=1): tactic=hull invariant, then arithmetic,tacticsize=6,budget=120[s],duration=420[ms],qe=239[ms],rcf=0,steps=540
+PROVED SLA/instance: M_f >= 0 along (4.66) (Coq: Mf_psd): tactic=Darboux inequality with cofactor -sigma,tacticsize=2,budget=120[s],duration=108[ms],qe=71[ms],rcf=0,steps=208
+PROVED SLA/instance: the residual M_f alpha* + v_f vanishes, with v_f nonzero: tactic=hull invariant, then Darboux on the residual,tacticsize=5,budget=120[s],duration=888[ms],qe=364[ms],rcf=0,steps=958
+
+--------------------------------------------------------------------------
+08_design_rule.kyx     NEW FILE            ALL 7 PROVED  exit 0  (3m34s)
+--------------------------------------------------------------------------
+Done 08_design_rule.kyx#SLA/design rule: at N = d+1 = 2 the coefficients are UNIQUE (d=1) (proved)
+Done 08_design_rule.kyx#SLA/design rule: the instance alpha* = (1/2,1/2) is forced (Coq: inst_astar_unique) (proved)
+Done 08_design_rule.kyx#SLA/design rule: at N = 3 > d+1 a one-parameter family works (d=1) (proved)
+Done 08_design_rule.kyx#SLA/design rule: two distinct convex representations at N = 3 (d=1) (proved)
+Done 08_design_rule.kyx#SLA/design rule: existence of two distinct representations, N = 3 (d=1) (proved)
+Done 08_design_rule.kyx#SLA/design rule: at N = 3 the regressor E_f annihilates the alpha*-family (d=1) (proved)
+Done 08_design_rule.kyx#SLA/design rule: at N = 2 the regressor E_f does NOT degenerate (d=1) (proved)
+PROVED SLA/design rule: at N = d+1 = 2 the coefficients are UNIQUE (d=1): tactic=by QE,tacticsize=1,budget=120[s],duration=114[ms],qe=110[ms],rcf=0,steps=169
+PROVED SLA/design rule: the instance alpha* = (1/2,1/2) is forced (Coq: inst_astar_unique): tactic=by QE,tacticsize=1,budget=120[s],duration=4[ms],qe=4[ms],rcf=0,steps=0
+PROVED SLA/design rule: at N = 3 > d+1 a one-parameter family works (d=1): tactic=by QE,tacticsize=1,budget=120[s],duration=59[ms],qe=59[ms],rcf=0,steps=37
+PROVED SLA/design rule: two distinct convex representations at N = 3 (d=1): tactic=by QE,tacticsize=1,budget=120[s],duration=69[ms],qe=66[ms],rcf=0,steps=5
+PROVED SLA/design rule: existence of two distinct representations, N = 3 (d=1): tactic=by QE,tacticsize=1,budget=120[s],duration=93[ms],qe=93[ms],rcf=0,steps=5
+PROVED SLA/design rule: at N = 3 the regressor E_f annihilates the alpha*-family (d=1): tactic=by QE,tacticsize=1,budget=120[s],duration=47[ms],qe=47[ms],rcf=0,steps=33
+PROVED SLA/design rule: at N = 2 the regressor E_f does NOT degenerate (d=1): tactic=by QE,tacticsize=1,budget=120[s],duration=42[ms],qe=41[ms],rcf=0,steps=33
+
+--------------------------------------------------------------------------
+02_hull_invariance.kyx  AMENDED to N=2, N=3 entry retained
+                                            ALL 4 PROVED  exit 0  (3m36s)
+--------------------------------------------------------------------------
+Done 02_hull_invariance.kyx#SLA/hull invariance: theta* stays in the convex hull (d=1, N=2) (proved)
+Done 02_hull_invariance.kyx#SLA/hull invariance via the Lyapunov function W (d=1, N=2) (proved)
+Done 02_hull_invariance.kyx#SLA/4.45 e_alpha is identically zero (d=1, N=2) (proved)
+Done 02_hull_invariance.kyx#SLA/hull invariance still holds at N = 3 > d+1 (d=1, outside the design rule) (proved)
+PROVED SLA/hull invariance: theta* stays in the convex hull (d=1, N=2): tactic=hull invariance by Darboux (automatic ODE invariant),tacticsize=2,budget=150[s],duration=1625[ms],qe=511[ms],rcf=0,steps=728
+PROVED SLA/hull invariance via the Lyapunov function W (d=1, N=2): tactic=W <= 0 is a differential invariant,tacticsize=2,budget=150[s],duration=223[ms],qe=122[ms],rcf=0,steps=403
+PROVED SLA/4.45 e_alpha is identically zero (d=1, N=2): tactic=hull invariant, then e_alpha = 0 follows,tacticsize=6,budget=150[s],duration=897[ms],qe=518[ms],rcf=0,steps=999
+PROVED SLA/hull invariance still holds at N = 3 > d+1 (d=1, outside the design rule): tactic=hull invariance by Darboux (automatic ODE invariant),tacticsize=2,budget=150[s],duration=595[ms],qe=284[ms],rcf=0,steps=380
+
+--------------------------------------------------------------------------
+03_second_level.kyx     comment only        ALL 3 PROVED  exit 0  (3m33s)
+--------------------------------------------------------------------------
+Done 03_second_level.kyx#SLA/4.56-4.58 reduced Lyapunov function is nonincreasing (M=2) (proved)
+Done 03_second_level.kyx#SLA/4.58 corrected: Vrdot = -gn (E at)^2 - gn (E at)(e_alpha/m2) (proved)
+Done 03_second_level.kyx#SLA/4.49-4.51 E_f alpha*_f = -eps_N + e_alpha/m^2 (N=3) (proved)
+
+--------------------------------------------------------------------------
+04_eq458_discrepancy.kyx  comment only      ALL 5 PROVED  exit 0  (3m33s)
+--------------------------------------------------------------------------
+Done 04_eq458_discrepancy.kyx#SLA/4.58 exact derivative of the dissertation's V (M=2) (proved)
+Done 04_eq458_discrepancy.kyx#SLA/4.58 the factor N does not follow (N=3, M=2) (proved)
+Done 04_eq458_discrepancy.kyx#SLA/4.58 (4.57) is not a Lyapunov function: Vdot can be positive (proved)
+Done 04_eq458_discrepancy.kyx#SLA/4.58 explicit witness E=(2,-1), alphatilde=(-1/3,-5/3) (proved)
+Done 04_eq458_discrepancy.kyx#SLA/4.58 corrected candidate: Vdot <= 0 for every state (M=2) (proved)
+  --> the (4.58) finding is UNCHANGED by the amendment and still verifies.
+
+--------------------------------------------------------------------------
+06_slaff.kyx            comment only        ALL 4 PROVED  exit 0  (3m35s)
+--------------------------------------------------------------------------
+Done 06_slaff.kyx#SLA/M_f is positive semidefinite (Coq: Mf_psd), M=2 (proved)
+Done 06_slaff.kyx#SLA/M_f(0)=0 implies the quadratic form starts at 0 (M=2) (proved)
+Done 06_slaff.kyx#SLA/4.69 the residual M_f alpha* + v_f vanishes when e_alpha = 0 (M=2) (proved)
+Done 06_slaff.kyx#SLA/4.68-4.69 SLAFF Lyapunov function is nonincreasing (M=2) (proved)
+  --> the (4.69) finding is UNCHANGED by the amendment and still verifies.
+
+=== SUMMARY AFTER THE AMENDMENT ===
+
+  01_first_level.kyx          3/3 proved   (untouched, d=2, no N involved)
+  02_hull_invariance.kyx      4/4 proved   (3 at N=2; 1 retained at N=3)
+  03_second_level.kyx         3/3 proved   (comment only; read at d=2, N=3=d+1)
+  04_eq458_discrepancy.kyx    5/5 proved   (comment only; read at d=2, N=3=d+1)
+  05_eq458_dI_fails.kyx       0/2 closed   (intended; untouched, not re-run)
+  06_slaff.kyx                4/4 proved   (comment only; read at d=2, N=3=d+1)
+  07_instance.kyx             7/7 proved   (rebuilt at d=1, N=2, M=1)
+  08_design_rule.kyx          7/7 proved   (new)
+  --------------------------------------------------------------------
+  33 of 33 intended proof obligations discharged;
+  2 intentionally-unprovable attempts did not close.
+
+No file timed out.  No file failed unexpectedly.
+

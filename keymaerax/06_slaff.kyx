@@ -1,0 +1,178 @@
+/* ------------------------------------------------------------------------
+   Chapter 4, eqs (4.60)-(4.69): second level adaptation with a forgetting
+   factor (SLAFF).
+
+   M = 2, so M_f is a symmetric 2x2 matrix (m11, m12, m22) and v_f is in R^2.
+   Eq. (4.66):
+
+       M_f' = -sigma M_f + E_f^T E_f ,      v_f' = -sigma v_f + E_f^T eps_N ,
+       M_f(0) = 0 ,                         v_f(0) = 0 .
+
+   E_f is again carried with an arbitrary constant rate (E_i' = c_i).
+
+   ON THE AMENDED DESIGN RULE (../NOTE_convex_uniqueness.md).  The rule is now
+   N = 2n + 1 = d + 1 exactly.  This file fixes only M = 2, hence N = 3, with
+   E_1, E_2 free symbols; read at d = 2 the configuration is N = 3 = d + 1 and
+   SATISFIES the amended rule, so no change of content was needed.  The
+   instance-level counterpart at d = 1, N = 2, M = 1 -- where M_f and v_f are
+   both genuinely nonzero and the residual still vanishes -- is the last two
+   entries of file 07.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/M_f is positive semidefinite (Coq: Mf_psd), M=2"
+
+Description "The quadratic form x^T M_f x stays nonnegative along (4.66).
+Since x is an arbitrary constant vector this is exactly M_f >= 0.  The
+dissertation asserts this implicitly by writing M_f as a convolution of
+E^T E in (4.65).".
+
+Definitions
+  Real sg;    /* sigma > 0 */
+  Real c1;    /* d/dt E_1 */
+  Real c2;    /* d/dt E_2 */
+  Real x1;    /* an arbitrary fixed test vector */
+  Real x2;
+End.
+
+ProgramVariables
+  Real m11; Real m12; Real m22;   /* M_f, symmetric */
+  Real E1;  Real E2;
+End.
+
+Problem
+    sg > 0
+  & x1^2*m11 + 2*x1*x2*m12 + x2^2*m22 >= 0
+ ->
+  [{ m11' = -sg*m11 + E1*E1,
+     m12' = -sg*m12 + E1*E2,
+     m22' = -sg*m22 + E2*E2,
+     E1'  = c1,
+     E2'  = c2 }]
+    x1^2*m11 + 2*x1*x2*m12 + x2^2*m22 >= 0
+End.
+
+Tactic "Darboux inequality with cofactor -sigma"
+  implyR(1) ; dbx("-sg", 1)
+End.
+
+End.
+
+ArchiveEntry "SLA/M_f(0)=0 implies the quadratic form starts at 0 (M=2)"
+
+Description "The initial condition M_f(0) = 0 of (4.65) supplies the
+hypothesis of the previous entry.".
+
+Definitions
+  Real x1; Real x2;
+End.
+
+ProgramVariables
+  Real m11; Real m12; Real m22;
+End.
+
+Problem
+  m11 = 0 & m12 = 0 & m22 = 0 -> x1^2*m11 + 2*x1*x2*m12 + x2^2*m22 >= 0
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.
+
+/* ------------------------------------------------------------------------
+   (4.69), corrected.  The residual of (4.69) is  q = M_f alpha*_f + v_f
+   (the dissertation writes only M_f alpha*_f).  Its dynamics are
+
+       q' = -sigma q + E_f^T (e_alpha/m^2)                (Coq: qres_dyn)
+
+   so when theta*_p is in the convex hull (e_alpha = 0, file 02) and
+   q(0) = 0, the residual is identically zero (Coq: qres_zero).
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.69 the residual M_f alpha* + v_f vanishes when e_alpha = 0 (M=2)"
+
+Description "Coq: qres_zero.  With e_alpha = 0 the residual obeys
+q' = -sigma q with q(0) = 0, hence q == 0.".
+
+Definitions
+  Real sg;
+  Real c1; Real c2;
+End.
+
+ProgramVariables
+  Real q1; Real q2;    /* q_i = sum_j Mf_ij alpha*_j + vf_i */
+  Real E1; Real E2;
+End.
+
+Problem
+  sg > 0 & q1 = 0 & q2 = 0
+ ->
+  [{ q1' = -sg*q1,
+     q2' = -sg*q2,
+     E1' = c1,
+     E2' = c2 }]
+    (q1 = 0 & q2 = 0)
+End.
+
+Tactic "automatic ODE invariant search"
+  implyR(1) ; ODE(1)
+End.
+
+End.
+
+/* ------------------------------------------------------------------------
+   (4.68)/(4.69): with e_alpha = 0 the residual vanishes and the SLAFF
+   error dynamics (Coq: alpFt_dyn) reduce to
+
+       alphatilde' = gamma ( -M_f alphatilde - E^T E alphatilde ) ,
+
+   for which  V = alphatilde^T alphatilde / 2  (4.68) is nonincreasing,
+   because both  alphatilde^T M_f alphatilde >= 0  (M_f PSD) and
+   (E alphatilde)^2 >= 0.  This is the statement (4.69) is aiming at
+   (Coq: VrF_nonpos).
+
+   M_f >= 0 is supplied here as an evolution domain constraint in the
+   2x2 form  m11 >= 0 & m22 >= 0 & m11*m22 - m12^2 >= 0, which the first
+   entry of this file justifies.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.68-4.69 SLAFF Lyapunov function is nonincreasing (M=2)"
+
+Description "Coq: VrF_nonpos.  V = alphatilde^T alphatilde / 2 is a
+differential invariant of the SLAFF error dynamics when e_alpha = 0.".
+
+Definitions
+  Real gn;    /* gamma > 0 */
+  Real sg;    /* sigma > 0 */
+  Real c1; Real c2;
+  Real c;
+End.
+
+ProgramVariables
+  Real a1;  Real a2;
+  Real m11; Real m12; Real m22;
+  Real E1;  Real E2;
+End.
+
+Problem
+    gn > 0 & sg > 0
+  & m11 >= 0 & m22 >= 0 & m11*m22 - m12^2 >= 0
+  & (a1^2 + a2^2)/2 <= c
+ ->
+  [{ a1'  = gn*( -(m11*a1 + m12*a2) - E1*(E1*a1 + E2*a2) ),
+     a2'  = gn*( -(m12*a1 + m22*a2) - E2*(E1*a1 + E2*a2) ),
+     m11' = -sg*m11 + E1*E1,
+     m12' = -sg*m12 + E1*E2,
+     m22' = -sg*m22 + E2*E2,
+     E1'  = c1,
+     E2'  = c2
+     & m11 >= 0 & m22 >= 0 & m11*m22 - m12^2 >= 0 }]
+    (a1^2 + a2^2)/2 <= c
+End.
+
+Tactic "differential invariant using PSD of M_f from the domain"
+  implyR(1) ; dI(1)
+End.
+
+End.

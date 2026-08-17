@@ -1,0 +1,818 @@
+===== Tue Aug 11 15:55:43 UTC 2026 build attempt: SLA_Prelim =====
+Started at Tue Aug 11 12:55:50 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+ISABELLE_TOOL_JAVA_OPTIONS="-Djava.awt.headless=true -Xms512m -Xmx4g -Xss16m"
+ISABELLE_BUILD_OPTIONS=""
+
+ML_PLATFORM="x86_64_32-linux"
+ML_HOME="/home/pedrogush/Isabelle2025-2/contrib/polyml-5.9.2-2/x86_64_32-linux"
+ML_SYSTEM="polyml-5.9.2"
+ML_OPTIONS="--minheap 500"
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** exception THM 0 raised (line 308 of "drule.ML"):
+***   OF: multiple unifiers
+***   (⋀j. j < ?n ⟹ ?T 0 j = 0) ⟹ Wq ?n ?c ?T 0 = 0
+***   ?j < n ⟹
+***   T 0 ?j =
+***   0
+*** At command "by" (line 221 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+*** Failed to finish proof (line 182 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy"):
+*** goal (2 subgoals):
+***  1. ⋀j t. j < n ⟹ ((λt. T t j) has_real_derivative T' t j) (at t)
+***  2. ⋀j t. j < n ⟹
+***           ((λt. T t j) has_real_derivative T' t j)
+***            (at t)
+*** At command "by" (line 181 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+*** Unable to figure out induct rule
+*** At command "proof" (line 102 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+*** Failed to finish proof (line 84 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy"):
+*** goal (1 subgoal):
+***  1. ⋀t. ⟦Deriv f f'; Deriv g g'⟧
+***         ⟹ ((λt. f t * g t) has_real_derivative f' t * g t + f t * g' t)
+***             (at t)
+*** At command "by" (line 84 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 12:56:44 GMT-3 2026
+0:00:54 elapsed time, 0:00:30 cpu time, factor 0.56
+
+===== Tue Aug 11 17:06:50 UTC 2026 : SLA_Prelim =====
+Started at Tue Aug 11 14:06:54 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Failed to finish proof (line 284 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy"):
+*** goal (1 subgoal):
+***  1. ⟦⋀j. j < n ⟹ 0 < c j; k < n⟧
+***     ⟹ 0 ≤ inverse (c k) *
+***            (T t k *
+***             T t k)
+*** At command "by" (line 284 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+*** Failed to finish proof (line 253 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy"):
+*** goal (1 subgoal):
+***  1. ⋀x. ⟦⋀j. j < n ⟹ 0 < c j; x < n⟧
+***         ⟹ 0 ≤ inverse (c x) *
+***                (T t x *
+***                 T t x)
+*** At command "by" (line 253 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+*** Unable to figure out induct rule
+*** At command "proof" (line 146 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:07:21 GMT-3 2026
+0:00:26 elapsed time, 0:00:15 cpu time, factor 0.57
+
+===== Tue Aug 11 17:09:25 UTC 2026 : SLA_Prelim round 3 =====
+Started at Tue Aug 11 14:09:29 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Failed to apply initial proof method (line 251 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy"):
+*** goal (1 subgoal):
+***  1. 0 ≤ inverse c *
+***         (x *
+***          x)
+*** At command "proof" (line 251 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:09:59 GMT-3 2026
+0:00:30 elapsed time, 0:00:03 cpu time, factor 0.11
+
+===== Tue Aug 11 17:13:53 UTC 2026 : Prelim + Chapter4 =====
+Started at Tue Aug 11 14:13:57 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.678s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Inner syntax error (line 903 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** at "= ( ∑ i < M . Ev t i * x i )"
+*** Failed to parse prop
+*** At command "definition" (line 902 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 330 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. (∑i<N. e i t * beta i) = (∑i<N. zh i t * beta i) - z t ⟹
+***     dot d (thv t) (phi t) =
+***     (∑i<N. zh i t *
+***            beta
+***             i)
+*** At command "by" (line 330 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 240 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. (∑j<d. T t j * phid t j - gam j * E t * phi t j * phi t j) =
+***     (∑j<d. - (gam j * E t * phi t j * phi t j)) +
+***     (∑j<d. T t j * phid t j) ⟹
+***     (∑j<d. - (gam j * E t * phi t j * phi t j)) =
+***     - (E t *
+***        phiGphi
+***         t)
+*** At command "by" (line 240 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 189 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. ⋀t. Wq d gam (tht i) t =
+***         Wq d gam (tht i)
+***          t
+*** At command "qed" (line 189 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 174 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. ⋀t. Wq d gam T t =
+***         Wq d gam T
+***          t
+*** At command "qed" (line 174 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:14:14 GMT-3 2026
+0:00:16 elapsed time, 0:00:06 cpu time, factor 0.36
+
+===== Tue Aug 11 17:17:35 UTC 2026 : Prelim + Chapter4 round 2 =====
+Started at Tue Aug 11 14:17:38 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.686s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+...
+***     gn * (2 * (Sb t * (SE t * ea t))) /
+***     msq t
+*** At command "by" (line 820 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 1070 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. gn * (∑j<M. astar j * Mf t i j) + gn * (∑j<M. Mf t i j * alpFt t j) =
+***     gn *
+***     (∑j<M. alpF t j *
+***            Mf t i
+***             j)
+*** At command "by" (line 1070 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 997 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. ⋀xa. xa < M ⟹
+***          sig * (x xa * (∑j<M. x j * Mf t xa j)) +
+***          x xa * (∑j<M. x j * (Ev t xa * Ev t j) - sig * (x j * Mf t xa j)) =
+***          x xa *
+***          (Ev t xa *
+***           (∑j<M. x j *
+***                  Ev t
+***                   j))
+*** At command "by" (line 997 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 868 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. sla_sig.Ealpt d phi z th astar 2 alp t =
+***     1
+*** At command "by" (line 868 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 603 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. sum astar {..<M} * eps M t =
+***     (∑i<M. astar i *
+***            eps M
+***             t)
+*** At command "by" (line 603 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 498 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. ⋀t. - (ea t / msq t * dot d (tha t) (phi t)) =
+***         - (ea t / msq t *
+***            ea t)
+*** At command "by" (line 497 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:18:39 GMT-3 2026
+0:01:00 elapsed time, 0:00:07 cpu time, factor 0.13
+
+===== Tue Aug 11 17:22:22 UTC 2026 : Prelim + Chapter4 round 3 =====
+Started at Tue Aug 11 14:22:28 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (2.057s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Failed to finish proof (line 1258 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. (∑i<M. gn * (- EalpFt t - ea t / msq t) * (Ev t i * alpFt t i) -
+***            gn * (alpFt t i * qres t i)) =
+***     (∑n<M. - (gn * (alpFt t n * qres t n))) +
+***     (∑n<M. gn * (- EalpFt t - ea t / msq t) *
+***            (Ev t n *
+***             alpFt t
+***              n))
+*** At command "by" (line 1258 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 1177 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. (∑j<M. Ev t i * (Ev t j * astar j) - sig * (Mf t i j * astar j)) =
+***     (∑n<M. - (sig * (Mf t i n * astar n))) +
+***     (∑n<M. Ev t i *
+***            (Ev t n *
+***             astar
+***              n))
+*** At command "by" (line 1177 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 907 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. Ev t (Suc 0) * alpt t (Suc 0) - 2 / 3 =
+***     1
+*** At command "by" (line 907 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Failed to finish proof (line 787 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. A + r = 0 ∨
+***     A + B * S = 0 ∨
+***     inverse g * g =
+***     1
+*** At command "by" (line 787 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:23:26 GMT-3 2026
+0:00:57 elapsed time, 0:00:11 cpu time, factor 0.21
+
+===== Tue Aug 11 17:25:59 UTC 2026 : Prelim + Chapter4 round 4 =====
+Started at Tue Aug 11 14:26:03 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.801s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Failed to finish proof (line 1185 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy"):
+*** goal (1 subgoal):
+***  1. sig * (∑j<M. astar j * Mf t i j) +
+***     (∑j<M. astar j * (Ev t j * Ev t i) - sig * (astar j * Mf t i j)) =
+***     Ev t i * (∑j<M. astar j * Ev t j) ⟹
+***     eps M t * Ev t i + Ev t i * (∑j<M. astar j * Ev t j) =
+***     ea t * Ev t i /
+***     msq t
+*** At command "by" (line 1185 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Chapter4.thy")
+*** Unable to figure out induct rule
+*** At command "by" (line 337 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+*** Unable to figure out induct rule
+*** At command "by" (line 331 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Prelim.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:26:34 GMT-3 2026
+0:00:31 elapsed time, 0:00:09 cpu time, factor 0.30
+
+===== Tue Aug 11 17:27:23 UTC 2026 : Prelim + Chapter4 round 5 =====
+Started at Tue Aug 11 14:27:26 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (2.194s cumulated time)
+SLA: theory SLA.SLA_Chapter4 100% (7.189s cumulated time)
+Timing SLA (2 threads, 6.498s elapsed time, 7.657s cpu time, 0.247s GC time, factor 1.18)
+Finished SLA (0:00:11 elapsed time, 0:00:09 cpu time, factor 0.80)
+
+Finished at Tue Aug 11 14:27:47 GMT-3 2026
+0:00:21 elapsed time, 0:00:09 cpu time, factor 0.45
+
+===== Tue Aug 11 17:28:06 UTC 2026 : full session (4 theories) round 1 =====
+Started at Tue Aug 11 14:28:10 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.617s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_Chapter4 100% (6.542s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+...
+***     ⟦⋀i ia. ⟦i < p; ia < ?p1 i⟧ ⟹ ?i2 i ia < p;
+***      ⋀i ia. ⟦i < p; ia < ?p1 i⟧ ⟹ ?i2 i ia < p; ⋀i. i < p ⟹ ?i1 i < ?p1 i;
+***      ?k ≤ p⟧
+***     ⟹ 0 ≤ alpha p
+***             (λi. u2 (λia. wlo (?i2 i ia)) (λia. whi (?i2 i ia))
+***                   (λia. w (?i2 i ia)) (?i1 i))
+***             ?k ∧
+***        alpha p
+***         (λi. u2 (λia. wlo (?i2 i ia)) (λia. whi (?i2 i ia))
+***               (λia. w (?i2 i ia)) (?i1 i))
+***         ?k
+***        ≤ 1
+*** goal (1 subgoal):
+***  1. sum (alpha p (u2 wlo whi w)) {..<Suc p} = 1 ∧
+***     (∀k≤p. 0 ≤ alpha p (u2 wlo whi w) k ∧
+***            alpha p (u2 wlo whi w) k
+***            ≤ 1)
+*** At command "by" (line 254 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+*** Failed to finish proof (line 218 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy"):
+*** goal (1 subgoal):
+***  1. (∑k<p. a k * vtx2 p wlo whi k j) + a p * vtx2 p wlo whi p j =
+***     (∑k<p. wlo j * a k) + wlo j * a p +
+***     ((if j < p then a j * (real p * (whi j - wlo j)) else 0) +
+***      (if p = j then a p * (real p * (whi j - wlo j)) else 0)) ⟹
+***     (∑k<p. wlo j * a k) + wlo j * a p =
+***     wlo j *
+***     (sum a {..<p} +
+***      a p)
+*** At command "by" (line 218 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+*** Failed to apply initial proof method (line 140 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy"):
+*** using this:
+***     sum (alpha ?p ?u) {..<Suc ?p} = 1
+***     ⟦⋀i. i < p ⟹ ?i1 i < p; ?k ≤ p⟧
+***     ⟹ 0 ≤ alpha p (λi. w (?i1 i)) ?k ∧ alpha p (λi. w (?i1 i)) ?k ≤ 1
+*** goal (1 subgoal):
+***  1. sum (alpha p w) {..<Suc p} = 1 ∧
+***     (∀k≤p. 0 ≤ alpha p w k ∧
+***            alpha p w k
+***            ≤ 1)
+*** At command "by" (line 140 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:29:19 GMT-3 2026
+0:01:08 elapsed time, 0:00:10 cpu time, factor 0.16
+
+===== Tue Aug 11 17:30:43 UTC 2026 : full session round 2 =====
+Started at Tue Aug 11 14:30:47 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.127s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_Chapter4 100% (7.139s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+...
+*** 
+*** Now trying to infer coercions globally.
+*** 
+*** Coercion inference failed:
+*** weak unification of subtype constraints fails
+*** 
+*** 
+*** At command "show" (line 414 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+*** Type unification failed
+*** 
+*** Type error in application: incompatible operand type
+*** 
+*** Operator:  u2 :: (nat ⇒ real) ⇒ (nat ⇒ real) ⇒ (nat ⇒ real) ⇒ nat ⇒ real
+*** Operand:   alo :: nat ⇒ 'a
+*** 
+*** Coercion Inference:
+*** 
+*** Local coercion insertion on the operand failed:
+*** Cannot generate coercion from "'a" to "real"
+*** 
+*** Now trying to infer coercions globally.
+*** 
+*** Coercion inference failed:
+*** weak unification of subtype constraints fails
+*** 
+*** 
+*** At command "show" (line 385 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+*** Failed to refine any pending goal
+*** At command "qed" (line 284 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+*** Failed to finish proof (line 243 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy"):
+*** goal (1 subgoal):
+***  1. (∑k<p. a k * vtx2 p wlo whi k j) + a p * vtx2 p wlo whi p j =
+***     wlo j +
+***     a j *
+***     (real p *
+***      (whi j -
+***       wlo j))
+*** At command "by" (line 243 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+*** Failed to refine any pending goal
+*** At command "qed" (line 149 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:31:33 GMT-3 2026
+0:00:46 elapsed time, 0:00:13 cpu time, factor 0.28
+
+===== Tue Aug 11 17:32:53 UTC 2026 : full session round 3 =====
+Started at Tue Aug 11 14:32:56 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.597s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_Chapter4 100% (8.065s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+...
+***             t))
+*** At command "by" (line 75 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+*** Failed to apply initial proof method (line 428 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy"):
+*** using this:
+***   ⟦⋀i. i < d ⟹ ?i1 i < d; ⋀i. i < d ⟹ ?i1 i < d⟧
+***   ⟹ sum (alpha d
+***            (u2 (λi. alo (?i1 i)) (λi. ahi (?i1 i)) (λi. theta (?i1 i))))
+***       {..<Suc d} =
+***      1 ∧
+***      (∀k≤d. 0 ≤ alpha d
+***                  (u2 (λi. alo (?i1 i)) (λi. ahi (?i1 i))
+***                    (λi. theta (?i1 i)))
+***                  k ∧
+***             alpha d
+***              (u2 (λi. alo (?i1 i)) (λi. ahi (?i1 i)) (λi. theta (?i1 i))) k
+***             ≤ 1)
+*** goal (1 subgoal):
+***  1. ∀k≤d. 0 ≤ alpha d (u2 alo ahi theta) k ∧
+***           alpha d (u2 alo ahi theta) k
+***           ≤ 1
+*** At command "by" (line 428 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+*** Failed to apply initial proof method (line 398 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy"):
+*** using this:
+***   ⟦⋀i. i < d ⟹ ?i1 i < d; ⋀i. i < d ⟹ ?i1 i < d⟧
+***   ⟹ sum (alpha d
+***            (u2 (λi. alo (?i1 i)) (λi. ahi (?i1 i)) (λi. theta (?i1 i))))
+***       {..<Suc d} =
+***      1 ∧
+***      (∀k≤d. 0 ≤ alpha d
+***                  (u2 (λi. alo (?i1 i)) (λi. ahi (?i1 i))
+***                    (λi. theta (?i1 i)))
+***                  k ∧
+***             alpha d
+***              (u2 (λi. alo (?i1 i)) (λi. ahi (?i1 i)) (λi. theta (?i1 i))) k
+***             ≤ 1)
+*** goal (1 subgoal):
+***  1. ∀k≤d. 0 ≤ alpha d (u2 alo ahi theta) k ∧
+***           alpha d (u2 alo ahi theta) k
+***           ≤ 1
+*** At command "by" (line 398 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:33:58 GMT-3 2026
+0:01:01 elapsed time, 0:00:15 cpu time, factor 0.26
+
+===== Tue Aug 11 17:35:35 UTC 2026 : full session round 4 =====
+Started at Tue Aug 11 14:35:39 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (2.611s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_Chapter4 100% (11.445s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+...
+*** Term:  - t :: 'a
+*** Type:  ??'a
+*** 
+*** Coercion Inference:
+*** 
+*** Local coercion insertion on the operand failed:
+*** Variable 'a::{banach,real_normed_algebra_1} not of sort {banach,real_normed_field}
+*** 
+*** Now trying to infer coercions globally.
+*** 
+*** Coercion inference failed:
+*** sort mismatch
+*** 
+*** At command "using" (line 84 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+*** Failed to apply initial proof method (line 454 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy"):
+*** using this:
+***   ⟦⋀i. i < d ⟹ ?i1 i < d; ⋀i. i < d ⟹ ?i1 i < d; ?j < d⟧
+***   ⟹ (∑k<Suc d.
+***          alpha d
+***           (u2 (λi. alo (?i1 i)) (λi. ahi (?i1 i)) (λi. theta (?i1 i))) k *
+***          vtx2 d (λi. alo (?i1 i)) (λi. ahi (?i1 i)) k ?j) =
+***      theta (?i1 ?j)
+*** goal (1 subgoal):
+***  1. ∀j<d. (∑k<Suc d. alpha d (u2 alo ahi theta) k * vtx2 d alo ahi k j) =
+***           theta
+***            j
+*** At command "by" (line 454 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+*** Failed to apply initial proof method (line 413 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy"):
+*** using this:
+***   ⟦⋀i. i < d ⟹ ?i1 i < d; ⋀i. i < d ⟹ ?i1 i < d; ?j < d⟧
+***   ⟹ (∑k<Suc d.
+***          alpha d
+***           (u2 (λi. alo (?i1 i)) (λi. ahi (?i1 i)) (λi. theta (?i1 i))) k *
+***          vtx2 d (λi. alo (?i1 i)) (λi. ahi (?i1 i)) k ?j) =
+***      theta (?i1 ?j)
+*** goal (1 subgoal):
+***  1. ∀j<d. (∑k<Suc d. alpha d (u2 alo ahi theta) k * vtx2 d alo ahi k j) =
+***           theta
+***            j
+*** At command "by" (line 413 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:36:32 GMT-3 2026
+0:00:53 elapsed time, 0:00:24 cpu time, factor 0.45
+
+===== Tue Aug 11 17:37:15 UTC 2026 : full session round 5 =====
+Started at Tue Aug 11 14:37:20 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.670s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_Chapter4 100% (7.667s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Failed to finish proof (line 273 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy"):
+*** goal (1 subgoal):
+***  1. exp (- (t * 2)) =
+***     exp (- t) *
+***     exp (- t)
+*** At command "by" (line 272 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+*** Failed to finish proof (line 185 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy"):
+*** goal (1 subgoal):
+***  1. ⟦a 1 * 2 = 1; a 0 * 2 = 1; i = 0 ∨ i = Suc 0⟧
+***     ⟹ a i * 2 =
+***        1
+*** At command "by" (line 185 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+*** Failed to finish proof (line 198 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy"):
+*** goal (1 subgoal):
+***  1. v 1 =
+***     2
+*** At command "by" (line 198 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+*** Failed to finish proof (line 87 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy"):
+*** goal (1 subgoal):
+***  1. exp (- t) * exp (- t) =
+***     exp (- (2 *
+***             t))
+*** At command "by" (line 87 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+*** Failed to refine any pending goal
+*** At command "qed" (line 490 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:37:54 GMT-3 2026
+0:00:34 elapsed time, 0:00:15 cpu time, factor 0.46
+
+===== Tue Aug 11 17:39:41 UTC 2026 : full session round 6 =====
+Started at Tue Aug 11 14:39:44 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.522s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_Chapter4 100% (12.181s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Failed to finish proof (line 279 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy"):
+*** goal (1 subgoal):
+***  1. exp (- (t * 2)) =
+***     exp (- t) *
+***     exp (- t)
+*** At command "by" (line 278 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+*** Failed to finish proof (line 191 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy"):
+*** goal (1 subgoal):
+***  1. ⟦a (Suc 0) * 2 = 1; a 0 * 2 = 1; i = 0 ∨ i = Suc 0⟧
+***     ⟹ a i * 2 =
+***        1
+*** At command "by" (line 191 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+*** Failed to refine any pending goal
+*** At command "qed" (line 499 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_AppendixA.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:40:26 GMT-3 2026
+0:00:41 elapsed time, 0:00:16 cpu time, factor 0.39
+
+===== Tue Aug 11 17:41:46 UTC 2026 : full session round 7 =====
+Started at Tue Aug 11 14:41:51 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (2.886s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_AppendixA 100% (3.945s cumulated time)
+SLA: theory SLA.SLA_Chapter4 100% (14.084s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Failed to finish proof (line 279 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy"):
+*** goal (1 subgoal):
+***  1. exp (- (t * 2)) =
+***     exp (- t) *
+***     exp (- t)
+*** At command "by" (line 278 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:42:57 GMT-3 2026
+0:01:06 elapsed time, 0:00:25 cpu time, factor 0.39
+
+===== Tue Aug 11 17:43:40 UTC 2026 : full session round 8 =====
+Started at Tue Aug 11 14:43:44 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (2.129s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_AppendixA 100% (2.196s cumulated time)
+SLA: theory SLA.SLA_Chapter4 100% (11.499s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Failed to finish proof (line 297 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy"):
+*** goal (1 subgoal):
+***  1. exp (- t) * exp (- t) =
+***     exp (- (t *
+***             2))
+*** At command "by" (line 296 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:44:39 GMT-3 2026
+0:00:55 elapsed time, 0:00:22 cpu time, factor 0.40
+
+===== Tue Aug 11 17:45:02 UTC 2026 : full session round 9 =====
+Started at Tue Aug 11 14:45:06 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.774s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_AppendixA 100% (2.547s cumulated time)
+SLA: theory SLA.SLA_Chapter4 100% (10.435s cumulated time)
+SLA FAILED (see also "isabelle build_log -H Error SLA")
+*** Failed to finish proof (line 314 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy"):
+*** goal (1 subgoal):
+***  1. (∑j<1. ALP t j * MF t j j) =
+***     - VF t
+***        0
+*** At command "by" (line 313 of "/mnt/c/Claude/My projects/Coq_MsDissertation/isabelle/SLA_Instance.thy")
+Unfinished session(s): SLA
+
+Finished at Tue Aug 11 14:46:01 GMT-3 2026
+0:00:55 elapsed time, 0:00:17 cpu time, factor 0.32
+
+===== Tue Aug 11 17:46:47 UTC 2026 : full session round 10 =====
+Started at Tue Aug 11 14:46:51 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.685s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_AppendixA 100% (2.615s cumulated time)
+SLA: theory SLA.SLA_Chapter4 100% (8.589s cumulated time)
+SLA: theory SLA.SLA_Instance 100% (1.860s cumulated time)
+Timing SLA (2 threads, 11.073s elapsed time, 13.508s cpu time, 0.754s GC time, factor 1.22)
+Finished SLA (0:00:32 elapsed time, 0:00:17 cpu time, factor 0.53)
+
+Finished at Tue Aug 11 14:47:35 GMT-3 2026
+0:00:43 elapsed time, 0:00:17 cpu time, factor 0.40
+
+===== Tue Aug 11 17:47:44 UTC 2026 : CLEAN REBUILD (isabelle build -c) =====
+Started at Tue Aug 11 14:47:48 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Cleaned SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (2.013s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_AppendixA 100% (2.595s cumulated time)
+SLA: theory SLA.SLA_Chapter4 100% (8.690s cumulated time)
+SLA: theory SLA.SLA_Instance 100% (1.650s cumulated time)
+Timing SLA (2 threads, 10.239s elapsed time, 11.766s cpu time, 0.489s GC time, factor 1.15)
+Finished SLA (0:00:21 elapsed time, 0:00:14 cpu time, factor 0.66)
+
+Finished at Tue Aug 11 14:48:22 GMT-3 2026
+0:00:33 elapsed time, 0:00:14 cpu time, factor 0.44
+
+===== Tue Aug 11 17:49:08 UTC 2026 : AUDIT (SLA_Check restates the headline results) =====
+Started at Tue Aug 11 14:49:12 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.668s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_Check
+SLA: theory SLA.SLA_AppendixA 100% (2.758s cumulated time)
+SLA: theory SLA.SLA_Chapter4 100% (6.180s cumulated time)
+SLA: theory SLA.SLA_Instance 100% (1.731s cumulated time)
+SLA: theory SLA.SLA_Check 100% (0.733s cumulated time)
+Timing SLA (2 threads, 9.058s elapsed time, 11.226s cpu time, 0.402s GC time, factor 1.24)
+Finished SLA (0:00:14 elapsed time, 0:00:13 cpu time, factor 0.88)
+
+Finished at Tue Aug 11 14:49:37 GMT-3 2026
+0:00:24 elapsed time, 0:00:13 cpu time, factor 0.53
+
+===== Tue Aug 11 17:52:01 UTC 2026 : FINAL CLEAN BUILD (isabelle build -c, all 5 theories) =====
+Started at Tue Aug 11 14:52:05 GMT-3 2026 (polyml-5.9.2_x86_64_32-linux on DESKTOP-0BDDLV6)
+
+
+Session Pure/Pure
+Session Misc/Tools
+Session HOL/HOL (main)
+Session Unsorted/SLA
+Cleaned SLA
+Running SLA ...
+SLA: theory SLA.SLA_Prelim
+SLA: theory SLA.SLA_AppendixA
+SLA: theory SLA.SLA_Chapter4
+SLA: theory SLA.SLA_Prelim 100% (1.409s cumulated time)
+SLA: theory SLA.SLA_Instance
+SLA: theory SLA.SLA_Check
+SLA: theory SLA.SLA_AppendixA 100% (2.303s cumulated time)
+SLA: theory SLA.SLA_Chapter4 100% (6.568s cumulated time)
+SLA: theory SLA.SLA_Instance 100% (1.891s cumulated time)
+SLA: theory SLA.SLA_Check 100% (0.634s cumulated time)
+Timing SLA (2 threads, 8.474s elapsed time, 10.867s cpu time, 0.426s GC time, factor 1.28)
+Finished SLA (0:00:16 elapsed time, 0:00:12 cpu time, factor 0.77)
+
+Finished at Tue Aug 11 14:52:32 GMT-3 2026
+0:00:27 elapsed time, 0:00:12 cpu time, factor 0.46

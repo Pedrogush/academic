@@ -1,0 +1,138 @@
+/* ------------------------------------------------------------------------
+   Chapter 4, second level: eqs (4.50)-(4.58).
+
+   Concrete dimensions: N = 3 models, so M = N - 1 = 2 and the second-level
+   regressor E_f = [eps_0 - eps_2, eps_1 - eps_2] is a 1x2 row vector and
+   alpha_f in R^2.  E_f is carried as a pair of state variables with an
+   arbitrary constant rate (E_i' = c_i), which is more general than holding
+   it fixed and keeps the ODE polynomial.
+
+   ON THE AMENDED DESIGN RULE (../NOTE_convex_uniqueness.md).  The rule is now
+   N = 2n + 1 = d + 1 exactly.  This file never fixes d: it fixes only
+   M = 2, hence N = 3, and E_1, E_2 are free symbols with free rates.  Read
+   at d = 2 -- i.e. plant order n = 1, theta*_p in R^2 -- the configuration is
+   N = 3 = d + 1, which SATISFIES the amended rule.  No change of content was
+   needed here; only this note.  (The degenerate reading would be d = 1 with
+   N = 3, which is what file 02's last entry and file 08 discuss, and which
+   is not what this file models.)
+
+   Throughout this file  e_alpha = 0, which is exactly what convex-hull
+   invariance (file 02) delivers, so (4.56) reduces to
+
+       alphatilde_f' = -gamma E_f^T E_f alphatilde_f .            (4.56)
+
+   The Lyapunov function used is the *reduced* one,
+
+       V = alphatilde^T alphatilde / 2,                           (Coq: Vr)
+
+   which is eq. (24) of Narendra-Wang-Chen.  The dissertation's own
+   candidate (4.57) is treated in files 04 and 05.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.56-4.58 reduced Lyapunov function is nonincreasing (M=2)"
+
+Description "V = alphatilde^T alphatilde / 2 is a differential invariant of
+the second-level error dynamics (4.56) when e_alpha = 0 (Coq: Vr_dyn,
+Vr_nonincreasing).".
+
+Definitions
+  Real gn;    /* gamma_{n2,f} of (4.52), > 0 */
+  Real c1;    /* d/dt E_1 */
+  Real c2;    /* d/dt E_2 */
+  Real c;     /* an arbitrary level of V */
+End.
+
+ProgramVariables
+  Real a1;    /* alphatilde_1 */
+  Real a2;    /* alphatilde_2 */
+  Real E1;    /* E_f component 1 */
+  Real E2;    /* E_f component 2 */
+End.
+
+Problem
+    gn > 0 & (a1^2 + a2^2)/2 <= c
+ ->
+  [{ a1' = -gn*(E1*(E1*a1 + E2*a2)),
+     a2' = -gn*(E2*(E1*a1 + E2*a2)),
+     E1' = c1,
+     E2' = c2 }]
+    (a1^2 + a2^2)/2 <= c
+End.
+
+Tactic "reduced V by differential invariant"
+  implyR(1) ; dI(1)
+End.
+
+End.
+
+/* ------------------------------------------------------------------------
+   The exact derivative of the reduced Lyapunov function, with the
+   e_alpha/m^2 term kept (Coq: Vr_dyn):
+
+       Vdot = -gamma (E alphatilde)^2 - gamma (E alphatilde)(e_alpha/m^2)
+
+   and its sign when e_alpha = 0.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.58 corrected: Vrdot = -gn (E at)^2 - gn (E at)(e_alpha/m2)"
+
+Description "The exact Lie derivative of the reduced Lyapunov function along
+(4.56), and its nonpositivity when e_alpha = 0 (Coq: Vr_dyn).".
+
+Definitions
+  Real gn;
+End.
+
+ProgramVariables
+  Real a1; Real a2; Real E1; Real E2; Real ra;   /* ra = e_alpha / m^2 */
+End.
+
+Problem
+  \forall a1 \forall a2 \forall E1 \forall E2 \forall ra
+  ( gn > 0 ->
+      (   a1*(-gn*(E1*(E1*a1 + E2*a2)) - gn*(E1*ra))
+        + a2*(-gn*(E2*(E1*a1 + E2*a2)) - gn*(E2*ra))
+        = -gn*(E1*a1 + E2*a2)^2 - gn*(E1*a1 + E2*a2)*ra )
+    & ( ra = 0 ->
+        a1*(-gn*(E1*(E1*a1 + E2*a2)) - gn*(E1*ra))
+      + a2*(-gn*(E2*(E1*a1 + E2*a2)) - gn*(E2*ra)) <= 0 ) )
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.
+
+/* ------------------------------------------------------------------------
+   (4.49)/(4.51):  E_f alpha*_f = -eps_{N,f} + e_alpha/m^2,
+   which is exactly -eps_{N,f} once e_alpha = 0.
+
+   N = 3, so the sum runs over i = 0,1 and alpha*_2 = 1 - alpha*_0 - alpha*_1
+   (eq. 4.48).  E_i = eps_i - eps_2 (4.50), and
+   sum_{i<3} alpha*_i eps_i = e_alpha/m^2 (Coq: sum_eps_astar).
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.49-4.51 E_f alpha*_f = -eps_N + e_alpha/m^2 (N=3)"
+
+Description "Elimination of alpha*_N (Coq: E_alpha_star, E_alpha_star_exact).".
+
+ProgramVariables
+  Real s0; Real s1; Real s2;    /* eps_0, eps_1, eps_2 */
+  Real b0; Real b1; Real b2;    /* alpha*_0, alpha*_1, alpha*_2 */
+  Real ra;                      /* e_alpha / m^2 */
+End.
+
+Problem
+  \forall s0 \forall s1 \forall s2 \forall b0 \forall b1 \forall b2 \forall ra
+  (   b0 + b1 + b2 = 1
+    & b0*s0 + b1*s1 + b2*s2 = ra
+   -> (   (s0 - s2)*b0 + (s1 - s2)*b1 = -s2 + ra
+        & ( ra = 0 -> (s0 - s2)*b0 + (s1 - s2)*b1 = -s2 ) ) )
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.

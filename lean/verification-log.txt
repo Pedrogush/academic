@@ -1,0 +1,156 @@
+================================================================
+ SLA Lean 4 port -- verification log
+ generated Tue Aug 11 15:41:14 UTC 2026 UTC
+================================================================
+
+--- toolchain -------------------------------------------------
+$ lean --version
+Lean (version 4.33.0, x86_64-unknown-linux-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)
+$ lake --version
+Lake version 5.0.0-src+d8b1897 (Lean version 4.33.0)
+$ cat lean-toolchain
+leanprover/lean4:v4.33.0
+Mathlib revision pinned in lake-manifest.json:
+  mathlib            db584cd6d46c92f209a44c0f1c829460d327499d  (inputRev v4.33.0)
+  plausible          b7eb3304aeae834b12dda98993a37f6a41f6f0bb  (inputRev main)
+  LeanSearchClient   5f4d51b81cbd3f6b32b156bfad9056621a040404  (inputRev main)
+  importGraph        16f02aa7642864af59f1ff0e384a015994db9118  (inputRev main)
+  proofwidgets       4be2e3d5087eeb272cf5a8853b8f9dd025ef5957  (inputRev main)
+  aesop              3448c0bcc5ce01b2d1546e483ec3620e32df3d0e  (inputRev master)
+  Qq                 92c15be17b7caf78c2ad767ec40f89052d908d81  (inputRev master)
+  batteries          4488d40d070b9700d4d5a6aa342f0d40c31b2a2d  (inputRev main)
+  Cli                6130a47896ce867c6a4a55373441e59e565bad0f  (inputRev v4.33.0)
+
+--- clean rebuild of the SLA library --------------------------
+$ lake build --no-cache
+✔ [2134/2139] Built SLA.Prelim (12s)
+✔ [2135/2139] Built SLA.AppendixA (11s)
+✔ [2136/2139] Built SLA.Chapter4 (16s)
+✔ [2137/2139] Built SLA.Instance (11s)
+✔ [2138/2139] Built SLA (9.9s)
+Build completed successfully (2139 jobs).
+exit code: 0
+
+--- no incomplete proofs --------------------------------------
+$ grep -rn 'sorry' SLA.lean SLA/
+(exit 1: no matches -- there are no incomplete proofs)
+
+--- axiom audit of the main theorems --------------------------
+every one depends only on Lean's three standard axioms
+(propext, Classical.choice, Quot.sound); sorryAx appears nowhere.
+
+'SLA.Model.e_eq_dot_tht' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.tht_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.V1_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.e_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.thtv_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.ev_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.thv_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.ev_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.hull_invariance' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.theta_star_in_hull' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.ea_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.ea_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.E_alpha_star' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.E_alpha_star_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.alpt_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vr_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vr_antitone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vb_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vb_deriv_differs_from_4_58' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vb_deriv_can_be_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.rateExact_ne_rate458' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.rateExact_can_be_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.rateExact_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.rate458_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.Mf_integrating_factor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.vf_integrating_factor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.Mf_psd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.alpt_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.qres_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.VrF_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.VrF_nonpos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.theorem1_representation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.theorem2_representation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.design_rule_suffices' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.hull_invariance_inst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.hull_direct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.models_are_distinct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.E_nonzero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.Vr_antitone_inst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.qres_zero_inst' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+================================================================
+ AMENDMENT: design rule N >= 2n+1  ==>  N = 2n+1 exactly
+ (see ../NOTE_convex_uniqueness.md)
+ re-verified Tue Aug 11 16:58:29 UTC 2026 UTC
+================================================================
+
+Changes: Model.hN (d+1 <= M+1)  ->  Model.hN_exact (M+1 = d+1);
+         AppendixA gains sum_a_V1, sum_a_V2, theorem1_uniqueness,
+         theorem2_uniqueness, design_rule_exact, more_vertices_not_unique;
+         Instance rebuilt at d = 1, N = 2, M = 1 with astar_unique.
+The (4.58) and (4.69) findings are untouched.
+
+$ lake build      (clean rebuild of the SLA library)
+✔ [2134/2139] Built SLA.Prelim (10s)
+✔ [2135/2139] Built SLA.AppendixA (11s)
+✔ [2136/2139] Built SLA.Chapter4 (14s)
+✔ [2137/2139] Built SLA.Instance (11s)
+✔ [2138/2139] Built SLA (9.2s)
+Build completed successfully (2139 jobs).
+exit code: 0
+
+$ grep -rn 'sorry\|admit' SLA.lean SLA/
+(exit 1: no matches -- there are no incomplete proofs)
+
+--- axiom audit (49 theorems, sorryAx count 0) -----------------
+'SLA.Model.e_eq_dot_tht' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.tht_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.V1_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.e_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.thtv_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.ev_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.thv_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Model.ev_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.hull_invariance' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.theta_star_in_hull' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.ea_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.ea_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.E_alpha_star' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Hull.E_alpha_star_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.alpt_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vr_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vr_antitone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vb_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vb_deriv_differs_from_4_58' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.SecondLevel.Vb_deriv_can_be_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.rateExact_ne_rate458' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.rateExact_can_be_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.rateExact_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.rate458_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.Mf_integrating_factor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.vf_integrating_factor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.Mf_psd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.alpt_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.qres_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.VrF_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Forgetting.VrF_nonpos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.theorem1_representation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.theorem1_uniqueness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.theorem2_representation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.theorem2_uniqueness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.design_rule_suffices' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.design_rule_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.AppendixA.more_vertices_not_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.astar_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.hull_invariance_inst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.E_alpha_star_inst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.hull_direct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.models_are_distinct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.E_nonzero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.eps_last_ne_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.vf_ne_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.qres_direct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.Vr_antitone_inst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SLA.Instance.qres_zero_inst' depends on axioms: [propext, Classical.choice, Quot.sound]

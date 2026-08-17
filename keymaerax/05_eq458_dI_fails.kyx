@@ -1,0 +1,105 @@
+/* ------------------------------------------------------------------------
+   THIS FILE IS EXPECTED NOT TO PROVE.  That is the point of the file.
+
+   READ THIS FIRST -- what this file does and does not establish.
+
+   It is the exact analogue of file 03, with the reduced Lyapunov function
+   V = alphatilde^T alphatilde / 2 replaced by the dissertation's own
+   candidate (4.57),
+
+       V = ( alphatilde^T alphatilde + (1.alphatilde)^2 ) / (2 gamma) .
+
+   File 03 closes by  dI.  This one does not close.
+
+   *** A tactic failing to close a goal is NOT a proof that the goal is
+   *** false.  It shows only that this tactic did not close it.  Nothing in
+   *** THIS file refutes (4.58).
+
+   The actual refutation is machine-checked in file 04, entries
+   "SLA/4.58 (4.57) is not a Lyapunov function: Vdot can be positive" and
+   "SLA/4.58 explicit witness ...", which prove by QE that there are real
+   values -- realizable by concrete E_f and alphatilde_f -- with
+
+       E alphatilde = 1,  1.alphatilde = -2,  1.E = 1,  e_alpha = 0
+
+   at which the exact Lie derivative of (4.57) equals +1 > 0.  Since (4.58)
+   asserts that this derivative is -N (E alphatilde)^2 - N (E alphatilde)
+   (e_alpha/m^2), which is <= 0 whenever e_alpha = 0, (4.58) does not hold as
+   stated, and (4.57) is not a Lyapunov function for (4.56).  THAT is the
+   result; this file is only the corresponding negative observation inside
+   the dL prover.
+
+   `build.sh` runs this file and expects a NONZERO exit code.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.57 dissertation's Lyapunov candidate -- dI attempt (M=2)"
+
+Description "EXPECTED NOT TO CLOSE.  The dI premise for (4.57) along (4.56)
+is the claim that its Lie derivative is <= 0 everywhere, which file 04
+refutes by QE.  A failure here is a failure of the tactic, not a proof.".
+
+Definitions
+  Real gn;
+  Real hn;
+  Real c1;
+  Real c2;
+  Real c;
+End.
+
+ProgramVariables
+  Real a1; Real a2; Real E1; Real E2;
+End.
+
+Problem
+    gn > 0 & hn*gn = 1
+  & hn*(a1^2 + a2^2 + (a1+a2)^2)/2 <= c
+ ->
+  [{ a1' = -gn*(E1*(E1*a1 + E2*a2)),
+     a2' = -gn*(E2*(E1*a1 + E2*a2)),
+     E1' = c1,
+     E2' = c2 }]
+    hn*(a1^2 + a2^2 + (a1+a2)^2)/2 <= c
+End.
+
+Tactic "dI attempt (expected not to close)"
+  implyR(1) ; dI(1)
+End.
+
+End.
+
+ArchiveEntry "SLA/4.57 dissertation's candidate at the explicit counterexample"
+
+Description "EXPECTED NOT TO CLOSE.  Same statement started exactly at the
+counterexample state E = (2,-1), alphatilde = (-1/3,-5/3), gamma = 1.  Here
+the postcondition is believed to be genuinely false rather than merely hard,
+but note that a non-closing proof attempt is not what establishes that -- see
+the hand computation in the comment below, and the QE facts in file 04.".
+
+/* Hand computation, NOT machine-checked, recorded for the reader.
+   With E held fixed at (2,-1) and gamma = 1 the system is linear:
+   writing s = E.alphatilde we get s' = -5 s and (1.alphatilde)' = -s.
+   Integrating with u = (1 - e^{-5t})/5 in [0, 1/5) gives
+       alphatilde(t) = alphatilde(0) - E u ,
+       V(t) = V(0) + u + 3 u^2  >  V(0)   for every t > 0,
+   so the sublevel set of (4.57) through this initial state is not invariant.
+   KeYmaera X cannot check this because the solution involves e^{-5t}. */
+
+ProgramVariables
+  Real a1; Real a2; Real E1; Real E2;
+End.
+
+Problem
+  a1 = -1/3 & a2 = -5/3 & E1 = 2 & E2 = -1
+ ->
+  [{ a1' = -(E1*(E1*a1 + E2*a2)),
+     a2' = -(E2*(E1*a1 + E2*a2)),
+     E1' = 0,
+     E2' = 0 }]
+    (a1^2 + a2^2 + (a1+a2)^2)/2 <= ((-1/3)^2 + (-5/3)^2 + (-2)^2)/2
+End.
+
+Tactic "automatic ODE invariant search (expected not to close)"
+  implyR(1) ; ODE(1)
+End.
+
+End.

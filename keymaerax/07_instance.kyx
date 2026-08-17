@@ -1,0 +1,221 @@
+/* ------------------------------------------------------------------------
+   The concrete non-vacuous instance of coq/SLA_Instance.v, in dL.
+
+   AMENDED for the corrected design rule  N = 2n + 1 = d + 1  exactly
+   (see ../NOTE_convex_uniqueness.md).  The instance is now
+
+       d = 1,  N = 2  (so M = N - 1 = 1),  phi(t) = 1,  theta*_p = 1,
+       z(t) = 1,      Gamma = 2,   sigma = 1,
+       initial estimates  thetahat(0) = v = (0, 2),
+       alpha* = (1/2, 1/2)  --  and at N = d + 1 this alpha* is UNIQUE.
+
+   The previous version of this file used d = 1 with N = 3 and
+   v = (0, 2, 1).  That is N > d + 1, the degenerate configuration: there
+   the coefficients (s, s, 1 - 2s) reproduce theta* = 1 for EVERY s in
+   [0, 1/2], so alpha* was not a point at all, and the second-level
+   regressor E_f was rank 1 in R^2 at every t.  File 08 records both facts.
+
+   With m^2 = 1 + phi^T phi = 2 the gradient law (4.19) reads
+   thetahat_i' = -(thetahat_i - 1), whose solution is
+   thetahat_i(t) = 1 + (v_i - 1) e^{-t}, i.e. t0 = 1 - e^{-t} and
+   t1 = 1 + e^{-t}.  The dL model is that ODE; the exponential solution is
+   never needed, because everything below is proved by differential
+   induction rather than by solving.
+
+   ONE CONSEQUENCE OF THE AMENDMENT IS WORTH FLAGGING.  In the old N = 3
+   instance the last model was initialised exactly at theta*, so eps_M and
+   v_f were identically zero and several statements below were trivial.
+   Now the last model is index 1 with v_1 = 2, so
+
+       eps_M(t) = eps_1(t) = e^{-t}/2  is NOT zero,
+       E_f(t)   = eps_0 - eps_1 = -e^{-t}   is NOT zero,
+       v_f(t)   = -(e^{-t} - e^{-2t})/2     is NOT zero,
+       M_f(t)   =  (e^{-t} - e^{-2t}) ,
+
+   and yet the residual  M_f alpha*_f + v_f  still vanishes identically
+   (last entry).  That is a strictly stronger test of (4.69) than the old
+   instance provided.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/instance: hull invariance at d=1, N=2, phi=1, Gamma=2"
+
+Description "Coq: inst_hull_invariance / inst_hull_direct.  The convex
+combination (1/2, 1/2) of the two time-varying estimates is exactly
+theta* = 1 at every instant.".
+
+ProgramVariables
+  Real t0; Real t1;
+End.
+
+Problem
+  t0 = 0 & t1 = 2
+ ->
+  [{ t0' = -(t0 - 1), t1' = -(t1 - 1) }]
+    (1/2)*t0 + (1/2)*t1 = 1
+End.
+
+Tactic "automatic ODE invariant search"
+  implyR(1) ; ODE(1)
+End.
+
+End.
+
+ArchiveEntry "SLA/instance: alpha* is UNIQUE at N = d+1 = 2 (Coq: inst_astar_unique)"
+
+Description "The point of the amended design rule.  With two vertices
+v = (0,2) in R^1 and target theta* = 1, the convex coefficients are forced:
+the affine system has N = 2 unknowns and d+1 = 2 equations.".
+
+ProgramVariables
+  Real a0; Real a1;
+End.
+
+Problem
+  \forall a0 \forall a1
+  ( a0 + a1 = 1 & 0*a0 + 2*a1 = 1 -> a0 = 1/2 & a1 = 1/2 )
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.
+
+ArchiveEntry "SLA/instance: non-degeneracy, and eps_M is now nonzero"
+
+Description "Coq: inst_models_are_distinct.  Neither model sits on theta* = 1
+any more: t0 stays strictly below and t1 strictly above.  In particular
+eps_M = eps_1 = (t1-1)/2 > 0, unlike in the old N = 3 instance where the last
+model was initialised exactly at theta*.".
+
+ProgramVariables
+  Real t0; Real t1;
+End.
+
+Problem
+  t0 = 0 & t1 = 2
+ ->
+  [{ t0' = -(t0 - 1), t1' = -(t1 - 1) }]
+    ( t0 < 1 & t1 > 1 & t0 < t1 )
+End.
+
+Tactic "automatic ODE invariant search"
+  implyR(1) ; ODE(1)
+End.
+
+End.
+
+ArchiveEntry "SLA/instance: E_f is nowhere zero (Coq: inst_E_nonzero)"
+
+Description "E_f(t) = eps_0 - eps_1 = (t0-1)/2 - (t1-1)/2 < 0 for all t, so
+the second-level regression problem is not vacuous.  At M = 1 this single
+component is the whole of E_f, and being nonzero it has full rank 1 = M --
+in contrast to the old N = 3 instance, where E_f was rank 1 in R^2.".
+
+ProgramVariables
+  Real t0; Real t1;
+End.
+
+Problem
+  t0 = 0 & t1 = 2
+ ->
+  [{ t0' = -(t0 - 1), t1' = -(t1 - 1) }]
+    (t0 - 1)/2 - (t1 - 1)/2 < 0
+End.
+
+Tactic "automatic ODE invariant search"
+  implyR(1) ; ODE(1)
+End.
+
+End.
+
+ArchiveEntry "SLA/instance: 4.51  E_f alpha*_f = -eps_M  (M=1)"
+
+Description "Coq: inst_Ealp / E_alpha_star_exact.  Now a real identity rather
+than 0 = 0: both sides are nonzero, and they agree because theta* is in the
+hull (e_alpha = 0).".
+
+ProgramVariables
+  Real t0; Real t1;
+End.
+
+Problem
+  t0 = 0 & t1 = 2
+ ->
+  [{ t0' = -(t0 - 1), t1' = -(t1 - 1) }]
+    ( (t0 - 1)/2 - (t1 - 1)/2 ) * (1/2) = -((t1 - 1)/2)
+End.
+
+Tactic "hull invariant, then arithmetic"
+  implyR(1) ; dC("t0 + t1 = 2", 1) ; <(
+    dW(1) ; QE,
+    ODE(1)
+  )
+End.
+
+End.
+
+/* ------------------------------------------------------------------------
+   (4.66) and (4.69) for the instance, with M_f and v_f carried as genuine
+   state variables:
+
+       M_f' = -sigma M_f + E_f^T E_f ,     M_f(0) = 0
+       v_f' = -sigma v_f + E_f^T eps_M ,   v_f(0) = 0
+
+   at sigma = 1, M = 1, with E_f = (t0-1)/2 - (t1-1)/2 and eps_M = (t1-1)/2.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/instance: M_f >= 0 along (4.66) (Coq: Mf_psd)"
+
+Description "M_f is a 1x1 matrix here, so positive semidefiniteness is just
+M_f >= 0; it follows by Darboux with cofactor -sigma = -1.".
+
+ProgramVariables
+  Real t0; Real t1; Real mf;
+End.
+
+Problem
+  t0 = 0 & t1 = 2 & mf = 0
+ ->
+  [{ t0' = -(t0 - 1),
+     t1' = -(t1 - 1),
+     mf' = -mf + ((t0 - 1)/2 - (t1 - 1)/2)*((t0 - 1)/2 - (t1 - 1)/2) }]
+    mf >= 0
+End.
+
+Tactic "Darboux inequality with cofactor -sigma"
+  implyR(1) ; dbx("-1", 1)
+End.
+
+End.
+
+ArchiveEntry "SLA/instance: the residual M_f alpha* + v_f vanishes, with v_f nonzero"
+
+Description "Coq: qres_zero / inst_MFalp.  The sharper test the amended
+instance makes possible: M_f(t) = e^{-t} - e^{-2t} and
+v_f(t) = -(e^{-t} - e^{-2t})/2 are both nonzero, yet the residual
+M_f alpha*_0 + v_f = M_f/2 + v_f is identically zero.  (4.69) omits the v_f
+term; this entry is exactly the situation where that omission would matter.".
+
+ProgramVariables
+  Real t0; Real t1; Real mf; Real vf;
+End.
+
+Problem
+  t0 = 0 & t1 = 2 & mf = 0 & vf = 0
+ ->
+  [{ t0' = -(t0 - 1),
+     t1' = -(t1 - 1),
+     mf' = -mf + ((t0 - 1)/2 - (t1 - 1)/2)*((t0 - 1)/2 - (t1 - 1)/2),
+     vf' = -vf + ((t0 - 1)/2 - (t1 - 1)/2)*((t1 - 1)/2) }]
+    mf*(1/2) + vf = 0
+End.
+
+Tactic "hull invariant, then Darboux on the residual"
+  implyR(1) ; dC("t0 + t1 = 2", 1) ; <(
+    ODE(1),
+    ODE(1)
+  )
+End.
+
+End.

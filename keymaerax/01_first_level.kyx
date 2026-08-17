@@ -1,0 +1,140 @@
+/* ------------------------------------------------------------------------
+   Chapter 4, first level: the normalized gradient estimator (4.10)-(4.23).
+
+   Concrete dimension d = 2 (i.e. plant order n = 1, theta*_p in R^2),
+   a single model (the statement is per-model, so N plays no role here).
+
+   Modelling of the normalisation.  m^2 = 1 + phi^T phi is strictly positive
+   and eps = e/m^2.  Rather than writing a division inside the ODE we carry a
+   state variable  r  standing for 1/m^2, with the derivative that
+   1/(1+phi^T phi) really has, and we record  r > 0  in the evolution domain.
+   phi itself is time varying: phi' = (q1,q2) with q constant, so
+   (m^2)' = 2(p1 q1 + p2 q2)  and  r' = -2(p1 q1 + p2 q2) r^2.
+
+   Note on the Lyapunov function.  (4.22) is V = thetatilde^T Gamma^-1
+   thetatilde / 2.  Entry 1 uses det(Gamma) * V = (g2 thetatilde_1^2 +
+   g1 thetatilde_2^2)/2, which is the same function up to the positive
+   constant factor det(Gamma) = g1 g2 and therefore has exactly the same
+   sublevel sets; writing it this way keeps every term polynomial and avoids
+   asking the arithmetic backend to reason about the reciprocals of Gamma.
+   Entry 2 states (4.22) literally, with Gamma^-1 = diag(h1,h2) pinned by
+   h1 g1 = 1, h2 g2 = 1.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.23 first-level Lyapunov decrease (scaled), d=2"
+
+Description "det(Gamma) * V, with V = thetatilde^T Gamma^-1 thetatilde / 2 of
+(4.22), is nonincreasing along the normalized gradient law (4.19)
+thetahat' = -Gamma eps phi.  This is (4.23), Vdot = -eps^2 m^2 <= 0.".
+
+Definitions
+  Real ts1;   /* theta*_p component 1 (constant plant parameter) */
+  Real ts2;   /* theta*_p component 2 */
+  Real g1;    /* Gamma_11 > 0 */
+  Real g2;    /* Gamma_22 > 0 */
+  Real q1;    /* d/dt phi_1 */
+  Real q2;    /* d/dt phi_2 */
+  Real c;     /* an arbitrary level of V */
+End.
+
+ProgramVariables
+  Real th1;   /* thetahat_1 */
+  Real th2;   /* thetahat_2 */
+  Real p1;    /* phi_1 */
+  Real p2;    /* phi_2 */
+  Real r;     /* 1/m^2 */
+End.
+
+Problem
+    g1 > 0 & g2 > 0 & r > 0
+  & (g2*(th1-ts1)^2 + g1*(th2-ts2)^2)/2 <= c
+ ->
+  [{ th1' = -(g1 * (((th1-ts1)*p1 + (th2-ts2)*p2) * r) * p1),
+     th2' = -(g2 * (((th1-ts1)*p1 + (th2-ts2)*p2) * r) * p2),
+     p1'  = q1,
+     p2'  = q2,
+     r'   = -2*(p1*q1 + p2*q2)*r^2
+     & r > 0 }]
+    (g2*(th1-ts1)^2 + g1*(th2-ts2)^2)/2 <= c
+End.
+
+Tactic "4.23 by differential invariant"
+  implyR(1) ; dI(1)
+End.
+
+End.
+
+ArchiveEntry "SLA/4.22-4.23 first-level Lyapunov decrease (literal V), d=2"
+
+Description "The same statement with (4.22) written literally as
+V = thetatilde^T Gamma^-1 thetatilde / 2, Gamma^-1 = diag(h1,h2) pinned by
+h1*g1 = 1 and h2*g2 = 1.".
+
+Definitions
+  Real ts1; Real ts2;
+  Real g1;  Real g2;
+  Real h1;  Real h2;   /* (Gamma^-1)_11, (Gamma^-1)_22 */
+  Real q1;  Real q2;
+  Real c;
+End.
+
+ProgramVariables
+  Real th1; Real th2; Real p1; Real p2; Real r;
+End.
+
+Problem
+    g1 > 0 & g2 > 0 & h1*g1 = 1 & h2*g2 = 1 & r > 0
+  & h1*(th1-ts1)^2/2 + h2*(th2-ts2)^2/2 <= c
+ ->
+  [{ th1' = -(g1 * (((th1-ts1)*p1 + (th2-ts2)*p2) * r) * p1),
+     th2' = -(g2 * (((th1-ts1)*p1 + (th2-ts2)*p2) * r) * p2),
+     p1'  = q1,
+     p2'  = q2,
+     r'   = -2*(p1*q1 + p2*q2)*r^2
+     & r > 0 }]
+    h1*(th1-ts1)^2/2 + h2*(th2-ts2)^2/2 <= c
+End.
+
+Tactic "4.23 by differential invariant"
+  implyR(1) ; dI(1)
+End.
+
+End.
+
+/* ------------------------------------------------------------------------
+   The exact identity (4.23):  Vdot = -eps^2 m^2.
+   Pure real arithmetic: with e = thetatilde^T phi, m2 = 1 + phi^T phi and
+   eps = e/m2 = e*r, the Lie derivative of det(Gamma)*V along (4.19) is
+   -det(Gamma) * eps^2 * m2.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.23 exact identity Vdot = -eps^2 m^2 (d=2)"
+
+Description "The Lie derivative of (4.22) along (4.19) is exactly -eps^2 m^2
+(Coq: V1_dyn).".
+
+Definitions
+  Real ts1; Real ts2; Real g1; Real g2;
+End.
+
+ProgramVariables
+  Real th1; Real th2; Real p1; Real p2; Real r;
+End.
+
+Problem
+  \forall th1 \forall th2 \forall p1 \forall p2 \forall r
+  ( g1 > 0 & g2 > 0 & r*(1 + p1^2 + p2^2) = 1
+    ->
+      g2*(th1-ts1)*(-(g1 * (((th1-ts1)*p1 + (th2-ts2)*p2) * r) * p1))
+    + g1*(th2-ts2)*(-(g2 * (((th1-ts1)*p1 + (th2-ts2)*p2) * r) * p2))
+    = -( g1*g2
+       * (((th1-ts1)*p1 + (th2-ts2)*p2)*r)
+       * (((th1-ts1)*p1 + (th2-ts2)*p2)*r)
+       * (1 + p1^2 + p2^2) ) )
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.

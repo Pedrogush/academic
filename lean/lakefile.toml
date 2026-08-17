@@ -1,0 +1,11 @@
+name = "SLA"
+version = "0.1.0"
+defaultTargets = ["SLA"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+version = "git#v4.33.0"
+
+[[lean_lib]]
+name = "SLA"

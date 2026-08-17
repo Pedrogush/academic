@@ -1,0 +1,160 @@
+/* ------------------------------------------------------------------------
+   THE (4.58) DISCREPANCY, at N = 3 (so M = 2).
+
+   ON THE AMENDED DESIGN RULE (../NOTE_convex_uniqueness.md).  The rule is now
+   N = 2n + 1 = d + 1 exactly.  This file is pure real arithmetic in the
+   symbols Ea = E alphatilde, Sb = 1.alphatilde, SE = 1.E and ra = e_alpha/m^2,
+   with E_1, E_2, a_1, a_2 free reals; it fixes only M = 2, hence N = 3.  Read
+   at d = 2 the configuration is N = 3 = d + 1 and SATISFIES the amended rule.
+   Nothing here depends on the hull being non-degenerate: the counterexample
+   state is exhibited directly in the (E, alphatilde) coordinates that (4.56)
+   acts on, and note section 7 lists the (4.58) and (4.69) findings among the
+   results the amendment does not affect.  Only this comment was added.
+
+   The dissertation's Lyapunov candidate (4.57) is built on the *extended*
+   vector  alphabartilde_f = [alphatilde_f ; -1.alphatilde_f], i.e.
+
+       V = ( alphatilde^T alphatilde + (1.alphatilde)^2 ) / (2 gamma)   (4.57)
+
+   and (4.58) asserts
+
+       Vdot = -N (E alphatilde)^2 - N (E alphatilde)(e_alpha/m^2) .
+
+   The exact derivative along the second-level error dynamics (4.56) is
+
+       Vdot = -( E alphatilde + (1.alphatilde)(1.E) )
+              * ( E alphatilde + e_alpha/m^2 )                     (Coq: Vb_dyn)
+
+   Below, with  Ea = E alphatilde,  Sb = 1.alphatilde,  SE = 1.E  and
+   ra = e_alpha/m^2:
+
+     entry 1  the exact identity, verified symbolically;
+     entry 2  the two expressions really differ (Coq: Vb_deriv_differs_from_4_58);
+     entry 3  the exact derivative can be STRICTLY POSITIVE at a state that is
+              realizable by concrete E and alphatilde, so (4.57) is not a
+              Lyapunov function (Coq: Vb_deriv_can_be_positive);
+     entry 4  by contrast, the reduced candidate V = alphatilde^T alphatilde/2
+              has a derivative that is nonpositive for EVERY state when
+              e_alpha = 0.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.58 exact derivative of the dissertation's V (M=2)"
+
+Description "The Lie derivative of (4.57) along (4.56) is
+-(E at + Sb*SE)*(E at + e_alpha/m^2), not the expression of (4.58).".
+
+Definitions
+  Real gn;    /* gamma, > 0 */
+  Real hn;    /* 1/gamma, constrained by hn*gn = 1 */
+End.
+
+ProgramVariables
+  Real a1; Real a2; Real E1; Real E2; Real ra;
+End.
+
+Problem
+  \forall a1 \forall a2 \forall E1 \forall E2 \forall ra
+  ( gn > 0 & hn*gn = 1 ->
+      hn*( a1*(-gn*(E1*(E1*a1+E2*a2)) - gn*(E1*ra))
+         + a2*(-gn*(E2*(E1*a1+E2*a2)) - gn*(E2*ra))
+         + (a1+a2)*( (-gn*(E1*(E1*a1+E2*a2)) - gn*(E1*ra))
+                   + (-gn*(E2*(E1*a1+E2*a2)) - gn*(E2*ra)) ) )
+    = -( ( (E1*a1+E2*a2) + (a1+a2)*(E1+E2) )
+       * ( (E1*a1+E2*a2) + ra ) ) )
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.
+
+ArchiveEntry "SLA/4.58 the factor N does not follow (N=3, M=2)"
+
+Description "A realizable state at which the exact derivative of (4.57)
+differs from the value asserted by (4.58) with N = 3.".
+
+ProgramVariables
+  Real a1; Real a2; Real E1; Real E2;
+End.
+
+Problem
+  \exists a1 \exists a2 \exists E1 \exists E2
+  ( -( ( (E1*a1+E2*a2) + (a1+a2)*(E1+E2) ) * ( (E1*a1+E2*a2) + 0 ) )
+    != -( 3 * (E1*a1+E2*a2)^2 ) )
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.
+
+ArchiveEntry "SLA/4.58 (4.57) is not a Lyapunov function: Vdot can be positive"
+
+Description "There is a state, realizable by concrete E_f and alphatilde_f,
+at which the exact derivative of the dissertation's candidate (4.57) is
+strictly positive even though e_alpha = 0.  So (4.57)+(4.58) do not
+establish the boundedness of alphatilde_f claimed on page 66.".
+
+ProgramVariables
+  Real a1; Real a2; Real E1; Real E2;
+End.
+
+Problem
+  \exists a1 \exists a2 \exists E1 \exists E2
+  ( 0 < -( ( (E1*a1+E2*a2) + (a1+a2)*(E1+E2) ) * ( (E1*a1+E2*a2) + 0 ) ) )
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.
+
+ArchiveEntry "SLA/4.58 explicit witness E=(2,-1), alphatilde=(-1/3,-5/3)"
+
+Description "The witness spelled out: E alphatilde = 1, 1.alphatilde = -2,
+1.E = 1, e_alpha = 0, exact Vdot = +1 > 0, while (4.58) would give -3.".
+
+Problem
+    (2*(-1/3) + (-1)*(-5/3)) = 1
+  & ((-1/3) + (-5/3)) = -2
+  & (2 + (-1)) = 1
+  & -( ( (2*(-1/3) + (-1)*(-5/3)) + ((-1/3)+(-5/3))*(2+(-1)) )
+     * ( (2*(-1/3) + (-1)*(-5/3)) + 0 ) ) = 1
+  & -( 3 * (2*(-1/3) + (-1)*(-5/3))^2 ) = -3
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.
+
+ArchiveEntry "SLA/4.58 corrected candidate: Vdot <= 0 for every state (M=2)"
+
+Description "By contrast, the reduced candidate V = alphatilde^T alphatilde / 2
+of Narendra-Wang-Chen has a derivative that is nonpositive everywhere when
+e_alpha = 0.  This is the QE counterpart of the dI premise that succeeds in
+file 03 and fails in file 05.".
+
+Definitions
+  Real gn;
+End.
+
+ProgramVariables
+  Real a1; Real a2; Real E1; Real E2;
+End.
+
+Problem
+  \forall a1 \forall a2 \forall E1 \forall E2
+  ( gn > 0 ->
+      a1*(-gn*(E1*(E1*a1+E2*a2))) + a2*(-gn*(E2*(E1*a1+E2*a2))) <= 0 )
+End.
+
+Tactic "by QE"
+  QE
+End.
+
+End.

@@ -1,0 +1,33 @@
+# --- Coq build artefacts -----------------------------------------------
+*.vo
+*.vok
+*.vos
+*.glob
+.*.aux
+.lia.cache
+.nra.cache
+.Makefile.d
+.coqdeps.d
+
+# --- Lean / Lake -------------------------------------------------------
+# `lean/.lake` is a symlink into $HOME (see lean/README.md); never commit it.
+.lake/
+/lean/.lake
+*.olean
+*.ilean
+*.trace
+
+# --- Isabelle ----------------------------------------------------------
+.isabelle/
+*.thy~
+output/
+
+# --- KeYmaera X --------------------------------------------------------
+# one directory of .kyp proof artefacts is produced per input file
+*.kyx-SLA/
+
+# --- editors / OS ------------------------------------------------------
+*~
+\#*\#
+.DS_Store
+Thumbs.db

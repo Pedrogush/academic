@@ -1,0 +1,17 @@
+session SLA = "HOL" +
+  description "
+    Isabelle/HOL formalisation of Chapter 4 (equations 4.1-4.69) and Appendix A
+    of P. Y. Gushiken, 'Adaptacao de Segundo Nivel como Tecnica de Estimacao de
+    Parametros e sua Aplicacao ao Controle Adaptativo por Modelo de
+    Referencia', MSc dissertation, UFRN, 2018.
+
+    Ported from the Coq development in ../coq.  Parent session is plain HOL,
+    whose heap image ships prebuilt with the distribution.
+  "
+  options [document = false, quick_and_dirty = false]
+  theories
+    SLA_Prelim
+    SLA_Chapter4
+    SLA_AppendixA
+    SLA_Instance
+    SLA_Check

@@ -1,0 +1,200 @@
+/* ------------------------------------------------------------------------
+   THE MAIN THEOREM of the Coq development, in dL.
+
+   hull_invariance (Coq) / eqs (4.41), (4.44), (4.45):
+
+     if  sum_i alpha*_i thetahat_i(0) = theta*_p   with  sum_i alpha*_i = 1,
+     then  sum_i alpha*_i thetahat_i(t) = theta*_p  for all t >= 0,
+
+   i.e. theta*_p never leaves the convex hull of the model estimates, with
+   the *same* coefficients.  In dL this is exactly a differential invariant
+   of the coupled adaptive ODE.
+
+   DIMENSIONS, AND THE AMENDED DESIGN RULE.  This file fixes d = 1, so the
+   amended design rule N = 2n + 1 = d + 1 (see ../NOTE_convex_uniqueness.md)
+   requires N = 2.  Entries 1-3 are therefore at N = 2 and are the
+   design-rule-compliant statements.
+
+   Entry 4 keeps the original N = 3 version deliberately.  Note section 7
+   lists convex-hull invariance among the results the amendment does NOT
+   affect, and entry 4 is the machine-checked form of that claim: the
+   invariance argument consumes only "alpha* exists with sum alpha* = 1 and
+   theta* = sum alpha*_i thetahat_i(0)", never that alpha* is unique.  So it
+   goes through verbatim in the degenerate configuration N = 3 > d + 1, where
+   (file 08) the coefficients (s, s, 1-2s) all work.  Entry 4 is thus a
+   statement about a configuration the amended design rule EXCLUDES, retained
+   because it shows the theorem does not depend on the rule.
+
+   Modelling: the regressor phi is a scalar state variable with phi' = q,
+   q constant, and r = 1/m^2 = 1/(1+phi^2) is carried as a state variable
+   with the derivative that 1/(1+phi^2) really has (r' = -2*phi*q*r^2),
+   r > 0 in the evolution domain.
+
+   Adaptive law (4.19):  thetahat_i' = -Gamma * eps_i * phi,
+                         eps_i = (thetahat_i - theta*) * phi * r.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/hull invariance: theta* stays in the convex hull (d=1, N=2)"
+
+Description "Convex-hull invariance (Coq: hull_invariance, theta_star_in_hull)
+at the amended design rule N = d + 1 = 2.".
+
+Definitions
+  Real ts;    /* theta*_p (scalar, d = 1) */
+  Real gm;    /* Gamma > 0 */
+  Real q;     /* d/dt phi */
+  Real a0;    /* alpha*_0 */
+  Real a1;    /* alpha*_1 */
+End.
+
+ProgramVariables
+  Real t0;    /* thetahat_0 */
+  Real t1;    /* thetahat_1 */
+  Real p;     /* phi */
+  Real r;     /* 1/m^2 */
+End.
+
+Problem
+    gm > 0 & r > 0
+  & a0 + a1 = 1                            /* (4.41): convex coefficients */
+  & a0*t0 + a1*t1 = ts                     /* (4.41) at t = 0 */
+ ->
+  [{ t0' = -(gm * ((t0-ts)*p*r) * p),
+     t1' = -(gm * ((t1-ts)*p*r) * p),
+     p'  = q,
+     r'  = -2*p*q*r^2
+     & r > 0 }]
+    a0*t0 + a1*t1 = ts
+End.
+
+Tactic "hull invariance by Darboux (automatic ODE invariant)"
+  implyR(1) ; ODE(1)
+End.
+
+End.
+
+/* ------------------------------------------------------------------------
+   The same statement in the Lyapunov form used by the Coq proof:
+   W = (thetatilde_alpha)^2 / (2 Gamma) satisfies W' <= 0 and W(0) = 0,
+   hence W == 0.  In dL this is the invariant  W <= 0, which dI settles.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/hull invariance via the Lyapunov function W (d=1, N=2)"
+
+Description "W = tha^2/(2 Gamma), W(0) = 0, W' <= 0, hence W == 0 --
+the Coq route (quad_zero) rendered as a differential invariant.".
+
+Definitions
+  Real ts; Real gm; Real q; Real a0; Real a1;
+End.
+
+ProgramVariables
+  Real t0; Real t1; Real p; Real r;
+End.
+
+Problem
+    gm > 0 & r > 0
+  & a0 + a1 = 1
+  & (a0*t0 + a1*t1 - ts)^2 <= 0
+ ->
+  [{ t0' = -(gm * ((t0-ts)*p*r) * p),
+     t1' = -(gm * ((t1-ts)*p*r) * p),
+     p'  = q,
+     r'  = -2*p*q*r^2
+     & r > 0 }]
+    (a0*t0 + a1*t1 - ts)^2 <= 0
+End.
+
+Tactic "W <= 0 is a differential invariant"
+  implyR(1) ; dI(1)
+End.
+
+End.
+
+/* ------------------------------------------------------------------------
+   (4.45): the alpha*-weighted identification error e_alpha vanishes.
+   e_alpha = sum_i alpha*_i e_i  with  e_i = (thetahat_i - theta*) phi,
+   so e_alpha = (sum_i alpha*_i thetahat_i - theta*) * phi, which is 0
+   once the hull invariant holds.
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/4.45 e_alpha is identically zero (d=1, N=2)"
+
+Description "(4.45): sum_i alpha*_i e_i = 0 for all t >= 0 -- exact, not
+merely asymptotic (Coq: ea_zero).".
+
+Definitions
+  Real ts; Real gm; Real q; Real a0; Real a1;
+End.
+
+ProgramVariables
+  Real t0; Real t1; Real p; Real r;
+End.
+
+Problem
+    gm > 0 & r > 0
+  & a0 + a1 = 1
+  & a0*t0 + a1*t1 = ts
+ ->
+  [{ t0' = -(gm * ((t0-ts)*p*r) * p),
+     t1' = -(gm * ((t1-ts)*p*r) * p),
+     p'  = q,
+     r'  = -2*p*q*r^2
+     & r > 0 }]
+    ( a0*t0 + a1*t1 = ts
+    & a0*((t0-ts)*p) + a1*((t1-ts)*p) = 0 )
+End.
+
+Tactic "hull invariant, then e_alpha = 0 follows"
+  implyR(1) ; dC("a0*t0 + a1*t1 = ts", 1) ; <(
+    dW(1) ; QE,
+    ODE(1)
+  )
+End.
+
+End.
+
+/* ------------------------------------------------------------------------
+   RETAINED ON PURPOSE: the N = 3 version, which is d = 1 with N > d + 1 and
+   therefore OUTSIDE the amended design rule.  See the header comment: this
+   is the machine-checked form of note section 7's claim that convex-hull
+   invariance is unaffected by the amendment.  The hypotheses are exactly
+   "some alpha* with sum alpha* = 1 represents theta* initially" -- existence
+   only -- so the proof never needed uniqueness, and it still closes when
+   alpha* is one of a continuum (file 08 exhibits that continuum for these
+   very vertices).
+   ------------------------------------------------------------------------ */
+
+ArchiveEntry "SLA/hull invariance still holds at N = 3 > d+1 (d=1, outside the design rule)"
+
+Description "Retained deliberately: N = 3 at d = 1 violates the amended
+design rule N = d + 1, yet hull invariance goes through unchanged, because it
+consumes only the EXISTENCE of alpha*, never its uniqueness.".
+
+Definitions
+  Real ts; Real gm; Real q; Real a0; Real a1; Real a2;
+End.
+
+ProgramVariables
+  Real t0; Real t1; Real t2; Real p; Real r;
+End.
+
+Problem
+    gm > 0 & r > 0
+  & a0 + a1 + a2 = 1
+  & a0*t0 + a1*t1 + a2*t2 = ts
+ ->
+  [{ t0' = -(gm * ((t0-ts)*p*r) * p),
+     t1' = -(gm * ((t1-ts)*p*r) * p),
+     t2' = -(gm * ((t2-ts)*p*r) * p),
+     p'  = q,
+     r'  = -2*p*q*r^2
+     & r > 0 }]
+    a0*t0 + a1*t1 + a2*t2 = ts
+End.
+
+Tactic "hull invariance by Darboux (automatic ODE invariant)"
+  implyR(1) ; ODE(1)
+End.
+
+End.
