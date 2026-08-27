@@ -1,0 +1,58 @@
+C01   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [3s]  lib: SLA_Prelim.v: Error: Tactic failure: not a valid ring equation.
+C02   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [2s]  lib: SLA_Prelim.v: Error: Found no subterm matching "f n" in the curre
+C03   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [2s]  lib: SLA_Prelim.v: Error: Tactic failure:  Cannot find witness.
+C04   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [4s]  lib: SLA_Chapter4.v: Error: Tactic failure:  Cannot find witness.
+C05   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [4s]  lib: SLA_Chapter4.v: Error:
+C06   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [4s]  lib: SLA_Chapter4.v: Error:
+C07   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [3s]  lib: SLA_Chapter4.v: Error:
+C08   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [4s]  lib: SLA_Chapter4.v: Error:
+C09   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [3s]  lib: SLA_Chapter4.v: Error:
+C10   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [4s]  lib: SLA_Chapter4.v: Error:
+C11   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [3s]  lib: SLA_Chapter4.v: Error: Tactic failure: not a valid ring equation.
+C12   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [7s]  lib: SLA_Chapter4.v: Error:
+C13   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [5s]  lib: SLA_Chapter4.v: Error: Tactic failure: not a valid ring equation.
+C14   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [5s]  lib: SLA_Chapter4.v: Error:
+C15   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [5s]  lib: SLA_Chapter4.v: Error: Tactic failure: not a valid field equation
+C16   coq        build=SURVIVED tests=SURVIVED expected=survive/survive    as expected  [14s]  
+C17   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [5s]  lib: SLA_Chapter4.v: Error: Tactic failure: not a valid ring equation.
+C18   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [6s]  lib: SLA_Chapter4.v: Error: Tactic failure:  Cannot find witness.
+C19   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [7s]  lib: SLA_AppendixA.v: Error:
+C20   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [10s]  lib: SLA_Instance.v: Error: Unable to unify "0" with "v 0".
+C21   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [6s]  lib: SLA_Chapter4.v: Error: Tactic failure: not a valid ring equation.
+C22   coq        build=SURVIVED tests=SURVIVED expected=survive/survive    as expected  [17s]  
+C23   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [3s]  lib: SLA_Chapter4.v: Error: Tactic failure:  Cannot find witness.
+C24   coq        build=SURVIVED tests=KILLED   expected=survive/kill       as expected  [12s]  tests: T02_nonvacuity.v: Error:
+C25   coq        build=KILLED   tests=n/a      expected=kill/skip          as expected  [9s]  lib: SLA_Instance.v: Error: The term "2" has type "R" while it is expe
+
+wrote 25 rows to /mnt/c/Claude/My projects/Coq_MsDissertation/tests/mutants/results.tsv
+25/25 mutants behaved as catalogued
+=== ISABELLE ===
+I01   isabelle   build=KILLED   tests=-        expected=kill/-             as expected  [71s]  SLA FAILED (see also "isabelle build_log -H Error SLA")
+I02   isabelle   build=KILLED   tests=-        expected=kill/-             as expected  [108s]  SLA FAILED (see also "isabelle build_log -H Error SLA")
+I03   isabelle   build=KILLED   tests=-        expected=kill/-             as expected  [53s]  SLA FAILED (see also "isabelle build_log -H Error SLA")
+I04   isabelle   build=KILLED   tests=-        expected=kill/-             as expected  [33s]  SLA FAILED (see also "isabelle build_log -H Error SLA")
+I05   isabelle   build=KILLED   tests=-        expected=kill/-             as expected  [29s]  SLA FAILED (see also "isabelle build_log -H Error SLA")
+I06   isabelle   build=KILLED   tests=-        expected=kill/-             as expected  [34s]  SLA FAILED (see also "isabelle build_log -H Error SLA")
+I07   isabelle   build=SURVIVED tests=-        expected=survive/-          as expected  [28s]  0:00:23 elapsed time, 0:00:14 cpu time, factor 0.62
+
+wrote 7 rows to /mnt/c/Claude/My projects/Coq_MsDissertation/tests/mutants/results.tsv
+7/7 mutants behaved as catalogued
+=== KEYMAERAX ===
+K01   keymaerax  build=KILLED   tests=-        expected=kill/-             as expected  [227s]  UNFINISHED SLA/hull invariance: theta* stays in the convex hull (d=1, 
+K02   keymaerax  build=KILLED   tests=-        expected=survive/-          *** DEVIATION ***  [296s]  PROVED SLA/hull invariance still holds at N = 3 > d+1 (d=1, outside th
+K03   keymaerax  build=KILLED   tests=-        expected=kill/-             as expected  [213s]  PROVED SLA/4.58 corrected candidate: Vdot <= 0 for every state (M=2): 
+K04   keymaerax  build=KILLED   tests=-        expected=kill/-             as expected  [216s]  UNFINISHED SLA/4.23 first-level Lyapunov decrease (scaled), d=2: tacti
+
+wrote 4 rows to /mnt/c/Claude/My projects/Coq_MsDissertation/tests/mutants/results.tsv
+3/4 mutants behaved as catalogued
+=== LEAN ===
+L01   lean       build=KILLED   tests=-        expected=kill/-             as expected  [60s]  error: SLA/Chapter4.lean:107:2: linarith failed to find a contradictio
+L02   lean       build=KILLED   tests=-        expected=kill/-             as expected  [21s]  error: SLA/Chapter4.lean:113:76: Type mismatch
+L03   lean       build=KILLED   tests=-        expected=kill/-             as expected  [19s]  error: SLA/Chapter4.lean:433:42: unsolved goals
+L04   lean       build=KILLED   tests=-        expected=kill/-             as expected  [18s]  error: SLA/Chapter4.lean:113:76: Type mismatch
+L05   lean       build=KILLED   tests=-        expected=kill/-             as expected  [18s]  error: SLA/Chapter4.lean:561:68: Type mismatch
+L06   lean       build=KILLED   tests=-        expected=kill/-             as expected  [30s]  error: SLA/Instance.lean:176:24: Fields missing: `absurd`
+
+wrote 6 rows to /mnt/c/Claude/My projects/Coq_MsDissertation/tests/mutants/results.tsv
+6/6 mutants behaved as catalogued
+=== ALL DONE ===

@@ -1,0 +1,44 @@
+id	system	file	build	tests	expected	as_expected	secs	rationale	note
+C01	coq	coq/SLA_Prelim.v	KILLED	n/a	kill/skip	yes	3	inner product ignores its second argument	lib: SLA_Prelim.v: Error: Tactic failure: not a valid ring equation.
+C02	coq	coq/SLA_Prelim.v	KILLED	n/a	kill/skip	yes	2	finite sum drops its last term	"lib: SLA_Prelim.v: Error: Found no subterm matching ""f n"" in the current goal."
+C03	coq	coq/SLA_Prelim.v	KILLED	n/a	kill/skip	yes	2	MVT corollary claims the wrong monotonicity direction	lib: SLA_Prelim.v: Error: Tactic failure:  Cannot find witness.
+C04	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	4	(4.12) normalizing signal m^2 = 1 + n_s^2 -> 1 - n_s^2	lib: SLA_Chapter4.v: Error: Tactic failure:  Cannot find witness.
+C05	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	4	(4.11) identification error sign	lib: SLA_Chapter4.v: Error:
+C06	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	4	(4.13) normalized error divides by m^2, not multiplies	lib: SLA_Chapter4.v: Error:
+C07	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	3	(4.14) parametric error sign	lib: SLA_Chapter4.v: Error:
+C08	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	4	(4.50) E_f is a difference of normalized errors	lib: SLA_Chapter4.v: Error:
+C09	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	3	the 1/2 of the quadratic Lyapunov form (4.22)/(4.57)/(4.68)	lib: SLA_Chapter4.v: Error:
+C10	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	4	(4.19) the gradient law descends; drop the minus sign	lib: SLA_Chapter4.v: Error:
+C11	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	3	(4.23) Vdot <= 0: flip the sign of the claimed derivative	lib: SLA_Chapter4.v: Error: Tactic failure: not a valid ring equation.
+C12	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	7	the main theorem's conclusion	lib: SLA_Chapter4.v: Error:
+C13	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	5	(4.49)/(4.51) sign of the eps_N term	lib: SLA_Chapter4.v: Error: Tactic failure: not a valid ring equation.
+C14	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	5	(4.57) the extended vector contributes +(1.alphatilde)^2	lib: SLA_Chapter4.v: Error:
+C15	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	5	the exact derivative of (4.57): sign of the cross term that (4.58) misses	lib: SLA_Chapter4.v: Error: Tactic failure: not a valid field equation.
+C16	coq	coq/SLA_Chapter4.v	SURVIVED	SURVIVED	survive/survive	yes	14	EXPECTED SURVIVOR: the design rule is stated but never used in Chapter 4 (its content is in AppendixA)	
+C17	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	5	the SLAFF residual is M_f alpha* + v_f -- the v_f that (4.69) omits	lib: SLA_Chapter4.v: Error: Tactic failure: not a valid ring equation.
+C18	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	6	M_f is positive semi-definite, not negative	lib: SLA_Chapter4.v: Error: Tactic failure:  Cannot find witness.
+C19	coq	coq/SLA_AppendixA.v	KILLED	n/a	kill/skip	yes	7	(A.4) the simplex coefficients divide by p	lib: SLA_AppendixA.v: Error:
+C20	coq	coq/SLA_Instance.v	KILLED	n/a	kill/skip	yes	10	the instance's initial estimates must really straddle theta* = 1	"lib: SLA_Instance.v: Error: Unable to unify ""0"" with ""v 0""."
+C21	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	6	(4.41) the convex coefficients sum to one	lib: SLA_Chapter4.v: Error: Tactic failure: not a valid ring equation.
+C22	coq	coq/SLA_Prelim.v	SURVIVED	SURVIVED	survive/survive	yes	17	CONTROL: a comment-only change must survive, otherwise the harness is reporting noise	
+C23	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	3	Gamma > 0 is needed (Gamma^-1 appears in the Lyapunov function)	lib: SLA_Chapter4.v: Error: Tactic failure:  Cannot find witness.
+C24	coq	coq/SLA_Chapter4.v	SURVIVED	KILLED	survive/kill	yes	12	VACUITY ATTACK: a contradictory hypothesis in the SLA section makes every SLA theorem vacuous; the repo still builds, only the instantiation tests notice	tests: T02_nonvacuity.v: Error:
+C25	coq	coq/SLA_Chapter4.v	KILLED	n/a	kill/skip	yes	9	VACUITY ATTACK in the plant section: caught by SLA_Instance, which does instantiate first-level theorems	"lib: SLA_Instance.v: Error: The term ""2"" has type ""R"" while it is expected to have type ""0 = 1""."
+I01	isabelle	isabelle/SLA_Chapter4.thy	KILLED	-	kill/-	yes	71	(4.12) as C04	"SLA FAILED (see also ""isabelle build_log -H Error SLA"")"
+I02	isabelle	isabelle/SLA_Chapter4.thy	KILLED	-	kill/-	yes	108	(4.11) as C05	"SLA FAILED (see also ""isabelle build_log -H Error SLA"")"
+I03	isabelle	isabelle/SLA_Chapter4.thy	KILLED	-	kill/-	yes	53	(4.50) as C08	"SLA FAILED (see also ""isabelle build_log -H Error SLA"")"
+I04	isabelle	isabelle/SLA_Chapter4.thy	KILLED	-	kill/-	yes	33	(4.57) as C14	"SLA FAILED (see also ""isabelle build_log -H Error SLA"")"
+I05	isabelle	isabelle/SLA_Chapter4.thy	KILLED	-	kill/-	yes	29	(4.19) as C10	"SLA FAILED (see also ""isabelle build_log -H Error SLA"")"
+I06	isabelle	isabelle/SLA_Chapter4.thy	KILLED	-	kill/-	yes	34	VACUITY ATTACK as C24, in the sla locale: SLA_Instance interprets that locale, so the session should notice	"SLA FAILED (see also ""isabelle build_log -H Error SLA"")"
+I07	isabelle	isabelle/SLA_Chapter4.thy	SURVIVED	-	survive/-	yes	28	CONTROL: comment-only change must survive	0:00:23 elapsed time, 0:00:14 cpu time, factor 0.62
+K01	keymaerax	keymaerax/02_hull_invariance.kyx	KILLED	-	kill/-	yes	227	the postcondition of the hull-invariance entry	UNFINISHED SLA/hull invariance: theta* stays in the convex hull (d=1, N=2): tactic=hull invariance by Darboux (automatic ODE invariant),tacticsize=2,budget=200[
+K02	keymaerax	keymaerax/02_hull_invariance.kyx	KILLED	-	survive/-	NO	296	EXPECTED SURVIVOR: hull invariance is Darboux either way, so this entry does not pin the sign of the adaptation gain -- unlike the Lyapunov entry K04 and the Coq proof C10	PROVED SLA/hull invariance still holds at N = 3 > d+1 (d=1, outside the design rule): tactic=hull invariance by Darboux (automatic ODE invariant),tacticsize=2,b
+K03	keymaerax	keymaerax/04_eq458_discrepancy.kyx	KILLED	-	kill/-	yes	213	the central algebraic identity behind the (4.58) finding	PROVED SLA/4.58 corrected candidate: Vdot <= 0 for every state (M=2): tactic=by QE,tacticsize=1,budget=200[s],duration=6[ms],qe=6[ms],rcf=0,steps=0
+K04	keymaerax	keymaerax/01_first_level.kyx	KILLED	-	kill/-	yes	216	(4.23) in dL: here the sign of the gradient law IS load-bearing	UNFINISHED SLA/4.23 first-level Lyapunov decrease (scaled), d=2: tactic=4.23 by differential invariant,tacticsize=2,budget=200[s],duration=1004[ms],qe=589[ms],r
+L01	lean	lean/SLA/Chapter4.lean	KILLED	-	kill/-	yes	60	(4.12) as C04	error: SLA/Chapter4.lean:107:2: linarith failed to find a contradiction
+L02	lean	lean/SLA/Chapter4.lean	KILLED	-	kill/-	yes	21	(4.11) as C05	error: SLA/Chapter4.lean:113:76: Type mismatch
+L03	lean	lean/SLA/Chapter4.lean	KILLED	-	kill/-	yes	19	(4.50) as C08	error: SLA/Chapter4.lean:433:42: unsolved goals
+L04	lean	lean/SLA/Chapter4.lean	KILLED	-	kill/-	yes	18	(4.19) as C10	error: SLA/Chapter4.lean:113:76: Type mismatch
+L05	lean	lean/SLA/Chapter4.lean	KILLED	-	kill/-	yes	18	(4.57) as C14	error: SLA/Chapter4.lean:561:68: Type mismatch
+L06	lean	lean/SLA/Chapter4.lean	KILLED	-	kill/-	yes	30	VACUITY ATTACK as C24: Lean bundles the hypotheses in a structure, and SLA.Instance must build one	error: SLA/Instance.lean:176:24: Fields missing: `absurd`
+K05	keymaerax	keymaerax/02_hull_invariance.kyx	SURVIVED	-	survive/-	yes	215	SYMMETRIC sign flip of the whole adaptation law: the hull invariant is still a Darboux invariant (cofactor changes sign only), so if it survives, the dL entry does not pin the sign of Gamma -- while the Coq Lyapunov proof does (C10)	PROVED SLA/hull invariance still holds at N = 3 > d+1 (d=1, outside the design rule): tactic=hull invariance by Darboux (automatic ODE invariant),tacticsize=2,b
