@@ -31,3 +31,20 @@ output/
 \#*\#
 .DS_Store
 Thumbs.db
+
+# --- LaTeX / MATLAB / OS artefacts ---------------------------------------
+*.aux
+*.log
+*.synctex.gz
+*.toc
+*.out
+*.nav
+*.snm
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.slxc
+slprj/
+Thumbs.db
+desktop.ini

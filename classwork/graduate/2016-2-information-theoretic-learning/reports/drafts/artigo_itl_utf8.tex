@@ -1,0 +1,316 @@
+\documentclass[conference,harvard,brazil,english]{sbatex}
+\usepackage[latin1]{inputenc}
+\usepackage{ae}
+\usepackage{graphicx}
+%
+% LaTeX2e class SBATeX
+%
+% Versão 1.0 alpha
+%   Walter Fetter Lages
+%   w.fetter@ieee.org
+%
+% Este arquivo cba.tex é uma adaptação do arquivo revista.tex,
+% Versão: 1.0 alpha, desenvolvido por Maurício C. de Oliveira,
+% mcdeoliveira@ieee.org.
+%
+% As adaptações fazem com que, por default, sejam utilizadas
+% as opções adequadas para o formato do CBA ou SBAI, ao contrário do arquivo
+% revista.tex, que, por default, utiliza opções adequadas para o formato
+% da Revista da SBA.
+%
+%
+% --------------------------------------------------
+%
+% Para compilar este exemplo use a seqüência de comandos:
+%
+%     latex cba
+%     bibtex cba
+%     latex cba
+%     latex cba
+%
+% Para gerar um arquivo Postscript (.ps):
+%
+%     dvips -t a4 cba
+%
+% Para gerar um arquivo Portable Document Format (.pdf):
+%
+%     dvips -Ppdf -t a4 cba
+%     ps2pdf -dMaxSubsetPct=100 -dSubsetFonts=true -dEmbedAllFonts=true -dCompatibilityLevel=1.2 -sPAPERSIZE=a4 cba.ps
+%
+
+% --------------------------------------------------
+%  Estes comandos são necessários apenas para a
+%  a geração deste artigo exemplo. Eles não fazem
+%  parte do estilo SBATeX.
+% --------------------------------------------------
+\makeatletter
+\def\verbatim@font{\normalfont\ttfamily\footnotesize}
+\makeatother
+\usepackage{amsmath}
+% --------------------------------------------------
+
+
+\begin{document}
+
+% CABEÇALHO
+
+\title{Comparação entre o método dos Mínimos Quadrados e Maximização da Correntropia do Erro aplicados ao Controle Adaptativo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% O processo de revisao do CBA 2014 sera DOUBLE BLIND, portanto NAO inclua
+% autores na versão que será submetida para revisão
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\author{~}{~}
+\address{~~\\ ~~\\ ~~}
+
+\twocolumn[
+
+\maketitle
+
+\selectlanguage{english}
+\begin{abstract}
+  The continuous-time recursive least squares with forgetting factor algorithm as a means of estimating the unknown parameters of a linear system has been a mainstay of the Adaptive Control field for more than 20 years. The use of the square error as a cost function that must be minimized(MSE) with respect to certain parameters is well known in the literature and produces good results in a variety o applications. Mathematically, it has good properties when the uncertainty in the data has a gaussian-like distribution. However, researches in the field of Information Theory have, for some time now, been presenting descriptors in a framework called Information Theoretic Learning(ITL) that better characterize data when the uncertainty is non-gaussian in some sense. This is certainly true in a variety of applications of Adaptive Control, where the controller must deal with change over time in plant parameters and different operating conditions. Noise and input perturbation can come in a variety of forms, and although some of them are indeed gaussian-like, most are not.  
+  
+  The aim of this paper is to present an algorithm that translates the Maximum Correntropy concept to estimate online the unknown parameters of an LIT System, as opposed to Minimum Square Error estimation.   
+      
+\end{abstract}
+
+\keywords{Adaptive Control, Estimation, Information Theory, Information Theoretic Learning, Maximização da Correntropia}
+
+\selectlanguage{brazil}
+\begin{abstract}
+  
+  O uso do algoritmo de mínimos quadrados de tempo contínuo recursivo com fator de esquecimento como uma forma de estimar os parâmetros desconhecidos de um sistema linear tem sido uma ferramenta importante no campo do Controle Adaptativo por mais de 20 anos. O uso do erro quadrado como uma função de custo que precisa ser minimizada com respeito a um conjunto de parâmetros é bem conhecida na literatura e apresenta bons resultados numa variedade de aplicações. Matematicamente, tem boas propriedades quando a incerteza nos dados possui uma distribuição gaussiana. No entanto, pesquisadores no campo da Teoria da Informação têm apresentado descritores que melhor caracterizam os dados quando a incerteza tem distribuição não-gaussiana em algum sentido. Isto é certamente verdade em muitas aplicações de Controle Adaptativo, once o controlador precisa lidar com a mudança ao longo do tempo nos parâmetros planta e com condições de operações diferentes. Ruído e perturbação de entrada podem ser encontrados em uma variedade de formas, e apesar de algumas delas serem gaussianas, a maioria não o é.
+  
+  O objetivo deste trabalho é apresentar um algoritmo que traduza o conceito de Maximização da Correntropia para estimar em tempo real os parâmetros desconhecidos de um sistema LIT, e comparar estes resultados com os obtidos pelo algoritmo que minimiza o erro quadrado.
+  
+  
+  
+\end{abstract}
+
+\keywords{Controle Adaptativo, Estimação, Teoria da Informação, Minimização de Entropia da Informação}
+]
+
+% CONTRIBUIÇÃO
+
+\selectlanguage{brazil}
+
+\section{Introdução}
+
+O controle adaptativo é uma alternativa popular quando é necessário lidar com plantas lineares que apresentam incerteza paramétrica ou variação temporal lenta nos valores dos parâmetros. O método indireto, no qual, dados os sinais de entrada e saída disponíveis para medição, um estimador de mínimos quadrados apresenta valores das estimativas dos parâmetros da planta que são usadas para atualizar os parâmetros do controlador, apresenta resultados satisfatórios e a literatura disponível é extensiva. A formulação matemática usada para implementar um método de mínimos quadrados recursivo em tempo contínuo se presta facilmente à solução do problema simultâneo da estimação e controle de uma planta linear de grau relativo qualquer. Embora a implementação seja abordada de forma determinística na literatura de controle adaptativo, suas propriedades  em relação à ruídos gaussianos estão bem caracterizadas.\\  
+
+Nos últimos 25 anos, pesquisadores na área de teoria da informação tem proposto um ferramental conhecido com Aprendizado por Teoria da Informação, onde descritores estatísticos tradicionais tais como variância e correlação são substituídos por entropia e correntropia por exemplo. Estes conceitos se estendem naturalmente ao problema da otimização de uma função de custo com relação a um conjunto de parâmetros. Como a correntropia é sensível aos momentos de ordem superior a dois na distribuição dos dados, um algoritmo que minimiza a entropia do erro poderá tratar de uma classe maior de ruídos de forma estável. Neste trabalho propomos uma estratégia de Controle Adaptativo Indireto usando um Estimador de Maximização da Correntropia do Erro.
+
+
+\section{Preliminares Matemáticas}
+
+Discutimos aqui algumas ideias referentes ao controle adaptativo quando o objetivo é fazer com que a planta rastreie a saída de um modelo de referência. Consideramos que apenas a entrada $u(t)$ e a saída $y(t)$ estão disponíveis para medição.
+
+\subsection*{A. Estimador Via Mínimos Quadrados com Fator de Esquecimento}
+
+Seja a planta linear invariante no tempo, controlável e observável descrita por sua função de transferência:
+\begin{equation}
+G_p(s) = \frac{N_p(s)}{D_p(s)} = \frac{b_0 + b_1 s + ... + b_{n-1} s^{n-1}}{a_0 + a_1 s+ ... + a_n s^n}
+\end{equation}
+
+Onde usamos $a_n = 1$ sem perda de generalidade. E seja o vetor de parâmetros da planta a ser estimado:
+\begin{equation*}
+\theta^* = [b_{n-1}, b_{n-2}, ...~ , b_1, b_0, a_{n-1}, a_{n-2}, ...~ , a_1, a_0]^T
+\end{equation*}
+
+É necessário construir um estimador para os $2n$ parâmetros da planta. Como apenas $u(t)$ e $y(t)$ estão disponíveis para medição e não é desejável trabalhar com derivadas dos sinais, criamos os sinais adicionais necessários através de filtros. Tal que a seguinte parametrização é adotada:
+
+\begin{equation}
+\label{eq:sigmaIDMARC}
+\displaystyle 
+\begin{array}{l}
+
+        \dot{\phi}_1(t) = \Lambda_c \phi_1 + lu       \\
+        \dot{\phi}_2(t) = \Lambda_c \phi_2 + ly       \\
+        y = \theta^*_\lambda \phi                     \\
+        z = y + \lambda^T\phi_2 = {\theta^*}^T \phi  
+         
+\end{array}
+\end{equation}
+
+Onde o par  $\{ \Lambda_c, l \}$ representa um filtro estável de ordem $n-1$, e $\Lambda$ é mônico e Hurwitz . $\phi$ o vetor de sinais concatenado a partir de $\phi_1$ e $\phi_2$. Seja então a estimativa do filtrado de saída da planta e o erro de estimação entre os filtrados:
+
+\begin{equation}
+\displaystyle 
+\begin{array}{l}
+
+        \hat{z} = \theta^T \phi \\
+        \epsilon = \frac{z - \hat{z}}{m^2}
+         
+\end{array}
+\end{equation}
+
+Onde $m = 1+n_s^2$ tal que $\phi/m \in \mathcal{L}_\infty$. A função de custo:
+
+\begin{equation}
+\displaystyle 
+\begin{array}{r}
+
+       J(\theta) = \frac{1}{2} \int_{0}^{t} e^{-\beta(t - \tau)} \frac{[z(\tau) - \theta^T(t)\phi(\tau)]}{m^2(\tau)} d\tau \\
+        + \frac{1}{2} e^{-\beta t}(\theta - \theta_0)^TQ_0(\theta - \theta_0)
+         
+\end{array}
+\end{equation}
+
+Leva diretamente ao algoritmo de mínimos quadrados recursivo de tempo contínuo (LSE) tal que:
+
+\begin{equation}
+\displaystyle 
+\begin{array}{l}
+     Q_0 = Q_0^T > 0 \\
+     \dot{P} = \beta P - P\frac{\phi \phi^T}{m^2} P, P_0 = P(0) = Q_0^{-1}\\
+     \dot{\theta} = P\epsilon \phi
+         
+\end{array}
+\end{equation}
+
+Que garante estimativa limitada e convergência para o valor correto $\theta^*$ desde que os sinais de entrada sejam limitados e o sinal de referência $\phi$ seja Persistentemente Excitante(PE).
+
+\subsection*{B. Posicionamento de Polos}
+
+Desejamos realizar simultaneamente a estimação e controle. Desta forma escolhemos como estratégia de controle o posicionamento adaptativo de polos, que é predicado na resolução de uma equação diofantina para o polinômio desejado $A^*$ a cada iteração da simulação:
+
+\begin{equation}
+\hat{L} Q_m \hat{D}_p + \hat{P} \hat{N}_p = A^*
+\end{equation}
+
+$Q_m$ é introduzido na equação para garantir o rastreamento do sinal de referência desejado (Princípio do Modelo Interno), e as estimativas de $D_p$ e $N_p$ são tomadas a partir do estimador, enquanto que $L$ e $P$ representam os parâmetros do controlador que serão usados para gerar o sinal de controle, a equação é resolvida através da montagem da matriz de Sylvester, e dado que $\hat{D}_p$ e $\hat{N}_p$ são "fortemente" coprimos a cada instante t, a matriz é não singular e obtemos os parâmetros do controlador, tal que:\\
+
+\begin{equation}
+u_p = (\Lambda - \hat{L} Q_m)\frac{1}{\Lambda} u_p - \hat{P} \frac{1}{\Lambda}(y_p - r)
+\end{equation}
+
+Que garante que o polinômio no denominador da função de transferência em malha fechada seja $A^*$ para as estimativas $\hat{N}_p$ e $\hat{D}_p$ dos polinômios da planta. A prova de estabilidade deste método está prontamente disponível na literatura. [ioannou, varios autores] \\
+
+\section{Estimador através da Maximização da Correntropia do Erro}
+
+Do ferramental disponível para Aprendizado a partir da Teoria da Informação, apresentamos a seguinte figura:\\
+
+\begin{figure}[htpb!]
+\includegraphics[width = \linewidth]{./pics/ITL_Esquema.png}
+\caption{Sistema Adaptativo Genérico descrito no ferramental ITL}
+\end{figure}
+
+De forma que parece existir uma equivalência com o controle adaptativo:\\
+
+\begin{figure}[htpb!]
+\includegraphics[width = \linewidth]{./pics/ITL_Controle_Adaptativo.png}
+\caption{Controle Adaptativo Indireto usando um estimador de parâmetros baseado em Maximização da Correntropia do Erro}
+\end{figure}
+
+Com base nestes conceitos escolhemos como função de custo a correntropia instantânea com kernel gaussiano entre o filtrado da saída da planta e sua estimativa:\\
+
+\begin{equation}
+ \displaystyle 
+ \begin{array}{l}
+ J(\theta) =e^{-\epsilon^2/2\sigma^2} = e^{-\frac{z - \theta^T \phi}{m^2 \sigma^2}}\\
+ \nabla J(\theta) = -\epsilon \phi \frac{1}{\sigma^2} e^{-\frac{\epsilon^2}{\sigma^2}}        
+ \end{array}
+\end{equation}
+
+Que leva diretamente a uma lei de atualização dos parâmetros $\theta$, usando o gradiente de forma a maximizar J.
+
+\begin{equation}
+\displaystyle 
+\begin{array}{l}
+\dot{\theta} = \Gamma \nabla J(\theta) = -\Gamma \epsilon \phi \frac{1}{\sigma^2} e^{-\frac{\epsilon^2}{\sigma^2}}\\
+\end{array}
+\end{equation}
+
+Analisando a estabilidade deste método através de uma candidata a função de Lyapunov obtemos:
+
+\begin{equation}
+\displaystyle 
+\begin{array}{l}
+V(\tilde{\theta}) = \tilde{\theta}^T \Gamma^{-1} \tilde{\theta}>0\\
+\dot{V}(\tilde{\theta}) = 2\tilde{\theta}^T \phi \epsilon \frac{1}{\sigma^2}e^{-\frac{\epsilon^2}{\sigma^2}}\\
+\tilde{\theta}\phi = -\epsilon m^2\\
+\dot{V}(\tilde{\theta}) = -\frac{\epsilon^2 m^2}{\sigma^2}e^{-\frac{\epsilon^2}{\sigma^2}} \leq 0
+\end{array}
+\end{equation}
+
+Que implica em:\\
+\flushleft
+(i) $\epsilon, \epsilon n_s, \theta, \dot{\theta} \in \mathcal{L}_\infty$\\
+(ii)$ \epsilon, \epsilon n_s, \dot{\theta} \in \mathcal{L}_2$\\
+(iii) se $n_s, \phi \in \mathcal{L}_\infty$ e adicionalmente $\phi$ PE então $\theta(t)$ converge assintoticamente para $\theta^*$
+
+
+\section{Simulações}
+
+
+
+Realizamos simulações comparativas entre o controlador APPC com estimador usando critério LSE de tempo contínuo e o mesmo controlador com estimador usando o critério de maximização da correntropia (MCC) discutido. Os parâmetros de simulação foram escolhidos da seguinte forma:
+\begin{equation}
+\label{eq:Distribuição do ruído}
+\displaystyle 
+\begin{array}{l}
+       N_p(s)          = 0.2s+2\\
+       D_p(s)          = s^2+3s+4\\
+       A^*(s)          = s^4+5.2s^3+12.4s^2+12.6s+6\\
+       \hat{N}_{p0}(s) = 0.1s+3  \\
+       \hat{Z}_{p0}(s) = s^2+2s+5\\
+       Qm(s)           = s       \\ 
+       \Lambda(s)      = s^2+0.6s+0.7\\
+       \Gamma = P_0 = 100I \\
+       \sigma = 1
+\end{array}
+\end{equation}
+
+Com a planta partindo do repouso. As simulações foram feitas com ruído de medição da variável $y(t)$ da saída da planta do tipo impulsivo com os seguintes valores:
+
+\begin{equation}
+\label{eq:Distribuição do ruído}
+\displaystyle \eta_o(x) = \left\{
+\begin{array}{rl}
+       0 &\mbox{se $0.08<x<0.92$} \\
+       2 &\mbox{se $x>0.92$}      \\
+      -2 &\mbox{se $x<0.08$}      
+\end{array}, \right.
+\end{equation}
+
+Onde x é uma variável aleatória com distribuição de probabilidade uniforme entre $0$ e $1$ e $n_o(x)$ é o ruído aditivo que contamina a medição de $y(t)$. Fizemos também simulações para ambos os sistemas no caso ideal sem ruído, que estão contidas nas figuras a seguir.\\
+
+\subsection{Sem ruído}
+\begin{figure}[htpb!]
+\includegraphics[width = \linewidth]{./pics/APPC_MSE_Ideal.png}
+\caption{APPC-LSE num ambiente de simulação sem ruído, observa-se a convergência de $\hat{z}$ para $z$ e portanto $\epsilon \rightarrow 0$ a medida que $t \rightarrow \infty$, como esperado }
+\end{figure}
+
+\begin{figure}[htpb!]
+\includegraphics[width = \linewidth]{./pics/APPC_Correntropia_Ideal.png}
+\caption{APPC-MCC num ambiente de simulação  sem ruído, similarmente ao APPC-LSE, observamos a convergência de $\epsilon$ para 0}
+\end{figure}
+
+\subsection{Com Ruído Impulsivo}
+\pagebreak
+\begin{figure}[htpb!]
+\includegraphics[width = \linewidth]{./pics/APPC_MSE_Ruido_Impulsivo.png}
+\caption{APPC-LSE num ambiente de ruído impulsivo. O sinal de controle revela uma falha catastrófica no comportamento do controlador, que se dá devido a não-gaussianidade do ruído de medição}
+\end{figure}
+
+\begin{figure}[htpb!]
+\includegraphics[width = \linewidth]{./pics/APPC_Correntropia_Ruido_Impulsivo.png}
+\caption{APPC-MCC num ambiente de ruído impulsivo. O controlador proposto consegue corretamente rejeitar o ruído de medição impulsivo e fazer o controle desejado da planta}
+\end{figure}
+
+\section{Conclusões}
+~~~~       Como foi mostrado nas simulações o controlador proposto APPC-MCC possui robustez em relação ao ruído impulsivo e desempenho comparável ao APPC-LSE na ausência de ruído de medição. Isto não é surpreendente pois a Correntropia do erro representa uma norma híbrida, L2 para erros pequenos, L1 para uma determinada região e L0 para erros muito grandes, de forma que seu desempenho é comparável ao de um critério L2 na ausência de ruído de medição, porém é capaz de rejeitar dados muito discrepantes ("outliers") na medição dependendo da seleção do tamanho do kernel. Adicionalmente notamos que o custo computacional é de mesma magnitude entre os dois métodos.\\
+
+
+~~~~       Em trabalhos futuros outros tipos de ruído não-gaussiano podem ser introduzidos na medição da saída da
+planta. Gostaríamos também de investigar o Controle Adaptativo Indireto por Modelo de Referência para Grau Relativo qualquer da planta usando o estimador de parâmetros com critério MCC.\\
+\section*{Agradecimentos}
+%Agradeço a ~~, ~~, e ~~. E aos colegas ~~ e ~~.
+
+% BIBLIOGRAFIA
+\bibliography{exemplo}
+\end{document}

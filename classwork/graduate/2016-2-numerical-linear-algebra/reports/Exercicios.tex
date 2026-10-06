@@ -1,0 +1,653 @@
+\documentclass[11pt]{report}
+% define the title
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}		%Usar acentos diretos do teclado
+\usepackage[T1]{fontenc}		%Padrão para imagens
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{rotating}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{caption}
+\geometry{left=3cm, right=2cm, top=2cm, bottom=2cm}
+% Title Page
+\title{Exercícios NLAA}
+\author{Pedro Yochinori Gushiken}
+
+
+
+\begin{document}
+\maketitle
+\chapter*{7.1}
+
+\section*{7.1.i}
+
+Seja:
+\[
+H = I - 2\frac{uu^T}{u^Tu}
+\]
+
+Então se
+
+\[
+Hu = -u = u - 2\frac{uu^Tu}{u^Tu}
+\]
+
+Que leva à:
+
+\[
+-2*u^Tuu = -2uu^Tu
+\]
+
+Como $u^Tu$ é um escalar a identidade se confirma.
+
+\section*{7.1.ii}
+
+Temos que:
+
+\[
+Hv = v
+\]
+
+se $v^Tu = 0$. Pre-multiplicando por $u^T$, transpondo, e fazendo uso da identidade anterior temos:
+
+\[
+(u^THv)^T = (u^Tv)^T
+\]
+
+\[
+v^T H u = v^T u
+\]
+
+\[
+-v^Tu = v^T u
+\]
+
+\[
+v^Tu = 0
+\]
+
+Que confirma a condição imposta para que $Hv = v$ seja verdadeiro.
+\chapter*{7.3}
+\section*{7.3.i}
+Seja uma matriz $A$ de tamanho compatível e uma matriz de Householder conhecida (que implica em u conhecido):
+
+\[
+H = I - 2\frac{uu^T}{u^Tu}
+\]
+
+O produto $HA$ pode ser realizado da seguinte forma (implicita):
+\begin{itemize}
+\item[i)] Calcule $v=A^Tu$
+\item[ii)]Calcule $\beta = \frac{2}{u^Tu}$
+\item[iii)] $HA = A-\beta u v^T$ 
+\end{itemize}
+
+Ou da seguinte forma (explicita):
+
+\[
+HA = (I - 2\frac{uu^T}{u^Tu}) A
+\]
+
+A forma implícita resulta no calculo de um produto de matriz por vetor, seguida de um produto vetor por vetor e finalmente um produto vetor por vetor por escalar em termos de custo computacional.\\
+
+A forma explícita resulta no calculo de uma matriz por outra matriz, tal que o custo computacional da segunda forma é maior.
+
+\section*{7.3.ii}
+
+Similarmente, o cálculo de $AH$ pela forma implícita é:
+
+\begin{itemize}
+\item[i)] Calcule $w = Au$
+\item[ii)] Calcule $\beta = \frac{2}{u^Tu}$
+\item[iii)] $AH = A-\beta wu^T$
+\end{itemize}
+
+\section*{7.3.iii}
+
+Desejamos calcular: 
+
+\[
+(\mathbf{\prod_{i=1}^{r}}H_i) C
+\]
+
+Façamos $C_1 = C$:
+
+\begin{itemize} 
+\item[i)] Calcule $\beta_j = \frac{2}{u_j^Tu_j}$
+\item[ii)] Calcule $v_j = C_j^T u_j$
+\item[iii)] Façamos $C_{j+1} = C_j - \beta_j u_j v_j^T$, de $j=1$ até $j=r$
+\item[iv)] Colhemos $(\mathbf{\prod_{i=1}^{r}}H_i) C = C_r$
+\end{itemize}
+
+\section*{7.3.iv}
+
+Desejamos calcular o produto do item anterior de forma explicita:
+
+\begin{itemize}
+\item[i)] Calcule e armazene as matrizes $H_j = I - 2\frac{u_ju_j^T}{u_j^T u_j}$, de $j=1$ até $j=r$
+\item[ii)] Realize o produto $H_1\times H_2\times...\times H_r\times C$
+\end{itemize}
+
+
+\chapter*{9.17}
+\section*{Householder}
+Seja:
+
+\[
+A = \begin{bmatrix}
+0 & 1 & 0 & 0 & 0 \\
+\mathbf{0} & 0 & 1 & 0 & 0 \\
+\mathbf{0} & 0 & 0 & 1 & 0 \\
+\mathbf{0} & 0 & 0 & 0 & 1 \\
+\mathbf{1} & 2 & 3 & 4 & 5 
+\end{bmatrix}
+\]
+
+Usando o processo de Householder para obter uma matriz Hessenberg temos:
+
+\[
+\hat{P}_1 \begin{bmatrix}
+0 \\ 0 \\ 0 \\ 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+* \\ 0 \\ 0 \\ 0
+\end{bmatrix}
+\]
+
+Usando a regra para a escolha de $u$ temos:
+
+\[
+u_1 = \begin{bmatrix}
+0 \\ 0 \\ 0 \\ 1
+\end{bmatrix}
++ ||\begin{bmatrix}
+0\\ 0 \\ 0 \\ 1
+\end{bmatrix}||_2 e_1
+=
+\begin{bmatrix}
+1\\ 0 \\ 0 \\ 1
+\end{bmatrix}
+\]
+
+E construímos $P_1$ como:
+
+\[
+\hat{P}_1 = I - 2\frac{u_1u_1^T}{u_1^Tu_1}
+\]
+
+\[
+P_1 = \begin{bmatrix}
+I_1 & 0 \\
+0   & \hat{P}_1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1& 0 & 0 & 0& 0\\
+0& 0 & 0 & 0& -1\\
+0& 0 & 1 & 0& 0\\
+0& 0 & 0 & 1& 0\\
+0& -1 & 0 & 0& 0
+\end{bmatrix}
+\]
+
+E calculamos:
+
+\[
+A^{(1)} = P_1AP_1^T = \begin{bmatrix}
+0& 0 & 0 & 0& -1\\
+-1& -5 & -3 & -4& 2\\
+0& \mathbf{0} & 0 & 1& 0\\
+0& \mathbf{-1} & 0 & 0& 0\\
+0& \mathbf{0} & -1 & 0& 0
+\end{bmatrix}
+\]
+
+Tal que obtemos o vetor $u_2$:
+
+\[
+u = \begin{bmatrix}
+0 \\ -1 \\ 0
+\end{bmatrix}
++  ||\begin{bmatrix}
+0 \\ -1 \\ 0
+\end{bmatrix}||_2 e_1 = \begin{bmatrix}
+1 \\ -1 \\ 0
+\end{bmatrix}
+\]
+
+E calculamos:
+
+\[
+\hat{P_2} = I_3 - 2\frac{u_2u_2^T}{u_2^Tu_2} = \begin{bmatrix}
+0 & 1 & 0 \\
+1 & 0 & 0\\
+0 & 0 & 1
+\end{bmatrix}
+\]
+
+Tal que:
+
+\[
+P_2 = \begin{bmatrix}
+I_2 & 0 \\
+0   & \hat{P}_2
+\end{bmatrix}
+=
+\begin{bmatrix}
+1& 0 & 0 & 0& 0\\
+0& 1 & 0 & 0& 0\\
+0& 0 & 0 & 1& 0\\
+0& 0 & 1 & 0& 0\\
+0& 0 & 0 & 0& 1
+\end{bmatrix}
+\]
+
+E finalmente obtemos $A_h = P_2 A^{(1)} P_2^T$:
+
+\[
+A_h = \begin{bmatrix}
+0& 0 & 0 & 0& -1\\
+-1& 5 & -4 & -3& 2\\
+0& -1 & 0 & 1& 0\\
+0& 0 & 1 & 0& 0\\
+0& 0 & 0 & -1& 0
+\end{bmatrix}
+\]
+
+\section*{Givens}
+
+Seja:
+
+\[
+A = \begin{bmatrix}
+0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 \\
+\mathbf{0} & 0 & 0 & 0 & 1 \\
+\mathbf{1} & 2 & 3 & 4 & 5 
+\end{bmatrix}
+\]
+
+Queremos construir uma matriz com norma 1 tal que:
+
+\[
+\begin{bmatrix}
+c & s \\
+-s & c
+\end{bmatrix}
+\begin{bmatrix}
+0 \\ 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+* \\
+0
+\end{bmatrix}
+\]
+
+E assim por diante até que a estrutura da primeira coluna seja da primeira coluna de uma matriz de Householder superior, construindo sucessivamente as matrizes de Givens para a primeira série de rotações obtemos:
+
+\[
+J_1 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 \\
+0 & -1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 & 1 
+\end{bmatrix}
+\]
+\[
+J_2 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 1 & 0 & 0 \\
+0 & -1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 
+\end{bmatrix}
+\]\\
+\[
+J_3= \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 \\
+0 &-1 & 0 & 0 & 0 
+\end{bmatrix}
+\]
+
+Obtemos $A^{(1)} = J_1J_2J_3AJ_1^TJ_2^TJ_3^T$, similarmente ao primeiro passo. tal que:
+
+\[
+J_4= \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 \\
+0 & 0 & -1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 
+\end{bmatrix}
+\]
+
+\[
+J_5= \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 \\
+0 & 0 & 0 & 1 & 0 \\
+0 & 0 & -1 & 0 & 0 
+\end{bmatrix}
+\]
+
+
+Obtemos $A^{(2)} = J_4J_5A^{(1)}J_5^TJ_4^T$, e finalmente:
+
+\[
+J_6= \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 \\
+0 & 0 & 0 & -1 & 0 
+\end{bmatrix}
+\]
+
+E finalmente, temos $A_h = J_6A^{(2)}J_6^T$
+
+Ambos os métodos produzem matrizes idênticas no sentido de terem autovalores idênticos
+
+\chapter*{11.13}
+Seja o par $\{A1,B1\}$:
+
+\[
+A_1 = \begin{bmatrix}
+1 & 1 & 1\\
+1 & 1 & 1\\
+1 & 1 & 1
+\end{bmatrix}
+\]
+
+\[
+B_1 = \begin{bmatrix}
+10 & 1 & 0\\
+1 & 10 & 1\\
+0 & 1 & 10
+\end{bmatrix}
+\]
+
+E o par $\{A2,B2\}$:
+
+\[
+A_2 = \begin{bmatrix}
+10 & 1 & 1\\
+1 & 10 & 1\\
+1 & 1 & 1
+\end{bmatrix}
+\]
+
+\[
+B_2 = \begin{bmatrix}
+1 & 1/2 & 1/3\\
+1/2 & 1/3 & 1/4\\
+1/3 & 1/4 & 1/5
+\end{bmatrix}
+\]
+
+Desejamos encontrar os autovalores e autovetores dos pares através dos métodos pedidos, para tal recorremos ao computador e software MATLAB devido a quantidade de operações que são necessárias:
+
+\begin{verbatim}
+%Questão 11.13
+A1 = [1 1 1; 1 1 1 ; 1 1 1]; B1 = [10 1 0; 1 10 1; 0 1 10];
+A2 = [10 1 1; 1 10 1; 1 1 1]; B2 = [1 1/2 1/3; 1/2 1/3 1/4; 1/3 1/4 1/5];
+
+%a1)
+A1 = [1 1 1; 1 1 1 ; 1 1 1]; B1 = [10 1 0; 1 10 1; 0 1 10];
+u_1 = [10; 1; 0] + sqrt(101)*[1; 0; 0];
+H1  = eye(3)-2*(u_1*u_1')/(u_1'*u_1);
+BL = H1*B1;
+AL = H1*A1;
+u_2 = [9.8509; 1] + sqrt(9.8509^2 +1)*[1; 0];
+H2_hat = eye(2) -2*(u_2*u_2')/(u_2'*u_2);
+H2 = [1 0 0; 0 H2_hat(1,:); 0 H2_hat(2,:)];
+BL = H2*BL;
+AL = H2*AL;
+s1 = AL(3,1)/AL(2,1);
+c = sqrt((s1^2+1)^-1);
+s = s1*c;
+J1 = [1 0 0; 0 c s; 0 -s c];
+AL = J1*AL;
+BL = J1*BL;
+s1 = BL(3,2)/BL(3,3);
+c = sqrt((s1^2+1)^-1);
+s = -s1*c;
+J2 = [1 0 0; 0 c s; 0 -s c]';
+AL1 = AL*J2;
+BL1 = BL*J2;
+%Fim do primeiro estágio, AL em forma Hessenberg e BL triangular superior
+
+%obs: há um possível erro de digitação na página 458, acredito que a_1,a_2 
+%relativos ao cálculo de x e y sejam alfa_1,alfa_2, até mesmo por questão de dimensão
+for k=1:4
+C = AL1*BL1^-1;
+C1 = [C(2,2) C(2,3); C(3,2) C(3,3)];
+C_eig = eig(C1);
+%Assinalamos os coeficientes para double shift
+alfa_1 = C_eig(1,1);
+alfa_2 = C_eig(2,1);
+
+C_col12 = [AL1(:,1) AL1(:,2)]*[BL1(1,1) BL1(1,2); 0 BL1(2,2)]^-1;
+%Calculamos a primeira coluna de N
+x = (C_col12(1,1) - alfa_1)*(C_col12(1,1)-alfa_2) +C_col12(1,2)*C_col12(2,1);
+y = C_col12(2,1)*(C_col12(1,1)-alfa_2) + C_col12(2,1)*(C_col12(2,2) - alfa_1);
+z = C_col12(2,1)*C_col12(3,2);
+
+
+n1 = [x; y; z];
+u1 = n1 + norm(n1)*[1; 0; 0];
+%Encontramos uma matriz de householder apropriada e executamos a transformação
+H  = eye(3) - 2*(u1*u1')/(u1'*u1);
+AL1 = H*AL1;
+BL1 = H*BL1;
+%retiramos o termo não nulo indesejado introduzido em B através de um rotação
+s1 = BL1(2,1)/BL1(2,2);
+c = sqrt((s1^2+1)^-1);
+s = -s1*c;
+J2 = [c s 0 ; -s c 0; 0 0 1]';
+AL1 = AL1*J2;
+BL1 = BL1*J2;
+end
+
+%tal que os autovalores do feixe são: l1 = 3/11.3, l2 e l3=0
+%empregando 11.2 temos:
+v0 = [1; 1; 1]; l0 = 3/11.3;
+v_hat(:,1) = v0;
+for k=1:3
+   v_hat(:,k+1) = (AL1-BL1*3/11.3)\BL1*v_hat(:,k);
+   v(:,k+1)= v_hat(:,k+1)/norm(v_hat(:,k+1));
+end
+%que leva a v=[1; 0; 0] associado ao autovalor l1 = 3/11.3
+%para os autovalores 0 arbitramos autovetores associados canônicos
+
+A2 = [10 1 1; 1 10 1; 1 1 1]; B2 = [1 1/2 1/3; 1/2 1/3 1/4; 1/3 1/4 1/5];
+u_1 = [1; 1/2; 1/3] + sqrt(1+1/4+1/9)*[1; 0; 0];
+%matriz de householder 1
+H1  = eye(3)-2*(u_1*u_1')/(u_1'*u_1);
+BL = H1*B2;
+AL = H1*A2;
+%matriz de householder 2
+u_2 = [0.0696; 0.0742] + sqrt(0.0696^2 + 0.0742^2)*[1; 0];
+H2_hat = eye(2) -2*(u_2*u_2')/(u_2'*u_2);
+H2 = [1 0 0; 0 H2_hat(1,:); 0 H2_hat(2,:)];
+BL = H2*BL;
+AL = H2*AL;
+%rotação tal que A fique na forma Hessenberg
+s1 = AL(3,1)/AL(2,1);
+c = sqrt((s1^2+1)^-1);
+s = s1*c;
+J1 = [1 0 0; 0 c s; 0 -s c];
+AL = J1*AL;
+BL = J1*BL;
+%rotação de forma a restaurar forma triangular superior para B
+s1 = BL(3,2)/BL(3,3);
+c = sqrt((s1^2+1)^-1);
+s = -s1*c;
+J2 = [1 0 0; 0 c s; 0 -s c]';
+AL2 = AL*J2;
+BL2 = BL*J2;
+%Fim do primeiro estágio, A em forma Hessenberg superior e B em forma
+%triangular superior
+
+for k=1:32
+C = AL2*BL2^-1;
+C1 = [C(2,2) C(2,3); C(3,2) C(3,3)];
+C_eig = eig(C1);
+%Computamos os escalares necessários para o double shift
+alfa_1 = C_eig(1,1);
+alfa_2 = C_eig(2,1);
+
+C_col12 = [AL2(:,1) AL2(:,2)]*[BL2(1,1) BL2(1,2); 0 BL2(2,2)]^-1;
+%x,y,z são os elementos não nulos da coluna de N = (C-alfa_1 I)(C-alfa_2 I)
+x = (C_col12(1,1) - alfa_1)*(C_col12(1,1)-alfa_2) +C_col12(1,2)*C_col12(2,1);
+y = C_col12(2,1)*(C_col12(1,1)-alfa_2) + C_col12(2,1)*(C_col12(2,2) - alfa_1);
+z = C_col12(2,1)*C_col12(3,2);
+
+
+n1 = [x; y; z];
+%geramos a matriz de householder apropriada
+u1 = n1 + norm(n1)*[1; 0; 0];
+H  = eye(3) - 2*(u1*u1')/(u1'*u1);
+%transformamos
+AL2 = H*AL2;
+BL2 = H*BL2;
+
+%restabelecemos as propriedades desejadas
+s1 = AL2(2,1)/AL2(3,1);
+c = sqrt((s1^2+1)^-1);
+s = -s1*c;
+J2 = [1 0 0 ; 0 c s; 0 -s c]';
+AL2 = J2*AL2;
+BL2 = J2*BL2;
+
+s1 = BL2(3,1)/BL2(3,2);
+c = sqrt((s1^2+1)^-1);
+s = -s1*c;
+J2 = [c s 0 ; -s c 0; 0 0 1]';
+AL2 = AL2*J2;
+BL2 = BL2*J2;
+s1 = BL2(3,2)/BL2(3,3);
+c = sqrt((s1^2+1)^-1);
+s = -s1*c;
+J2 = [1 0 0 ; 0 c s; 0 -s c]';
+AL2 = AL2*J2;
+BL2 = BL2*J2;
+s1 = BL2(2,1)/BL2(2,2);
+c = sqrt((s1^2+1)^-1);
+s = -s1*c;
+J2 = [c s 0 ; -s c 0; 0 0 1]';
+AL2 = AL2*J2;
+BL2 = BL2*J2;
+end
+
+%iterando, o vetor converge desde que tenhamos uma
+%estimativa apropriada do lambda associado
+v0 = [1; 1; 1]; l0 = -0.6109/2.8455;
+v_hat(:,1) = v0;
+for k=1:80
+   v_hat(:,k+1) = (AL1+BL1*0.6109/2.8455)\BL1*v_hat(:,k);
+   v(:,k+1)= v_hat(:,k+1)/norm(v_hat(:,k+1));
+end
+
+% que leva a [0.015 0.7070 0.7070]^T para o autovalor -0.6109/2.8455
+
+
+A1 = [1 1 1; 1 1 1 ; 1 1 1]; B1 = [10 1 0; 1 10 1; 0 1 10];
+A2 = [10 1 1; 1 10 1; 1 1 1]; B2 = [1 1/2 1/3; 1/2 1/3 1/4; 1/3 1/4 1/5];
+%a3) QR Simultâneo usando coeficiente de Wilkinson
+
+%fatorização de cholesky para produzir uma matriz tridiagonal
+R1 = chol(B1);
+
+%uso de simetria
+C = R1'^-1*A1*(R1)^-1;
+T(:,:,1) = C;
+for k=1:4
+%fatorização QR simultânea, empregando diretamente o algoritmo
+r = T(3,3,k)/2 - T(2,2,k)/2;
+mu(k) = T(3,3,k) +r -sign(r)*sqrt(r^2 + T(3,2,k)^2);
+QR = T(:,:,k) - mu(k)*eye(3);
+[Q,R] = qr(QR);
+T(:,:,k+1) = R*Q+mu(k)*eye(3);
+end
+
+%para o segundo par, mesmo processo
+R2 = chol(B2);
+C = R2'^-1*A2*(R2)^-1;
+T2(:,:,1) = C;
+for k=1:800
+r = T2(3,3,k)/2 - T2(2,2,k)/2;
+mu(k) = T2(3,3,k) +r -sign(r)*sqrt(r^2 + T2(3,2,k)^2);
+QR = T2(:,:,k) - mu(k)*eye(3);
+[Q,R] = qr(QR);
+T2(:,:,k+1) = R*Q+mu(k)*eye(3);
+end
+
+%a2) Rayleigh Quotient generalizado iterativo
+% o par já é simétrico
+
+A1 = [1 1 1; 1 1 1 ; 1 1 1]; B1 = [10 1 0; 1 10 1; 0 1 10];
+A2 = [10 1 1; 1 10 1; 1 1 1]; B2 = [1 1/2 1/3; 1/2 1/3 1/4; 1/3 1/4 1/5];
+
+%escolhemos x0 = [1; 0; 0], que converge para lambda = 0 e falha por erro numérico
+x0(:,1) = [1; 0; 0];
+for k=1:3
+   lambda = x0(:,k)'*A1*x0(:,k)/(x0(:,k)'*B1*x0(:,k)) ;
+   x0(:,k+1) = (A1-lambda*B1)\(B1*x0(:,k));
+   x0(:,k+1) = x0(:,k+1)/norm(x0(:,k+1));
+end
+
+%vários exemplos de x0 para o segundo par
+x01(:,1) = [1; 0; 0];
+x01(:,1) = [-0.4 ; 0; 0.9];
+x01(:,1) = [0.1524 ; 0.6989; -0.6989];
+for k=1:4
+   lambda1 = x01(:,k)'*A2*x01(:,k)/(x01(:,k)'*B2*x01(:,k)) ;
+   x01(:,k+1) = (A2-lambda1*B2)\(B2*x01(:,k));
+   x01(:,k+1) = x01(:,k+1)/norm(x01(:,k+1));
+end
+
+%nota: este método não é capaz de alcançar o autovalor com valor muito alto, 
+%mas escolhas apropriadas retornam o autovalor aproximadamente igual a 4 e 
+%o autovalor aproximadamente igual a 20 pois os outros dois autovalores 
+%são numericamente atrativos
+
+\end{verbatim}
+
+
+\chapter*{11.21}
+
+Partimos para o software, usando propriedades para a resolução onde se mostrou possível:
+
+\begin{verbatim}
+M1 = eye(3); K1 = [2 -1 0; -1 2 -1; 0 -1 2]; D1=ones(3);
+%M1 não singular
+A1 = [zeros(3) eye(3); -M1^-1*K1 -M1^-1*D1];
+[v1,d1] = eig(A1);
+M2 = ones(3); K2 = [10 1 1; 1 10 1; 1 1 10]; D2 = 2*M2+3*K2;
+%M2 singular
+[v2,d2] = polyeig(M2,K2,D2);
+M3 = eye(3); K3 = ones(3); D3=K3;
+%M3 não singular
+A3 = [zeros(3) eye(3); -M3^-1*K3 -M3^-1*D3];
+[v3,d3] = eig(A3);
+M4 = [1 2 3; 4 5 6; 7 8 9]; K4=ones(3); D4=zeros(3);
+[v4,d4] = polyeig(M4,K4,D4);
+M5 = eye(3); K5 = ones(3); D5=zeros(3);
+%M5 não singular
+A5 = [zeros(3) eye(3); -M5^-1*K5 -M5^-1*D5];
+[v5,d5] = eig(A5);
+\end{verbatim}
+
+\end{document}         

@@ -1,0 +1,269 @@
+%% abtex2-modelo-slides.tex, v-1.0 gfabinhomat
+%% Copyright 2012-2015 by abnTeX2 group at http://www.abntex.net.br/ 
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is Fábio Rodrigues Silva, 
+%% member of abnTeX2 team, led by Lauro César Araujo. 
+%% Further information are available on 
+%% http://www.abntex.net.br/
+%%
+%% This work consists of the files abntex2-modelo-slides.tex, 
+%% abntex2-modelo-references.bib and abntex2-modelo-marca.pdf
+%%
+%% Modelo desenvolvido por Fábio Rodrigues Silva (gfabinhomat@gmail.com)
+%% Mais informações podem ser obtidas no guia do usuário Beamer 
+%% (http://linorg.usp.br/CTAN/macros/latex/contrib/beamer/doc/beameruserguide.pdf)
+%% Informações rápidas podem ser acessadas em http://en.wikibooks.org/wiki/LaTeX/Presentations
+
+
+% Apresentações em widescreen. Outros valores possíveis: 1610, 149, 54, 43 e 32.
+% Por padrão, as apresentações são no formato 4:3 (sem o aspectratio).
+\documentclass[aspectratio=169]{beamer}	 	
+
+\usetheme{Berlin}
+\usecolortheme{dolphin}
+\usefonttheme[onlymath]{serif}			% para fontes matemáticas
+% Enconte mais temas e cores em http://www.hartwork.org/beamer-theme-matrix/ 
+% Veja também http://deic.uab.es/~iblanes/beamer_gallery/index.html
+
+% Customizações de Cores: fg significa cor do texto e bg é cor do fundo
+% ---
+% PACOTES
+% ---
+\usepackage[alf]{abntex2cite}		% Citações padrão ABNT
+\usepackage[brazil]{babel}		% Idioma do documento
+\usepackage{color}			% Controle das cores
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{txfonts}			% Fontes virtuais
+% ---
+\usepackage{caption}
+% --- Informações do documento ---
+\title{Adaptação de Segundo Nível, Parte 1}
+\author{Pedro Yochinori Gushiken}
+\institute{Universidade Federal do Rio Grande do Norte}
+\date{\today}
+% ---
+
+% ----------------- INÍCIO DO DOCUMENTO --------------------------------------
+\begin{document}
+
+% ----------------- NOVO SLIDE --------------------------------
+\begin{frame}
+
+\begin{minipage}{1\linewidth}
+  \centering
+\end{minipage}
+
+\titlepage
+
+\end{frame}
+
+% ----------------- NOVO SLIDE --------------------------------
+\begin{frame}{Sumário}
+\tableofcontents
+\end{frame}
+
+% ----------------- NOVO SLIDE --------------------------------
+\section{Introdução}
+\begin{frame}
+\frametitle{Características}
+\begin{enumerate}
+\item<1-> Identificação, Caso Indireto\\ 
+\item<2-> Propriedade do Fecho Convexo referente à Adaptação de Primeiro Nível\\
+\item<3-> Projeção no Espaço de Parâmetros\\
+\end{enumerate}
+\end{frame}
+
+
+% ----------------- NOVO SLIDE --------------------------------
+\section{Conceitos}
+\subsection{Problema do Controle Indireto Usando 1 Modelo de Identificação}
+
+\begin{frame}
+\frametitle{Equações de Primeiro Nível}
+
+
+
+
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+\begin{equation}
+\dot{x}_p(t) = A_p x_p(t) + b u(t)
+\end{equation}
+
+\begin{equation}
+\dot{x}_m(t) = A_m x_m(t) + b r(t)
+\end{equation}
+\end{minipage}%
+  \hfill
+\begin{minipage}{.48\textwidth}
+  \centering
+\begin{equation}
+\dot{\hat{x}}_p = A_m\hat{x}_p(t) + [A_1(t)-A_m]x_p(t) +bu(t)
+\end{equation}
+\begin{equation}
+\theta_1 \rightarrow A_1 
+\end{equation}
+
+\end{minipage}
+
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Equações de Primeiro Nível, Cont.}
+
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+\begin{equation}
+u(t) = r(t) +k^T(t)x_p(t)
+\end{equation}
+\begin{equation}
+k(t) = \theta_m - \theta_1 = k^* - \phi_1(t)
+\end{equation}
+
+\end{minipage}%
+  \hfill
+\begin{minipage}{.48\textwidth}
+  \centering
+\begin{equation}
+e_1(t) = \hat{x}_p(t) - x_p(t)
+\end{equation}
+\begin{equation}
+\dot{\theta_1} = \dot{\phi_1} = -{e_1}^TPbx_p(t)
+\end{equation}
+
+\end{minipage}
+
+\end{frame}
+
+
+\subsection{Múltiplos Modelos}
+\begin{frame}
+\frametitle{Múltiplos Modelos}
+
+\begin{equation}
+\Sigma_i: \dot{\hat{x}}_i = A_m\hat{x}_p(t) + [A_i(t)-A_m]x_p(t) +bu(t)
+\end{equation}
+
+\begin{equation}
+\tilde{\theta} \equiv \phi
+\end{equation}
+
+\end{frame}
+
+\begin{frame}
+
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+\begin{equation}
+\sum_{i=1}^{n+1}\alpha_i\theta_i(t_0) = \theta_p
+\end{equation}
+\begin{equation}
+\dot{e}_i = A_m e_i(t) + b{\phi_i}^T(t)x_p(t)
+\end{equation}
+\begin{equation}
+e_i(t_0)=0
+\end{equation}
+\end{minipage}%
+  \hfill
+\begin{minipage}{.48\textwidth}
+  \centering
+
+\begin{equation}
+\dot{\theta}_i(t) = \dot{\phi}_i(t) = -{e_i}^T(t)Pbx_p(t)
+\end{equation}
+\begin{equation}
+\theta_i(t_0) = \theta_{i0}
+\end{equation}
+\begin{equation}
+\sum_{i=1}^{n+1}\alpha_i\phi(t_0)=0 
+\end{equation}
+\end{minipage}
+
+
+\end{frame}
+
+
+\begin{frame}
+
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+  \begin{equation}
+  \sum_{i=1}^{n+1}\alpha_i\theta_i(t) = \theta_p \Longleftrightarrow \bar{\Theta}(t)\bar{\alpha} = \theta_p \space 
+  \end{equation}
+\end{minipage}%
+  \hfill
+
+\begin{minipage}{.48\textwidth}
+  \centering
+    \begin{equation}
+    \sum_{i=1}^{n+1}\alpha_i e_i(t) = 0 \Longleftrightarrow \bar{E}(t)\bar{\alpha} = 0 \space
+    \end{equation}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{equation}
+E(t)\alpha = -e_{n+1}(t)
+\end{equation}
+
+\begin{equation}
+\dot{\hat{\alpha}} = E^T(t)E(t)\hat{\alpha} - E^T(t)e_{n+1}(t)  
+\end{equation}
+
+\end{frame}
+
+
+% ----------------- NOVO SLIDE --------------------------------
+
+% ----------------- NOVO SLIDE --------------------------------
+\section{Referências}
+
+% --- O comando \allowframebreaks ---
+% Se o conteúdo não se encaixa em um quadro, a opção allowframebreaks instrui 
+% beamer para quebrá-lo automaticamente entre dois ou mais quadros,
+% mantendo o frametitle do primeiro quadro (dado como argumento) e acrescentando 
+% um número romano ou algo parecido na continuação.
+% --- O comando \allowframebreaks ---
+% Se o conteúdo não se encaixa em um quadro, a opção allowframebreaks instrui 
+% beamer para quebrá-lo automaticamente entre dois ou mais quadros,
+% mantendo o frametitle do primeiro quadro (dado como argumento) e acrescentando 
+% um número romano ou algo parecido na continuação.
+
+\begin{frame}[allowframebreaks]
+\frametitle{Referências}
+\nocite{narendra1}
+\nocite{narendra_main}
+\nocite{narendra2012rationale}
+\nocite{narendra1997}
+\nocite{han1}
+\nocite{han2010}
+\nocite{han2012}
+\nocite{kuipers1}
+\nocite{ioannou2}
+\nocite{chen}
+\nocite{ogata}
+\nocite{khalil}
+\end{frame}
+% ----------------- FIM DO DOCUMENTO -----------------------------------------
+\bibliography{bib-controleadaptativo}
+\end{document}

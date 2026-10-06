@@ -1,0 +1,475 @@
+
+\section{Memorial de cálculo}
+Os critérios e tabelas utilizados para os cálculos do projeto foram consultados do livro: \textbf{Instalações Elétricas Industriais - Oitava Edição} de \textbf{João Mamede Filho}.\\
+Dados do sistema no ponto de entrega:
+\begin{description}
+\item[Z$_{1}$]$=1,290+j2,1221$ pu
+\item[Z$_{0}$]$=1,9961+j3,8321$ pu
+\item[V$_{base}$]$=13,8$ kV
+\item[S$_{base}$]$=100$ MVA
+\end{description}
+
+\subsection{Demanda Provável}
+A demanda provável será determinada levando em conta o tipo de carga e as características das
+mesmas. Abaixo, temos uma expressão que fornece esse valor em kVA para demanda provável do projeto
+em estudo.
+\subsubsection{QF1}
+O QF1 é constituido por iluminação, refrigeração e tomadas que no total correspondem a uma fração muito pequena do consumo da instalação.
+\begin{itemize}
+\item $D_{MAC1}=\frac{1.9 \times0.87}{(0.94\times0.88)} = 1.998kVA$ 
+\item $D_{MAC2}=\frac{2.65\times0.88}{(0.86\times0.93)} = 2.916kVA$
+\item $D_{QF1} = 4\times 1,998+3\times 2,916 + \frac{2}{0,7}+\frac{15}{0,92} = 35,9kVA$
+\end{itemize}
+	
+\subsubsection{QCCM1}
+O QCCM1 é o quadro que alimenta o centro de controle de motores responsável pelos 8 motores de 10 cv.
+\begin{itemize}
+\item $D_{M1}= \frac{10\times0.736\times0.83}{(0.9\times0.86)}= 7.893kVA $
+\item $D_{QCCM1} = 8\times D_{M1}\times f_s = 63.14\times0.80 = 50.512$
+\end{itemize}
+	
+\subsubsection{QCCM2}
+O QCCM2 é o quadro que alimenta o centro de controle de motores responsável pelos 6 motores de 30 cv.
+\begin{itemize}
+\item $D_{M2}=  \frac{30\times0.736\times0.85}{(0.9\times0.89)}= 23.430kVA$
+\item $D_{QCCM2} = 6\times D_{M2}\times f_s = 140.584\times0.80 = 112.47kVA$
+\end{itemize}
+	
+\subsubsection{QCCM3}
+O QCCM3 é o quadro que alimenta o centro de controle de motores responsável pelos 5 motores de 80 cv.
+\begin{itemize}
+\item $D_{M3}=  \frac{80\times0.736\times0.87}{(0.92\times0.87)}= 64kVA$
+\item $D_{QCCM3} = 5\times D_{M3}\times f_s = 320\times0.9 = 288kVA$
+\end{itemize}
+	
+\subsubsection{QCCM4}
+O QCCM4 é o quadro que alimenta o centro de controle de motores responsável pelos 4 motores de 100 cv.
+\begin{itemize}
+\item $D_{M4}=  \frac{100\times0.736\times0.87}{(0.92\times0.83)}= 83.86kVA$
+\item $D_{QCCM4} = 4\times D_{M4}\times f_s = 335.422\times1 = 335.42kVA$
+\end{itemize}
+	
+\subsubsection{QCCM5}
+O QCCM5 é o quadro que alimenta o centro de controle de motores responsável pelos 3 motores de 125 cv.
+\begin{itemize}
+\item $D_{M5}=  \frac{125\times0.736\times0.87}{(0.92\times0.87)}= 100kVA$
+\item $D_{QCCM5} = 3\times D_{M5}\times f_s = 300\times0.9 = 270kVA$
+\end{itemize}
+	
+\subsubsection{QCCM6}
+O QCCM6 é o quadro que alimenta o centro de controle de motores responsável pelos 2 motores de 150 cv.
+\begin{itemize}
+\item $D_{M6}=  \frac{150\times0.736\times0.87}{(0.92\times0.83)}= 125.78kVA$
+\item $D_{QCCM1} = 2\times D_{M6}\times f_s = 251.57\times1 = 251.57kVA$
+\end{itemize}
+
+
+\subsection{Determinação da potência da subestação}
+Como a potência demandada pelo projeto foi 1323.97 kVA, optamos em utilizar dois transformadores iguais de 750kVA em configuração de barra simples seccionada alimentando dois quadros de força com a possibilidade de paralelismo entre os trafos através do fechamento de uma chave normalmente aberta na barra que alimenta os quadros de força. A potência total da subestação é de \textbf{1500 kVA}.\\
+A potência sobejante da subestação vale 176.03kVA.
+
+\subsection{Correção do Fator de Potência da Instalação}
+
+Fator de Potência da Instalação:
+\begin{itemize}
+\item CCM1: $P_A = 10 \times 8 \times 0.736 = 58.88kW$
+\item       $P_r = 10 \times 8 \times 0.736 \times tg(arccos(0.9)) = 28.5169kVAr$
+\item CCM2: $P_A = 6  \times 30\times 0.736 = 132.48kW$
+\item       $P_r = 132.48\times \tan(\arccos(0.89)) = 67.872kVAr$
+\item CCM3: $P_A = 80 \times 5 \times 0.736 = 294.4kW$
+\item       $P_r = 294.4 \times \tan(\arccos(0.87)) = 166.844kVAr$
+\item CCM4: $P_A = 4 \times 100 \times 0.736 = 294.4kW$
+\item       $P_r = 294.4\times \tan(\arccos(0.83)) = 197.838kVAr$
+\item CCM5: $P_A = 125 \times 3 \times 0.736 = 276kW$
+\item       $P_r = 276\times \tan(\arccos(0.87))= 156.4kVAr$
+\item CCM6: $P_A = 2 \times 150 \times 0.736 = 220.8kW$
+\item       $P_r = 220.8\times \tan(\arccos(0.83)) = 148.379kVAr$
+\item Iluminação: $P_A = 15kW$
+\item             $Pr = 15\times \tan(\arccos(0.92)) = 6.39 kVAr$
+\item Refrigeração: $P_A = 1.9\times4 + 2.65\times3 = 15.55kW$
+\item     $P_r = 1.9\times4\times \tan(\arccos(0.94)) + 2.65\times3\times \tan(\arccos(0.93)) = 2.758+ 3.142 = 5.9kVAr$
+\item Tomadas:  $P_A = 2kW$
+\item     $P_r = 2kW\times \tan(\arccos(0.7)) = 2.04kVAr$
+\item Somatório de Cargas Ativas:
+\item $\Sigma P_A = 58.88+132.48+294.4+294.4+276+220.8+15+15.55+2= 1309.51 kW$
+\item $\Sigma P_r = 28.51+67.872+166.84+197.83+156.4+148.37+6.39+5.9+2.04 = 780.18kVAr$
+\item $f_p = \cos \arctan\frac{\Sigma P_r}{\Sigma P_A} = \cos \arctan\frac{780.18}{1309.51} = 0.859$
+\item $P_{T,A}= 1309.51kW$
+\item $P_{BC} = 1309.51\times(\tan\phi_1-\tan\phi_2)$
+\item $ \phi_1 = \arccos(0.84) = {32.86}^\circ$
+\item $ \phi_2 = \arccos(0.92) = {23.07}^\circ$
+\item $N_{C} = \frac{288.12}{50} \longrightarrow Nuc = 6$
+\item $P_{BC} = 300kVAr$
+
+\end{itemize}
+
+
+
+\subsection{Corrente de curto-circuito no barramento de alta tensão}
+$I_{base}=4183,7$ A\\
+Para o cálculo de corrente de curto-circuito trifásico:
+
+\begin{equation*}
+|{{I}_{3\phi}}|= \frac{1,0}{|{1,290 + j 2, 1221}|}=0,4027 \Rightarrow {{I}_{3\phi}}= 1684,7 \hspace{0.1cm}A
+\end{equation*}
+Para o cálculo de corrente de curto-circuito bifásico:
+\begin{equation*}
+{I}_{2\phi}= \frac{\sqrt{3}}{2}{I}_{3\phi}= 1458.95A\hspace{0.1cm}A
+\end{equation*}
+Para o cálculo de corrente de curto-circuito fase-terra franco:
+\begin{equation*}
+|{{I}_{\phi T}}|= \frac{ 3\times 1,0 }{|{2\times (0,590+j1,1221)+1,1961+j2,8331}|}=0,5352 \Rightarrow {I}_{\phi T}= 2.239 \hspace{0.1cm}A
+\end{equation*}
+
+\subsection{Corrente de curto-circuito no barramento de baixa tensão}
+$I_{base}$$=151.934$ A\\
+Impedância dos transformadores de 750 kVA:
+\begin{equation*}
+{Z}_{T1}=0,05\times {(\frac{13,8}{13,8}})^{2}\times \frac{100}{0,75}=j6.67\hspace{0.1cm}pu
+\end{equation*}
+
+Para o cálculo de corrente de curto-circuito trifásico:
+\begin{equation*}
+|{I}_{3\phi}|=\frac{1,0}{|0,590+j1,1221+j7,5|}=0,1157  \Rightarrow {I}_{3\phi}= 17.097,72 \hspace{0.1cm}A
+\end{equation*}
+Para o cálculo de corrente de curto-circuito bifásico:
+\begin{equation*}
+{I}_{2\phi}=\frac{\sqrt{3}}{2}{I}_{3\phi}= 14807.06A\hspace{0.1cm}A
+\end{equation*}
+Para o cálculo de corrente de curto-circuito fase-terra franco:
+\begin{equation*}
+|{I}_{\phi T}|=\frac{ 3\times 1,0}{|2\times (1,9961 + j 3,8321)+1.29+j2.1221+j6.67|}=0.1736 \Rightarrow	
+\end{equation*}
+\begin{equation*}
+ \Rightarrow {I}_{\phi T}= 26372.4 \hspace{0.1cm}A
+\end{equation*}
+
+\subsection{Dimensionamento do barramento de baixa tensão}
+O barramento de baixa tensão será composto por três barras retangulares de cobre pintadas com
+as respectivas cores das fases. Largura 100 mm, espessura 10 mm, seção 1000 mm$^2$, capacidade de condução de corrente $1744A > 1139A,5\times1,5$ e estarão separadas
+pelos seguintes valores:
+\begin{itemize}
+\item Afastamento entre barras paralelas: 10 mm;
+\item Distância entre barras: 75 mm;
+\item As barras serão instaladas na vertical;
+\item Distância entre os centros das barras > 0.8 x afastamento entre fases.
+\end{itemize}
+
+\subsection{Dimensionamento dos condutores de baixa tensão}
+\subsubsection{Condutores de fase para cada transformador}
+Critério de corrente:
+
+Para dimensionamento dos cabos que irão interligar os secundários dos transformadores ao
+barramento baixa tensão, levaremos em conta o critério de capacidade de corrente nominal. Perante isso, escolhemos cabos unipolares de isolação EPR para 0.6/1.0 kV.
+
+\begin{equation*}
+{I}_{n}=\frac{750}{\sqrt{3}\times 0,38}=1139,5 \Longrightarrow = \frac{1139,5}{2}=569,75 \hspace{0.1cm}A \Longrightarrow {S}_{T1}= 2 \times 400 \hspace{0.1cm}mm^2
+\end{equation*}
+Não levaremos o critério de queda tensão em conta.
+
+Os cabos serão ficados espaçados no interior da canaleta com o dobro do seu diâmetro. Portanto, não não haverá necessidade de aplicar nenhum fator de agrupamento
+\subsubsection{Condutor neutro}
+Adotou-se a seção dos condutores neutros com a mesma seção dos condutores de fase para a facilidade de manutenção de emergência, quando, por ocasião de um defeito em um dos condutores de fase, este possa ser permutado por um condutor neutro.
+\subsubsection{Condutor de proteção}
+O condutor de proteção deve interligar todas as partes metálicas da subestação a malha de terra.
+\begin{equation*}
+{S}_{t}=0,5\times {S}_{T1} \Longrightarrow = 0,5\times 400 \Longrightarrow {S}_{t}= 200 \hspace{0.1cm}mm^2
+\end{equation*}
+
+
+
+\subsection{Dimensionamento do barramento de alta tensão}
+Conforma especificado na norma da concessionária no anexo VI, o barramento de alta tensão será
+composto por barras de cobre com as dimensões 3/4" x 3/16" pintadass nas respectivas cores e com
+capacidade de suportar correntes de curto-circuito assimétricas 3 kA.\\
+Fase A - vermelha\\
+Fase B - branca\\
+Face C - marrom
+
+\subsection{Dimensionamento dos condutores de alta tensão}
+Seguindo a recomendação da concessionária, utilizaremos um condutor de seção 50 mm$^2$ que terá
+conexão inicial na saída dos pára-raios e final no barramento de alta tensão. Ele passará por um eletroduto
+de diâmetro 4" aterrado no solo compreendido entre as conexões áreas e subterrâneas do ramal de
+entrada.
+
+\subsection{Sistema de aterramento}
+
+\subsubsection{Malha de aterramento}
+Usando como caso base os dados de medição de resistividade do solo aferidos na aula de campo da terça feira temos:
+
+\begin{table}[htbp]
+  \centering
+
+    \begin{tabular}{ccccccc}
+    \toprule
+    \textbf{$A_{(m)}$} & \textbf{$\rho_{1(\Omega)}$} & \textbf{$\rho_{2(\Omega)}$} & \textbf{$\rho_{3(\Omega)}$} & \textbf{$\rho_{4(\Omega)}$} & \textbf{$2\times\pi\times a$} &\textbf{$\rho_{m(\Omega)}$}\\
+    \midrule
+    1     & 137 & 176  & 220   &  177    & 6,28 & 177,5\\ 
+    2     & 81 & 86   & 85   &    78   & 12,57 & 82,5\\
+    4     & 55 & 52   & 45  & 32   & 25,13 & 46\\
+    \bottomrule
+    \end{tabular}%
+  \caption{Medição de Resistividade}
+\end{table}
+
+\begin{itemize}
+\item
+\item ${\rho}_{1}$ - 177,5 $\Omega.m$     
+\item ${\rho}_{2}$ - 46 $\Omega.m$   
+\item $\frac{\rho_2}{\rho_1}= 0,259 \longrightarrow 0,7981<K_1<0,8170\longrightarrow K_1\tilde{=}0,8 $ 
+\item $\rho_m = K_1\times\rho_1 = 142$ $\Omega.m$ 
+\item $R_{(raio, m)} = \sqrt{S/\pi} = \sqrt{120/\pi} = 5,78m$
+\item $S = 15\times7 = 105m^2$
+\item $\rho_{(H=1m)} = 177,5 ; \rho_{(H=2m)}=82,5 $ Interpolando:
+\item $\rho_{(H=1,37m)} = \rho_m = 142$ $\Omega.m$ $\longrightarrow D_p = 1,37m $
+\item $R/D_p = 5,78/1,37 = 4,22m = K_2 \longrightarrow$ Interpolando: $K_{3(\rho_2/\rho_1, K_2)} = 0,746$
+\item $\rho_a = K_3\times\rho_1 = 132,42$ $\Omega.m$ 
+\item $S_{(condutor)} = 0,002533\times 26372,4 = 66,8mm^2$ adotamos $S_c=70mm^2$ para cabo simples com solda exotérmica e duração de falha $T_f = 0,5s$
+\item Primeira tentativa: $D_l = 0,075\times C_m $; $D_c = 0,075\times L_m \longrightarrow N_{cp}= 14 + 1 = 15$; $N_{cj} = 14 + 1 = 15$
+\item Comprimento dos condutores: $L_{cm}= 1,05\times[(C_m\times N_{cj})+(L_m\times N_{cp})] = 346,5m$
+\item $R_{mc} = \frac{\rho_a}{4\times R} + \frac{\rho_a}{L_{cm}} = 6,11\Omega$, que cumpre o requerimento $R_{mc}<10\Omega$ mas escolhemos ainda colocar 4 hastes por motivo de fixação mecânica dos cabos.
+\item Resistência de um eletrodo de terra $R_{le} = \frac{\rho_a}{2\times\pi\times L_h}\times\ln(\frac{400\times L_h}{2,54\times D_h}) $ estipulando $D_h = 3/4"$ e $L_h=3m \longrightarrow R_{le} = 45,24\Omega$
+\item $K_h = \frac{1+A\times B}{N_h} $ $A=0,1222 ;B=2,7071 $ portanto $K_h=0,3327$ e $R_{ne}=15,05\Omega$ 
+\item Resistência Mútua $R_{mu} = \frac{\rho_m}{\pi\times L_{cm}}\times[\ln(\frac{2\times L_{cm}}{L_{th}}+K_1\times\frac{L_{cm}}{\sqrt{S}} - K_2 + 1)] = 0,57\Omega$
+\item Resistência total da malha: $R_{tm} = \frac{R_{mc}\times R_{ne} - R_{mu}^2}{R_{mc}+R_{ne}-2\times R_{mu}} = 4,58\Omega < 10\Omega$
+
+\end{itemize}
+
+
+
+\subsection{Dispositivo de proteção contra sobrecorrente}
+\subsubsection{Dimensionamento dos elo-fusíveis}
+\begin{equation*}
+{I}_{N,elo} \geq 1,5\times {I}_{carga,max} \Longrightarrow {I}_{N,elo}\geq 1,5\times 62,76 \Longrightarrow {I}_{N,elo}=94,13 \hspace{0.1cm}A
+\end{equation*}
+Após o ponto de entrega, teremos uma chave fusível 65k que funcionará como proteção de
+retaguarda para proteção feita pelo conjunto disjuntor-relé. E também no barramento de alta de cada transformador uma chave fusível de 30k para proteção individual daquele transformador.
+\subsubsection{Dimensionamento do TC de proteção}
+Usaremos um TC com relação de transformação 50/5 ou 250:1 seguindo a recomedação da norma da COSERN.
+
+\subsubsection{Unidade 51 de fase}
+Corrente mínima de atuação ou de partida:
+\begin{equation*}
+tape \geq \frac{k\times {I}_{carga,max}}{RTC} \Longrightarrow tape \geq \frac{1,2\times 33,5}{40} \Longrightarrow tape=1,2 \hspace{0.1cm}A
+\end{equation*}
+
+\subsubsection{Unidade 51 de neutro}
+\begin{equation*}
+{I}_{min,AT} \geq \frac{0,2\times {I}_{carga,max}}{RTC} \Longrightarrow {I}_{min,AT} \geq \frac{0,2\times 33,5}{40} \Longrightarrow {I}_{min,AT}=0,2 \hspace{0.1cm}A
+\end{equation*}
+
+\subsubsection{Unidade 50 de fase}
+\begin{equation*}
+{I}_{min,AT} \geq \frac{3\times {I}_{carga,max}}{RTC} \Longrightarrow {I}_{min,AT} \geq \frac{3\times 33,5}{40} \Longrightarrow {I}_{min,AT}=2,5 \hspace{0.1cm}A
+\end{equation*}
+
+\subsubsection{Unidade 50 de neutro}
+\begin{equation*}
+{I}_{min,AT} \geq \frac{1,1\times {I}_{cc,min}}{RTC} \Longrightarrow {I}_{min,AT} \geq \frac{1,1\times 297}{40} \Longrightarrow {I}_{min,AT}=8,2 \hspace{0.1cm}A
+\end{equation*}
+
+\subsubsection{Curva de tempo da unidade 51 de fase}
+${t}_{int,elo}=0,015 \hspace{0.1cm}s$, para corrente de 3299 A
+\begin{equation*}
+{t}_{rele} \geq {t}_{elo} - 0,05 \Longrightarrow {t}_{rele} \geq 0,015 - 0,005=0,01 \hspace{0.1cm}s
+\end{equation*}
+Escolhendo a curva NI:
+\begin{equation*}
+m=\frac{{I}_{cc,max}}{RTC\times tape} \Longrightarrow m= \frac{3299,7}{40\times 1,2}=20 
+\end{equation*}
+
+\begin{equation*}
+{t}_{rele} \geq \frac{0,14 \times TMS}{m^{0,02}-1} \Longrightarrow TMS= \frac{(20^{0,02}-1)\times 0,01}{0,14}=0,075 \Longrightarrow TMS=0,1
+\end{equation*}
+\textbf{tape=1,2, Curva 0,1 NI-IEC}
+
+\subsubsection{Coordenação Religador do Alimentador x Relé da subestação}
+A condição para haver coordenação é definida pelos tempo de atuação abaixo:
+\begin{equation*}
+{t}_{Religador} > {t}_{ Rele} 
+\end{equation*}
+\begin{itemize}
+\item Curva da unidade 51 de fase do Religador da Concessionária.
+Obtendo o tempo de atuação do Religador da Concessionária. Os ajustes do relé associados ao Religador foram obtidos junto à Concessionária. \textbf{tape=2, Curva 0,1 NI-IEC}
+\begin{equation*}
+m=\frac{{I}_{cc,max}}{RTC\times tape} \Longrightarrow m= \frac{3299,7}{120\times 2}=13,75 
+\end{equation*}
+\begin{equation*}
+{t}_{Religador} = \frac{0,14 \times TMS}{m^{0,02}-1} \Longrightarrow \frac{0,14 \times 0,1}{13,75^{0,02}-1}=0,26\hspace{0.1cm}s 
+\end{equation*}
+\item Curva da unidade 51 de fase do Relé da Subestação.
+\begin{equation*}
+m=\frac{{I}_{cc,max}}{RTC\times tape} \Longrightarrow m= \frac{3299,7}{40\times 1,2}=20 
+\end{equation*}
+\begin{equation*}
+{t}_{Rele,SE} = \frac{0,14 \times TMS}{m^{0,02}-1} \Longrightarrow \frac{0,14 \times 0,1}{20^{0,02}-1}=0,22\hspace{0.1cm}s 
+\end{equation*}
+
+Portanto, há COORDENAÇÃO da Proteção do Primária da Subestação (SE) do Consumidor com a Proteção Geral do Alimentador da Concessionária (RELIGADOR).
+\begin{equation*}
+{t}_{Religador} > {t}_{Rele} \Longrightarrow  0,26 > 0,22 \hspace{0.1cm}(satisfeito)
+\end{equation*}
+
+\end{itemize}
+\subsubsection{Disjuntor para cada transformador}
+
+\begin{equation*}
+{I}_{c}=\frac{750}{\sqrt{3}\times 0,38}=1139,5 \hspace{0.1cm}A \Longrightarrow {I}_{nd}=1250 \hspace{0.1cm}A 
+\end{equation*}
+
+\begin{itemize}
+\item Tipo: 3VT5 H - Siemens
+\item Relé térmico:630-1600
+\item Relé magnético: 5.000-10.000 A
+\item Classe de temperatura da unidade magnética: 80 ms
+\item Capacidade de ruptura: 55 kA/380 V
+\item Ajuste do relé térmico:${I}_{a}=1250$ A
+\item Condição de proteção
+\begin{equation*}
+{I}_{a} \geq {I}_{c}= 1250 \hspace{0.1cm}A \geq 1139,5 \hspace{0.1cm}A (satifaz) 
+\end{equation*}
+\begin{equation*}
+{I}_{a} \leq {I}_{nc}= 1250 \hspace{0.1cm}A \leq 1600 \hspace{0.1cm}A (satifaz) 
+\end{equation*}
+\item Capacidade de ruptura
+\begin{equation*}
+{I}_{3\phi} \leq {I}_{rd}= 26,37 \hspace{0.1cm}kA \leq 55 \hspace{0.1cm}kA (satifaz) 
+\end{equation*}
+\end{itemize}
+
+\subsubsection{Para-raios}
+Para dimensionar os 3 pára-raios que serão instalados, um por fase, na transição da rede aérea para subterrânea, observamos que de acordo com a norma da COSERN para a distribuição primária a corrente de descarga nominal é de 10 kA. E para definir a tensão nominal a 60 Hz, temos as seguintes relações com as impedâncias de Thévenin do ponto de entrega:
+
+\begin{eqnarray*}
+\dfrac{R1th}{X1th} &=&  \dfrac{1,2900}{2,1221}\\
+	    &=&0,61\\				
+\end{eqnarray*} 
+
+\begin{eqnarray*}
+\dfrac{X0th}{X1th} &=&  \dfrac{3,8321}{2,1221}\\
+	    &=&1,81\\				
+\end{eqnarray*} 
+
+\begin{eqnarray*}
+\dfrac{R0th}{X1th} &=&  \dfrac{1,9961}{2,1221}\\
+	    &=&0,94\\				
+\end{eqnarray*} 
+
+
+Com base na primeira razão,podemos identificar o gráfico para definirmos o fator de aterramento. O gráfico que mais se aproxima é o seguinte:
+
+
+\begin{figure}[h]
+\centering
+%\includegraphics[scale = .7]{Curva.jpg}
+\caption{Gráfico de Fator de Aterramento para $\frac{Rth1}{Xth1} = 0,2$}
+\end{figure}  
+
+Observando as relações no eixo das abcissas (eixo X) $\frac{X0th}{X1th}=1,81$. E para o eixo das coordenadas (eixo Y) a relação $\frac{R0th}{X1th} =0,94 $. Temos o fator de aterramento representado pela curva de 75 \%.  
+
+Logo, para a tensão de operação máxima do sistema igual a 14,5kV podemos calcular a tensão nominal de operação a 60Hz do pára-raios, como:
+
+\begin{eqnarray*}
+Vnominal &\geq&  faterramento \times Vopmax\\
+	    &\geq& 0,75 \times 14,5kV\\
+	    &\geq& 10,9kV				
+\end{eqnarray*} 
+
+Logo, será utilizado o pára-raios NPZ1210,  de óxido de Zinco polimérico com desligador automático. Conforme esquema da Norma da COSERN. Sendo conectados a haste de aterramento da subestação através de cabo cobreado de bitola 2 AWG.Com as seguintes especificações:
+
+\begin{center}
+\textbf{Especificações do para-raios}\\
+\end{center} 
+
+	
+	\begin{table}[H]
+	\centering
+	\begin{tabular}{cc}
+	\toprule
+	\multicolumn{1}{c}{\textbf{Item}} & \multicolumn{1}{c}{\textbf{Descrição}} \\
+	\midrule
+		Corrente de descarga nominal normalizada (8/20 $\mu$s) & 10 kA\\ 
+		Tensão nominal (60 Hz, valor eficaz) & 12 kV \\
+		Tensão disruptiva de impulso atmosférico normalizado (1,2/50 $\mu$s) & 44.5 kV \\
+		Tensão disruptiva à freqüência industrial & 18 kV \\
+		Tensão disruptiva máxima de manobra (valor eficaz) & 32 kV\\
+	\bottomrule
+	\end{tabular}
+	\caption{Especificações Pára-raios NPZ 1210}
+	\end{table}
+	
+\section{Lista de Materiais}
+	
+	\begin{table}[htbp]
+	  \centering
+	\begin{sideways}
+
+	    \begin{tabular}{cccl}
+	    \toprule
+	    \textbf{Item} & \textbf{Un.} & \textbf{Qtd.} & \textbf{Descrição} \\
+	    \midrule
+	          &       &       & \textbf{ENTRADA DE ENERGIA} \\
+	       1     & um    & 3     & Para-raios NLZP 1210, óxido de zinco polimérico com desligador automático, 12 kV. \\
+	       2     & uma   & 3     & Chave seccionadora unipolar, 100 A/15 kV, NBI de 95 kV  \\
+	       3     & uma   & 3     & Mufla terminal primária unipolar, uso externo, para cabo unipolar de 50 mm2, isolação PVC, 100 A, 15 kV. \\
+	       4     & m     & 40    & Cabo de cobre unipolar, isolação em PVC para 12/20 kV, seção de 50 mm2. \\
+	       5     & uma   & 3     & Cruzeta de concreto armado de 1,90 m, tipo N (ABNT) \\
+	       6     & m     & 6     & Eletroduto de ferro galvanizado de 6". \\
+	       7     & um    & 2     & Suporte metálico para fixação de eletroduto de ferro galvanizado. \\
+	       8     & um    & 1     & Poste tipo duplo T de 12 m. \\
+	             & um    & 3     & Chave Fusível 15 kV, 100 A, base C, interrupção de 10 kA \\
+	             & um    & 6     & Elo-fusível 30k \\
+	             &       &       & \textbf{CUBÍCULO DE MEDIÇÃO} \\
+	       9     & um    & 1     & Suporte metálico para fixação dos transformadores para medição: corrente e potencial. \\
+	       10    & uma   & 3     & Mufla terminal primária unipolar, uso externo, para cabo unipolar de 50 mm$^{2}$, isolação PVC, 100 A, 15 kV. \\
+	       11    & um    & 1     & Suporte metálico para fixação das muflas. \\
+	       12    & uma   & 1     & Tela métalica de 13 mm de abertura, 1,5 m x 1 m, conforme desenho. \\
+	       13    & um    & 9     & Isolador suporte para uso interno, 15 kV. \\
+	             &       &       & \textbf{CUBÍCULO DE PROTEÇÃO} \\
+	       14    & uma   & 1     & Chave seccionadora tripolar, uso interno, operação sem carga, 100 A/15 kV, NBI de 95 kV  \\
+	       15    & um    & 3     & Relé secundário de ação indireta com funções 50/50N e 51/51N, 5 A, faixa de ajuste (1 - 5) A. \\
+	       16    & um    & 9     & Suporte metálico para fixação de chave seccionadora tripolar. \\
+	       17    & um    & 9     & Isolador suporte para uso interno, 15 kV. \\
+	       18    & uma   & 3     & Bucha de passagem de 15 kV/100 A, uso interno-interno. \\
+	       19    & uma   & 1     & Disjuntor tripolar, 15 kV/400 A, potência de curto 350 MVA, 60 Hz. \\
+	       20    & uma   & 1     & Chapa de passagem de 1,5 x 0,5 m para fixação de bucha de passagem. \\
+	       21    & uma   & 1     & Tela métalica de 13 mm de abertura,  conforme desenho. \\
+	    \bottomrule
+	    \end{tabular}%
+	   \end{sideways}
+	  \caption{Quadro de cargas}
+	\end{table}%
+	
+	
+	\begin{table}[htbp]
+	  \centering
+	    \begin{sideways}
+	    \begin{tabular}{cccl}
+	    \toprule
+	    \textbf{Item}  & \textbf{Um}    & \textbf{Quant.} & \multicolumn{1}{c}{\textbf{Descrição}} \\
+	    \midrule
+	           &       &       & \textbf{CUBÍCULO DE TRANSFORMAÇÃO} \\
+	    22    & uma   & 2     & Chave seccionadora tripolar, uso interno, operação sem carga, 200 A/15 kV, NB de 95 kV  \\
+	    23    & um    & 2     & Transformador trifásico de 750 kVA, 13,8/13,2/12,6/12/11,4/10,8/10,2 kV - 380/220 V, 6 \%, 60 Hz, NBI de 95 kV. \\
+	    25    & um    & 6     & Isolador suporte, uso interno para 15 kV. \\
+	    26    & m     & 30    & Barra de cobre nu 3/4” x 3/16”. \\
+	    27    & uma   & 2     & Tela métalica de 13 mm de abertura,  conforme desenho. \\
+	          &       &       & \textbf{ATERRAMENTO DA SUBESTAÇÃO} \\
+	    28    & m     & 358   & Cabo de cobre nu de seção de 95 mm$^{2}$. \\
+	    29    & uma   & 8     & Haste de terra de aço cobreador de 3/4" x 3000 mm. \\
+	    30    & um    & 1     & Caixa de  de inspeção da malha  de terra de 300 mm x 300 mm x 300 mm \\
+	          &       &       & \textbf{GERAL} \\
+	    31    & um    & 1     & EPI: Bota, luva, capacete e vara de manobra \\
+	    32    & um    & 1     & Placa de advertência de fundo amarelo e caracter preto \\
+	    33    & um    & 1     & Extintor de incêndio tipo CO$_{2}$ (12 Kg) \\
+	          &       &       & \textbf{QGF 1 e 2} \\
+	        37    & um    & 2     & Disjuntor tripolar de 1250 A/600 V, 55 kA, tipo 3VT5 H - Siemens. \\
+	    \bottomrule
+	    \end{tabular}
+	    \end{sideways}
+	\end{table}
+	
+	
+	
+	
+	

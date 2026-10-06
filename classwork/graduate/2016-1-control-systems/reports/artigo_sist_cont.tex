@@ -1,0 +1,375 @@
+\documentclass[conference,harvard,brazil,english]{sbatex}
+\usepackage[latin1]{inputenc}
+\usepackage{ae}
+\usepackage{graphicx}			% Inclusão de gráficos
+
+% LaTeX2e class SBATeX
+%
+% Versão 1.0 alpha
+%   Walter Fetter Lages
+%   w.fetter@ieee.org
+%
+% Este arquivo cba.tex é uma adaptação do arquivo revista.tex,
+% Versão: 1.0 alpha, desenvolvido por Maurício C. de Oliveira,
+% mcdeoliveira@ieee.org.
+%
+% As adaptações fazem com que, por default, sejam utilizadas
+% as opções adequadas para o formato do CBA ou SBAI, ao contrário do arquivo
+% revista.tex, que, por default, utiliza opções adequadas para o formato
+% da Revista da SBA.
+%
+%
+% --------------------------------------------------
+%
+% Para compilar este exemplo use a seqüência de comandos:
+%
+%     latex cba
+%     bibtex cba
+%     latex cba
+%     latex cba
+%
+% Para gerar um arquivo Postscript (.ps):
+%
+%     dvips -t a4 cba
+%
+% Para gerar um arquivo Portable Document Format (.pdf):
+%
+%     dvips -Ppdf -t a4 cba
+%     ps2pdf -dMaxSubsetPct=100 -dSubsetFonts=true -dEmbedAllFonts=true -dCompatibilityLevel=1.2 -sPAPERSIZE=a4 cba.ps
+%
+
+% --------------------------------------------------
+%  Estes comandos são necessários apenas para a
+%  a geração deste artigo exemplo. Eles não fazem
+%  parte do estilo SBATeX.
+% --------------------------------------------------
+\makeatletter
+\def\verbatim@font{\normalfont\ttfamily\footnotesize}
+\makeatother
+\usepackage{amsmath}
+% --------------------------------------------------
+
+\makeindex
+\begin{document}
+
+% CABEÇALHO
+
+\title{Problema da Regulação de um Oscilador de Van Der Pol com Realimentação de Saída}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% O processo de revisao do CBA 2014 sera DOUBLE BLIND, portanto NAO inclua
+% autores na versão que será submetida para revisão
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\author{Isaac Dantas, Luan Garcia,Pedro Gushiken}{pedrogush@gmail.com}
+
+\twocolumn[
+
+\maketitle
+
+\selectlanguage{brazil}
+\begin{abstract}
+  Tratamos do problema da regulação de uma planta mecânica instável descrita pelas equações de um oscilador de Van der Pol forçado, com acesso à velocidade da planta e ponto de operação no interior do ciclo limite. Para este fim linearizamos a planta em torno do ponto de operação $\bar{u} = 0.6$ e fazemos um projeto por lugar das raízes de forma a atender as especificações desejadas no domínio do tempo. Em seguida tratamos do projeto via resposta em frequência para atender a especificações semelhantes naquele domínio, explicitando o detalhe importante de que a planta deve ser estabilizada previamente antes que esta técnica de projeto possa ser empregada.
+\end{abstract}
+
+\keywords{Sistema LIT, Oscilador de Van der Pol, Regulação, Projeto de Sistemas de Controle}
+]
+
+% CONTRIBUIÇÃO
+\selectlanguage{brazil}
+\section{Introdução}
+
+Neste trabalho, lidamos com um sistema não linear conhecido como oscilador de Van der Pol. Nos propomos a tarefa de fazer com que o sistema de controle seja capaz de manter o mesmo em um determinado ponto de operação, sendo capaz de rejeitar perturbações (problema da regulação). O ponto escolhido faz com que, ao se linearizar as equações, seja obtido um modelo instável para a planta, com dois polos no semi plano direito aberto, porém muito próximos ao eixo imaginário. Neste trabalho, tratamos do projeto de um controlador usando a técnica do Lugar das Raízes e também via Resposta em Frequência do sistema previamente estabilizado, detalhando o processo de tomada de decisão em cada etapa do projeto. Usamos como referência principal \cite{ogata,chen,powell,franklin,dorf}, \nocite{trabuco}. O problema da regulação foi selecionado por ser mais simples, já que levar o sistema não-linear do repouso até o ponto de operação desejado envolve técnicas de projeto que não foram vistas no curso.
+
+\section{Formulação do Problema}
+
+
+\subsection{A. Oscilador de Van der Pol}
+Seja o oscilador de Van der Pol forçado descrito pela equação:
+
+\begin{gather}
+\ddot{y} - \mu\left(1 - y^{2}\right)\dot{y} + y = u
+\end{gather}
+
+
+Usando as técnicas de linearização discutidas em sala para $\bar{u} = 0.6$ e $\mu=0.5$ (interior do ciclo limite do sistema \cite{khalil}), produzimos as seguintes matrizes de descrição do sistema em espaço de estados:
+
+\begin{gather}
+\dot{x} = Ax +Bu\\
+y = Cx + Du\\
+A = \begin{bmatrix}
+0.32 && -1\\
+1 && 0
+\end{bmatrix}\\
+B = \begin{bmatrix}
+1\\
+0
+\end{bmatrix}\\
+C = \begin{bmatrix}
+0 && 1
+\end{bmatrix}\\
+D = 0
+\end{gather}
+
+
+
+A partir destas matrizes, obtemos a seguinte função de transferência linearizada neste ponto de operação para o oscilador:
+
+\begin{gather}
+G(s) = \frac{1}{s^{2}-0.32s+1}
+\end{gather}
+
+\subsection{B. Sensor}
+
+De forma a tornar o projeto mais prático, procuramos por um sensor cuja dinâmica tenha um efeito apreciável na resposta do sistema. Encontramos a modelagem do sensor SRV-02, que é capaz de medir uma variável de estado com característica de velocidade. Em termos, isto significa que o sistema será inicializado no ponto de operação desejado com referência nula. Usando alguns pontos da resposta em frequência do sensor obtivemos a seguinte função de transferência aproximada:
+
+\begin{gather}
+\frac{Y_{m}(s)}{Y(s)} = \frac{s}{s^{2}+9.04s+0.36}
+\end{gather}
+
+E temos que o sistema completo é da forma:
+
+\begin{equation}
+Gma(s) = \frac{s}{s^4 + 8.72s^3 - 1.533s^2 + 8.925s + 0.36}
+\end{equation}
+
+
+\section{Projeto via Lugar das Raízes}
+
+O sistema linearizado é composto por 2 polos próximos ao eixo imaginário no semi plano direito, um zero na origem e um polo muito próximo dela, em $-0.04$. É desejado que o erro do sistema em regime permanente quanto a perturbação seja nulo, de forma que, de início, somos forçados a colocar 2 integradores na origem. O tempo de estabilização determinado foi de no máximo 8 segundos, de modo que a região de
+interesse se localiza à esquerda do ponto $-0.5$, e com uma angulação de aproximadamente $58,87°$, devido ao máximo Potencial de Overshoot 
+admitido de $0.15$.
+
+\subsection{Etapas do Projeto}
+
+O sistema proposto, juntamente com a dinâmica do sensor incluída, nos gera, a seguinte função de transferência:
+
+\begin{equation}
+Gma(s) = \frac{s}{s^4 + 8.72s^3 - 1.533s^2 + 8.925s + 0.36}
+\end{equation}
+
+Como pode ser observado, é necessário o uso de dois integradores, um para cancelar um zero na origem, e outro para zerar o erro em regime 
+permanente devido à perturbação. Como o sistema possui dois polos complexos instáveis, a ideia inicial seria atrair o lugar das raízes
+para o semi-plano esquerdo através da inserção de dois zeros complexos próximos da origem. Desse modo a função candidata do controlador 
+é constituída de dois zeros complexos em $s' = -0.02 + 1j$ e $s'' = -0.02 - 1j$, e dois polos na origem. Segue abaixo a primeira função
+candidata do controlador. 
+
+\begin{equation}
+Gc1(s) = \frac{s^2 + 0.04s + 1}{s^2}
+\end{equation}
+
+Contudo, ao se observar o lugar das raízes já com o efeito do controlador, é verificado que os polos que já estão no semi-plano esquerdo
+são atraídos pelos zeros do controlador, enquanto que os do semi-plano direito não. 
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=\linewidth]{./pics/RootLocus1Controlador.png}
+  \caption{Lugar das Raízes usando a primeira função candidata a controlador}
+\end{figure}
+
+Com a intenção de atrair os polos instáveis do sistema, decidiu-se pela inserção de um zero em -1, na função candidata do controlador. 
+Devido a não realizabilidade termo derivador puro, foi inserido um polo em -10, de modo que a função de transferência do controlador ficou
+da forma como se segue.
+
+\begin{equation}
+Gc2(s) = \frac{ s^3 + 1.04 s^2 + 1.04 s + 1}{0.1 s^3 + s^2}
+\end{equation}
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=\linewidth]{./pics/RootLocus2Controlador.png}
+  \caption{Lugar das Raízes usando a segunda função candidata a controlador}
+\end{figure}
+Agora é possível se estabilizar o sistema, contudo para atender aos requisitos de potencial de overshoot e de tempo de estabilização, é
+necessário estabelecer o lugar das raízes dentro da região de interesse, anteriormente descrita. Intuitivamente, para tanto, a ideia de 
+deslocar os zeros complexos do controlador para um ponto mais à esquerda da região de interesse se fez coerente, de modo que os zeros
+anteriormente complexos foram colocados no eixo real, no ponto $-1$.
+
+\begin{equation}
+Gc3(s) = \frac{s^3 + 3 s^2 + 3 s + 1}{0.1 s^3 + s^2}
+\end{equation}
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=\linewidth]{./pics/RootLocus3Controlador.png}
+  \caption{Lugar das Raízes usando a terceira função candidata a controlador}
+\end{figure}
+
+Notadamente, o sistema se tornou novamente instável pois zeros mais distantes são menos atrativos. Finalmente, uma função do controlador obteve resultados satisfatórios, para tanto
+esta é constituída de quatro zeros em $-1$, dois polos na origem e mais dois polos em $-20$. A inserção de mais um zero se deve ao fato
+de zeros serem atrativos em relação ao lugar das raízes. Os polos, localizados em uma posição bem mais distante da origem, de modo que a
+função de transferência se seja realizável.
+
+\begin{equation}
+Gc4(s) = \frac{s^4 + 4 s^3 + 6 s^2 + 4 s + 1}{0.0025 s^4 + 0.1 s^3 + s^2}
+\end{equation}
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=\linewidth]{./pics/RootLocus4Controlador.png}
+  \caption{Lugar das Raízes usando a quarta função candidata a controlador}
+\end{figure}
+
+\subsection{Cálculo do Ganho do Controlador}
+
+A equação característica é descrita por:
+
+\begin{equation}
+1 + K.Gc4(s).G(s) = 0
+\end{equation}
+
+Dessa forma, pode-se escrever a Condição de Módulo da seguinte maneira:
+
+\begin{equation}
+|Gc4(s).G(s)| = |-\frac{1}{K}|
+\end{equation}
+
+O valor associado ao ganho, pode ser encontrado da seguinte maneira:
+
+\begin{equation}
+K = |\frac{1}{Gc4(s).G(s)}| = |\frac{Polos(s)}{Zeros(s)}| 
+\end{equation}
+
+Para se encontrar o valor do módulo de cada polo e de cada zero, basta substituir no inverso da função de transferência dada por
+$\frac{1}{Gc4(s).G(s)}$ pelo valor de $s$ relativo ponto da região de interesse, para o nosso caso o ponto $s = -0.5+0.83j$.
+
+%Imagem do Código para o Cálculo do valor de K
+ 
+\begin{equation}
+K = 11.1274 
+\end{equation}
+
+O lugar das raízes de cada candidato
+
+\section{Projeto via Resposta em Frequência}
+
+Estabelecemos as especificações do sistema para o projeto em frequência como:\\
+1)Margem de Ganho $\geq6dB$\\
+2)Margem de Fase   $\geq30^\circ$\\
+3)log(Banda Passante) $\approx$ 1\\  
+
+Antes que seja possível empregar as técnicas de resposta em frequência, é necessário estabilizar o sistema. Vimos anteriormente que para garantir o erro nulo é preciso pelo menos um integrador na malha direta. Desta forma precisamos implementar um controlador capaz de trazer os polos complexos da planta do semi plano direito para o semi plano esquerdo no lugar das raízes. Intuitivamente, o controlador mais simples capaz de realizar ambas as tarefas possui 3 zeros no semi plano esquerdo e 2 polos na origem. Afim de trabalhar com um sistema cujas margens de fase e ganho não estejam tão distantes dos valores desejados, implementamos um controlador com 3 zeros em -0.7, os 2 polos na origem devido ao erro de regime, e um polo associado em -10 necessário para função de transferência implementada seja própria. O ganho escolhido para esse controlador é de 18. Desta forma temos a seguinte função de transferência para o controlador estabilizador:
+
+\begin{equation}
+C_e(s) = \frac{18(s^3+2.1s^2+1.47s^2+0.343)}{0.1s^3+s^2}
+\end{equation}
+
+Fechando a malha para este controlador obtemos a seguinte função de transferência:
+
+\begin{equation}
+G_{mf1}(s) = \frac{18s^4 + 37.8s^3 + 26.46s^2 + 6.174s}{D_1(s)+D_2(s)}
+\end{equation}
+\begin{equation*}
+D_1(s) = 0.1 s^7 + 1.872 s^6 + 8.567 s^5 + 17.36 s^4\\
+\end{equation*}
+\begin{equation*}
+D_2(s) = 46.76 s^3 + 26.82 s^2 + 6.174 s
+\end{equation*}
+
+A partir de agora, tratamos esta função como uma função de malha aberta para fins de projeto via resposta em frequência, de forma que usaremos duas malhas de realimentação no projeto. O Diagrama de Bode da malha interna é:\\
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=\linewidth]{./pics/bode_gma.png}
+  \caption{Diagrama de Bode da Malha Interna, com Margens de Ganho e Fase}
+\end{figure}
+
+Embora a margem de ganho esteja satisfatória, a MF está abaixo do valor desejado e a banda passante do sistema é da ordem de $3rad/s$, o que indica um controlador relativamente lento em relação ao sistema a ser controlado, lembramos que o oscilador é não linear e portanto um sinal de controle que não seja capaz de responder com velocidade satisfatória eventualmente permitirá que o sistema se afaste de forma irrecuperável do ponto de operação. Desta forma precisamos de um controlador que aumente a banda passante enquanto garante os requerimentos para as margens de fase e ganho. Desta forma, escolhemos um controlador avanço, e colocamos arbitrariamente para que seu polo esteja na frequência $w_p=20rad/s$ e seu zero esteja em $w_z=1rad/s$, desta forma esperamos obter uma contribuição do avanço de fase da ordem de $60^\circ$ por volta de $w=10rad/s$ e, adicionalmente, deslocar as frequências de cruzamento de ganho e de fase para a direita. De forma que a função de transferência escolhida é:
+
+\begin{equation}
+C_f(s) = \frac{s + 1}{0.05 s + 1}
+\end{equation}
+
+Cujo Diagrama de Bode é:\\
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=\linewidth]{./pics/bode_gcf.png}
+  \caption{Diagrama de Bode do Controlador}
+\end{figure}
+
+
+
+Ao somar os Diagramas, obtemos:\\
+
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=\linewidth]{./pics/bode_comp.png}
+  \caption{Diagrama de Bode do Controlador}
+\end{figure}
+
+Que cumpre os requerimentos de margem de fase, ganho, e tem uma banda passante que consideramos satisfatória.
+
+
+\section{Resultados de simulação}
+
+Simulamos ambos os sistemas obtidos com projeto via lugar das raízes e via resposta em frequência, obtendo os gráficos relativos ao sinal de controle, posição do oscilador e variável medida (a velocidade do oscilador). Introduzimos uma perturbação positiva do tipo degrau unitário em $t=15s$. Em seguida retiramos a perturbação em $t=35s$. Finalmente, inserimos uma perturbação negativa do tipo degrau em  $t=55s$. Em todos os casos, se observa o retorno ao ponto de operação com erro nulo. Primeiramente observamos os sistemas sem a presença do ruído de medição, em seguida inserimos um pequeno ruído para observar seu efeito nos gráficos obtidos.
+
+
+\subsection{Simulação 1 - Lugar das Raízes, sem ruído}
+Os resultados se encontram na Figura 8.
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/med_delt_rlocus_nr.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/saida_osc_rlocus_nr.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/sin_cont_rlocus_nr.png}
+  \caption{$a)$Medição do Desvio do ponto de operação $b)$Posição do Oscilador $c)$Sinal de Controle}
+\end{figure}
+
+
+
+\subsection{Simulação 2 - Lugar das Raízes, com ruído}
+Para um ruído da ordem de $10^{-4}$. Os resultados se encontram na Figura 9.
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/med_delt_rlocus.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/saida_osc_rlocus.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/sin_cont_rlocus.png}
+  \caption{$a)$Medição do Desvio do ponto de operação $b)$Posição do Oscilador $c)$Sinal de Controle}
+\end{figure}
+
+
+
+
+\subsection{Simulação 3 - Resposta em Frequência, sem ruído}
+
+Os resultados se encontram na Figura 10.
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/med_delt_freq_nr.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/saida_osc_freq_nr.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/sin_cont_freq_nr.png}
+  \caption{$a)$Medição do Desvio do ponto de operação $b)$Posição do Oscilador $c)$Sinal de Controle}
+\end{figure}
+
+\subsection{Simulação 4 - Resposta em Frequência, com ruído}
+
+E, para um ruído da ordem de $10^{-4}$. os resultados se encontram na Figura 11.
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/med_delt_freq.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/saida_osc_freq.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/sin_cont_freq.png}
+  \caption{$a)$Medição do Desvio do ponto de operação $b)$Posição do Oscilador $c)$Sinal de Controle}
+\end{figure}
+
+
+\section{Conclusões}
+
+Como vimos, fomos capazes de atender às especificações desejadas para o problema da regulação do oscilador de Van der Pol forçado, sendo bem sucedidos em mantê-lo no ponto de operação para perturbação do tipo degrau unitário, independente do sinal. Os controladores escolhidos são capazes de estabilizar o comportamento do oscilador.
+
+% BIBLIOGRAFIA 
+\bibliography{bib-controleadaptativo}
+\end{document}

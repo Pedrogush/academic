@@ -1,0 +1,84 @@
+\documentclass[a4paper,11pt]{report}
+% define the title
+\usepackage{graphicx}
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}		%Usar acentos diretos do teclado
+\usepackage[T1]{fontenc}		%Padrão para imagens
+\usepackage{subfigure}
+\usepackage{rotating}
+\usepackage{longtable}
+\usepackage{amsmath}
+\author{Pedro Gushiken}
+\date{4 de Abril de 2015}
+\title{Controle Adaptativo de Velocidade de uma Máquina CC em vazio pela regra do MIT e pelo m\'{e}todo da sensibilidade}
+\begin{document}
+% generates the title
+\maketitle
+
+\tableofcontents
+\chapter{Introdução}
+\paragraph{Modelo da Máquina}
+O modelo da máquina CC é descrito pelas seguintes equações de estado:
+\begin{subequations}
+
+$
+X=
+\begin{bmatrix}
+I_{a} \\
+W_{r}
+\end{bmatrix}
+$
+
+~
+
+$
+U=
+\begin{bmatrix}
+V_{a}\\
+T_{m}
+\end{bmatrix}
+$
+
+~
+
+$
+\begin{bmatrix}
+\dot{I}_{a} \\
+\dot{W}_{r}
+\end{bmatrix}
+=
+\begin{bmatrix}
+-\frac{R_{a}}{L_{a}}-\frac{K_{e}\lambda_{e}}{L_{a}} \\
+\frac{K_{e}\lambda_{e}}{J_{m}}-\frac{F_{m}}{J_{m}}
+\end{bmatrix}
+\begin{bmatrix}
+I_{a}\\
+W_{r}
+\end{bmatrix}
++
+\begin{bmatrix}
+1/L_{a} & 0 \\
+0 & -1/J_{m}
+\end{bmatrix}
+\begin{bmatrix}
+V_{a}\\
+T_{m}
+\end{bmatrix}
+$
+\end{subequations}
+
+Escolhemos controlar a máquina apenas a partir da tensão de armadura $V_{a}$ e a partir deste ponto projetamos um controlador tendo em mente o cancelamento de polos. E usamos os seguintes parâmetros para a máquina:
+K_{e}=476.16
+
+
+\paragraph{Modelo do Controlador com parâmetros conhecidos}
+\chapter{Implementação do Controle Adaptativo através da regra do MIT}
+
+\chapter{Implementação do Controle Adaptativo através do método da sensibilidade}
+
+\chapter{Convergência dos parâmetros do controlador}
+\paragraph{Para uma referência constante}
+\paragraph{Para uma referência persistentemente excitante}
+\chapter{Conclusão}
+% insert the table of contents
+\end{document}

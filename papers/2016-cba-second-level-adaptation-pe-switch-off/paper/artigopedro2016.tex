@@ -1,0 +1,440 @@
+\documentclass[conference,harvard,brazil,english]{sbatex}
+\usepackage[latin1]{inputenc}
+\usepackage{ae}
+\usepackage{graphicx}			% Inclusão de gráficos
+
+% LaTeX2e class SBATeX
+%
+% Versão 1.0 alpha
+%   Walter Fetter Lages
+%   w.fetter@ieee.org
+%
+% Este arquivo cba.tex é uma adaptação do arquivo revista.tex,
+% Versão: 1.0 alpha, desenvolvido por Maurício C. de Oliveira,
+% mcdeoliveira@ieee.org.
+%
+% As adaptações fazem com que, por default, sejam utilizadas
+% as opções adequadas para o formato do CBA ou SBAI, ao contrário do arquivo
+% revista.tex, que, por default, utiliza opções adequadas para o formato
+% da Revista da SBA.
+%
+%
+% --------------------------------------------------
+%
+% Para compilar este exemplo use a seqüência de comandos:
+%
+%     latex cba
+%     bibtex cba
+%     latex cba
+%     latex cba
+%
+% Para gerar um arquivo Postscript (.ps):
+%
+%     dvips -t a4 cba
+%
+% Para gerar um arquivo Portable Document Format (.pdf):
+%
+%     dvips -Ppdf -t a4 cba
+%     ps2pdf -dMaxSubsetPct=100 -dSubsetFonts=true -dEmbedAllFonts=true -dCompatibilityLevel=1.2 -sPAPERSIZE=a4 cba.ps
+%
+
+% --------------------------------------------------
+%  Estes comandos são necessários apenas para a
+%  a geração deste artigo exemplo. Eles não fazem
+%  parte do estilo SBATeX.
+% --------------------------------------------------
+\makeatletter
+\def\verbatim@font{\normalfont\ttfamily\footnotesize}
+\makeatother
+\usepackage{amsmath}
+% --------------------------------------------------
+
+\makeindex
+\begin{document}
+
+% CABEÇALHO
+
+\title{Adaptação de Segundo Nível Usando Modelos Fixos com Desligamento do Sinal Persistentemente Excitante}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% O processo de revisao do CBA 2014 sera DOUBLE BLIND, portanto NAO inclua
+% autores na versão que será submetida para revisão
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\author{Pedro Yochinori Gushiken}{pedrogush@gmail.com}
+\author[1]{Aldayr Dantas de Araújo}{aldayr@dca.ufrn.br}
+\address{Universidade Federal do Rio Grande do Norte\\ Laboratório de Automação, Controle e Instrumentação\\ Natal, Rio Grande do Norte, Brasil}
+
+
+\twocolumn[
+
+\maketitle
+
+\selectlanguage{english}
+\begin{abstract}
+  A new approach, described as second level adaptation, was introduced in \cite{han2012} for the control of 
+  unknown linear time-invariant plants using multiple identification models, and its robustness properties
+  were 
+  discussed in \cite{narendra_main}. If $\theta_p \in R^n$, and if the unknown parameter vector of a LTI system lies in the 
+  convex hull $P(0)$ of (n+1) vectors $\theta_i(0)$ in parameter space, then the estimate 
+  $\hat{\theta}_p(t)$ may be computed from a linear convex combination of the (n+1) vectors and the problem 
+  of 
+  identifying the plant parameter vector becomes that of estimating the coefficient vector $\bar{\alpha}(t)$ 
+  such that $\bar{\Theta}\bar{\alpha}(t) = \theta_p$, with $\bar{\Theta}$ being the matrix formed by the 
+  (n+1) vectors. If the representations of the plants and models are in companion form, and all the state 
+  variables are accessible, simulation results were presented to demonstrate that the new method would result 
+  in much better performance than conventional adaptive control. In this paper, we introduce a scheme for turning off the persistently exciting signal needed for 
+  identification after the convergence of the parameter estimates by evaluating the rate of adaptation of the 
+  coefficients $\alpha$. We also highlight some details regarding the implementation of the second level 
+  adaptation concept, namely the need for projection of the coefficients $\alpha$ and the possibility of 
+  choosing a gain for the adaptive equation for $\dot{\alpha}$.
+\end{abstract}
+
+\keywords{Adaptive Control, Identification, Persistently Exciting Signal, Multiple Models}
+
+\selectlanguage{brazil}
+\begin{abstract}
+  Uma nova abordagem, descrita como adaptação de segundo nível, foi introduzida em \cite{han2012} para o controle de plantas lineares invariantes no tempo usando múltiplos modelos de identificação, e suas propriedades de robustez foram discutidas em \cite{narendra_main}. Se $\theta_p \in R^n$, e se o vetor de parâmetros desconhecidos de um sistema LTI se encontra no fecho convexo $P(0)$ de (n+1) vetores $\theta_i(0)$ no espaço de parâmetros, então a estimativa $\hat{\theta}_p(t)$ pode ser calculada como uma combinação linear convexa dos (n+1) vetores e o problema da identificação do vetor de parâmetros da planta se torna o de estimar o vetor de coeficientes $\bar{\alpha}(t)$ tal que $\bar{\Theta}\bar{\alpha}(t) = \theta_p$, com $\bar{\Theta}$ sendo a matriz formada pelos (n+1) vetores. Se as representações das plantas e modelos se encontram em forma canônica, e todas as variáveis de estado são acessíveis, resultados de simulação demonstraram que o novo método resulta em uma melhoria significativa de desempenho em relação ao controle adaptativo convencional. Neste trabalho, introduzimos uma estratégia para o desligamento do sinal persistentemente excitante necessário para a identificação após a convergência das estimativas dos parâmetros através da avaliação da taxa de adaptação dos coeficientes $\alpha$. Também destacamos alguns detalhes em relação à implementação do conceito de adaptação de segundo nível: a necessidade do uso de técnicas de projeção nos coeficientes $\alpha$ e a possibilidade de escolher um ganho para a equação adaptativa para $\dot{\alpha}$.
+\end{abstract}
+
+\keywords{Controle Adaptativo, Identificação, Sinal Persistentemente Excitante, Múltiplos Modelos}
+]
+
+% CONTRIBUIÇÃO
+\selectlanguage{brazil}
+\section{Introdução}
+O controle adaptativo tem sido estudado como forma de lidar com incertezas paramétricas desde os anos de 1960 e uma literatura extensiva existe na área \cite{ioannou2,narendrabook,tao,goodwin,krstic}. Hoje é geralmente aceito que quando tais incertezas são pequenas o controle adaptativo convencional é capaz de garantir estabilidade e robustez do sistema. No entanto, na presença de grandes incertezas paramétricas, o que se observa são comportamentos transitórios muito oscilatórios. Na tentativa de lidar com grandes incertezas paramétricas, uma abordagem envolvendo o uso de múltiplos modelos de identificação, que delimitem um fecho convexo dentro do qual o vetor de parâmetros da planta se localiza, foi proposta em \cite{han2012}. Esta abordagem apresenta propriedades promissoras de robustez, estabilidade e rapidez de convergência como mostrado em \cite{narendra_main}, pois as informações dos diferentes modelos são usadas em conjunto. No entanto, para que se garanta a convergência das estimativas dos parâmetros da planta para seus valores corretos, é necessário que seja introduzido na planta um sinal persistentemente excitante, como por exemplo um sinal rico em frequências. Tais sinais, por definição, produzem respostas oscilatórias na saída da planta, o que de forma geral é indesejável.
+
+Neste trabalho, introduzimos uma figura de mérito $\eta \in [0,1[$, que nos permite avaliar qual a rapidez de atualização das estimativas dos parâmetros da planta. A partir desta avaliação podemos decidir com algum grau de confiança se o vetor de parâmetros $\hat{\alpha}$ atingiu seus valores corretos. Explicitamos um detalhe relativo à projeção do vetor de parâmetros $\hat{\alpha}$ e mostramos que é possível obter tempos de convergência ainda menores caso introduzamos um ganho na equação de adaptação de $\hat{\alpha}$. 
+
+\section{Formulação do Problema}
+
+Discutimos aqui algumas ideias referentes ao controle adaptativo convencional quando o objetivo é fazer com que a planta rastreie a saída de um modelo de referência. Assumimos que o vetor de estado da planta é acessível e que as matrizes $A_p$ da planta e $A_m$ do modelo estão em forma canônica.
+
+\subsection*{A. Controle Adaptativo Convencional com Variáveis de Estado Acessíveis}
+
+Seja a planta descrita por:
+\begin{equation}
+\Sigma_p: \dot{x}_p(t) = A_p x_p(t) + b u(t)
+\end{equation}
+
+\noindent onde $x_p(t) \in R^n$, $u(t) \in R$ e $A_p$ e $b$ estão na seguinte forma canônica:
+
+\[ 
+A_p =
+ \begin{bmatrix}
+    0       & 1       &  0       &  ... &  0      \\
+    0       & 0       &  1       &  ... &  0      \\
+    0       & 0       &  0       &  ... &  0      \\
+    ...     & ...     &  ...     &      &  ...    \\
+    a_1     & a_2     &  a_3     &  ... &  a_n
+  \end{bmatrix}
+  ,b=
+  \begin{bmatrix}
+  0\\
+  0\\
+  0\\
+  ...\\
+  1
+  \end{bmatrix}
+\]
+
+Consideremos o vetor $b$ conhecido e os parâmetros $[a_1,a_2,...,a_n]$ como sendo desconhecidos. Seja o vetor $\theta_p^T = [a_1,a_2,...,a_n]$ o vetor de parâmetros desconhecidos da planta e assumimos que o mesmo se localiza em uma região conhecida do $R^n$. 
+
+Seja o modelo de referência descrito por:
+\begin{equation}
+\Sigma_m: \dot{x}_m(t) = A_m x_m(t) + b r(t)
+\end{equation}
+
+\noindent com $A_m$ no mesmo formato de $A_p$, escolhido de forma que o modelo de referência seja estável. A referência $r(t)$ é escolhida pelo projetista e uniformemente limitada.
+
+\subsection*{B. Caracterização}
+Queremos escolher a entrada $u(t)$, na presença de incertezas paramétricas, que garanta a saída da planta seguindo a saída do modelo de forma assintótica. Adicionalmente, queremos que o vetor de estimativas dos parâmetros da planta tenda aos valores corretos e que a referência não seja um sinal rico em frequências para todo o tempo $t$. O controle adaptativo direto e indireto são duas formas de resolver este problema. Neste trabalho discutiremos apenas conceitos ligados ao método indireto proposto.
+
+No controle adaptativo indireto convencional, escolhemos a entrada:
+\begin{equation}
+u(t) = r(t) + k^T x_p(t)
+\end{equation}
+O modelo usado para identificação:
+\begin{equation}
+\dot{\hat{x}}_p = A_m\hat{x}_p(t) + [A_1(t)-A_m]x_p(t) +bu(t)
+\end{equation}
+que gera o erro entre os vetores de estado da planta e de sua estimativa:
+\begin{equation}
+e_1(t) = \hat{x}_p(t) - x_p(t)
+\end{equation}
+
+\noindent onde $A_1$ se encontra na forma canônica mostrada anteriormente e sua última linha consiste do vetor $\theta_1^T$ adaptado através de:
+\begin{equation}
+\dot{\theta_1} = -{e_1}^TPbx_p(t)
+\end{equation}
+
+\noindent e $k^T$ da lei de controle é dado por:
+
+\begin{equation}
+k^T = \theta_m - \theta_1
+\end{equation}
+
+\noindent onde $\theta_m$ corresponde à ultima linha transposta da matriz $A_m$ e $\theta_1$ é um estimativa de $\theta_p$. 
+
+\section{Adaptação de Segundo Nível}
+
+\subsection*{A. Fecho Convexo}
+Em \cite{han2012}, foi provado que, se $\theta_p$ se encontra em um fecho convexo de pelo menos n+1 vetores adaptativos $\theta_i(0)$, e as condições iniciais da planta e dos modelos são iguais, então o fecho convexo formado por $\theta_i(0)$ continuará a conter $\theta_p$ para todo o tempo. Desta forma, é possível calcular $\theta_p$ através de uma combinação convexa dos vetores $\theta_i(t)$. 
+\begin{equation}
+\sum_{i=1}^N \alpha_i \theta_i = \theta_p ~,~~ \sum_{i=1}^N \alpha_i=1
+\end{equation}
+
+\noindent ou seja, o problema da estimação de $\theta_p$ pode ser transformado no problema da estimação de $\alpha_i$. 
+É possível usar esta propriedade do fecho para combinar múltiplos modelos usando a estratégia de adaptação 
+convencional, e também se torna possível o uso de múltiplos modelos fixos.
+
+\subsection*{B. Múltiplos Modelos}
+
+Sejam os modelos de identificação:
+\begin{equation}
+\Sigma_i: \dot{x}_i = A_m x_i(t) + [A_i(t)-A_m]x_p(t) +bu(t)
+\end{equation}
+onde $\theta_i^T$ é a última linha de cada matriz $A_i$ e $\theta_i$ pode ser fixo ou adaptado segundo as leis convencionais.
+
+Sabemos que, se $\theta_p$ se encontra no fecho convexo delimitado por pelo menos $n+1$ modelos, existem $0\leq\alpha_i\leq1$, e $\sum_{i=1}^{n+1}\alpha_i=1$ tal que: 
+\begin{equation}
+\sum_{i=1}^{n+1}\alpha_i\theta_i(t_0) = \theta_p
+\end{equation}
+
+Definimos o erro entre os modelos e a planta:
+\begin{equation}
+e_i(t) =x_i(t)-x_p(t) 
+\end{equation}
+e o erro entre os parâmetros da planta e dos modelos:
+\begin{equation}
+ \phi_i(t) = \theta_i(t) - \theta_p
+\end{equation}
+
+Então segue que:
+\begin{equation}
+\sum_{i=1}^{n+1}\alpha_i\phi_i(t_0) = \theta_p - \sum_{i=1}^{n+1}\alpha_i\theta_i(t_0) = 0
+\end{equation}
+
+Destas equações, temos que:
+    \begin{equation}
+    \sum_{i=1}^{n+1}\alpha_i e_i(t) = 0
+    \end{equation}
+    
+E, em forma matricial:
+\begin{equation}
+\bar{\Theta}(t)\bar{\alpha} = \theta_p
+\end{equation}
+\begin{equation}
+\bar{E}(t)\bar{\alpha} = 0
+\end{equation}
+
+\noindent onde $\bar{\Theta}$ e $\bar{E}$ são matrizes $n\times(n+1)$.
+
+Podemos expressar:
+\begin{equation}
+\Theta(t)\alpha = \theta_p - \theta_{n+1}
+\end{equation}
+\begin{equation}
+E(t)\alpha = -e_{n+1}(t)
+\end{equation}
+
+\noindent onde $\Theta(t)$ e $E(t)$ são matrizes $n\times n$, onde cada vetor coluna é $\theta_i(t)-\theta_{n+1}(t)$ e $e_i(t)-e_{n+1}(t)$, respectivamente, e $\alpha^T = [\alpha_1,...,\alpha_n]$. A partir de (18), podemos obter uma lei adaptativa para $\alpha$:
+
+\begin{equation}
+\dot{\hat{\alpha}}=-E^T(t)E(t)\hat{\alpha}-E^T(t)e_{n+1}(t)
+\end{equation}
+
+Notamos que a multiplicação da equação no lado direito por um escalar não altera o ponto de equilíbrio. E definindo o erro entre a estimativa $\hat{\alpha}$ e seu valor correto $\alpha$ como $\tilde{\alpha} = \hat{\alpha}(t) - \alpha$, temos a equação:
+\begin{equation}
+\dot{\tilde{\alpha}} = -E^T(t)E(t)\tilde{\alpha}
+\end{equation}
+
+Alternativamente, $\alpha$ pode ser calculado algebricamente por:
+\begin{equation}
+\alpha = E^{-1}(t)e_{n+1}(t)
+\end{equation}
+
+\noindent onde $e_{n+1}$ é o erro do modelo (n+1):
+
+\begin{equation}
+e_{n+1} = x_{n+1} - x_p
+\end{equation}
+
+\section{Desligamento do Sinal Persistentemente Excitante}
+
+Para garantir a convergência dos parâmetros, tanto no controle adaptativo convencional quanto na adaptação de segundo nível, é necessária na entrada da planta a presença de um sinal persistentemente excitante, como por exemplo um sinal rico em frequências, de forma que seja garantido um certo nível de excitação da planta. De forma geral, para cada dois parâmetros a serem estimados, é necessária uma senoide numa frequência capaz de excitar a planta. No entanto, a introdução de um sinal senoidal em uma planta linear produz uma saída com essa mesma característica. Desejamos eliminar este sinal quando o mesmo não for mais necessário.\\
+
+Definimos a figura de mérito $\eta$ como:
+\begin{equation}
+\eta = q\frac{\dot{\hat{\alpha}}^T\dot{\hat{\alpha}}}{1+q\dot{\hat{\alpha}}^T\dot{\hat{\alpha}}}
+\end{equation}
+
+\noindent onde $q>0$ é um escalar, de forma que, para $\dot{\hat{\alpha}} \uparrow$ grande tenhamos o valor de $\eta \rightarrow 1$ e
+quando $\dot{\hat{\alpha}} \downarrow$, $\eta \rightarrow 0$. 
+
+Introduzimos o seguinte sinal de referência:
+\begin{equation}
+\label{eq:sigmaIDMARC}
+\displaystyle r(t) = \left\{
+\begin{array}{rl}
+        r_1(t),          &\mbox{ se $\eta<m$ } \\
+        r_2(t), & \mbox{ $\eta\geq m$ }
+\end{array}, \right.
+\end{equation}
+onde
+\begin{equation}
+\dot{r}_1(t) = v*(-r(t) + c)
+\end{equation}
+\begin{equation}
+r_2(t) = c + l\sum_{i=1}^{ceil(n/2)}sin(w_it)
+\end{equation}
+
+As constantes $c,l,m,w_i,v$ são escolhidas pelo projetista com $m,l\in]0,1[$ $v,w_i>0$. $r_2(t)$ é rico em frequências em relação a uma planta de ordem $n$. A função $ceil(n/2)$ tem valor $n/2$ quando $n$ é par e valor $(n/2+1/2)$ quando n é ímpar.
+
+\section{Controle e Identificação}
+
+Nesta seção, discutiremos apenas os resultados obtidos usando a equação (19) para adaptar $\hat{\alpha}$, 
+modificada da seguinte forma:
+\begin{equation}
+\dot{\hat{\alpha}}=-\gamma E^T(t)E(t)\hat{\alpha}-\gamma E^T(t)e_{n+1}(t)
+\end{equation}
+onde $\gamma$ é um escalar positivo.\\
+
+
+ Começamos com estudos de simulação para plantas instáveis, que devem ser controladas para garantir a saída 
+ uniformemente limitada. Os modelos de identificação escolhidos são fixos.
+
+\subsection{Projeção}
+Um detalhe importante na adaptação de $\hat{\alpha}$, é que a equação (19) não garante que $0\leq\hat{\alpha}_i\leq1$ e, desta forma, é necessário implementar projeção destes parâmetros, já que $\hat{\alpha}$ deve se manter no fecho convexo. Como a região em que $\hat{\alpha}$ se encontra é retangular para os parâmetros $i=1,...,n$, implementamos as seguintes modificações no algoritmo:
+
+
+% %fazer a chave
+
+\begin{equation}
+\label{eq:sigmaIDMARC}
+\displaystyle \dot{\hat{\alpha}}_i = \left\{
+\begin{array}{rl}
+        0,          &\mbox{ se $\hat{\alpha}_i\geq 1$ e $\dot{\hat{\alpha}}_i>0$ } \\
+        &\mbox{ou $\hat{\alpha}_i\leq 0$ e $\dot{\hat{\alpha}}_i<0$}\\
+        \dot{\hat{\alpha}}_i, &\mbox{caso contrário}
+\end{array} \right.
+\end{equation}
+
+e como $1-\sum_{i=1}^{n}\hat{\alpha}_i = \hat{\alpha}_{n+1}$, e $-\sum_{i=1}^{n}\dot{\hat{\alpha}}_i = \dot{\hat{\alpha}}_{n+1}$:
+
+\begin{equation}
+\label{eq:sigmaIDMARC}
+\displaystyle \dot{\hat{\alpha}}_i = \left\{
+\begin{array}{rl}
+        0,          &\mbox{ se $\hat{\alpha}_{n+1}\geq 1$ e $\dot{\hat{\alpha}}_{n+1}>0$ } \\
+        &\mbox{ou $\hat{\alpha}_{n+1}\leq 0$ e $\dot{\hat{\alpha}}_{n+1}<0$}\\
+        &\mbox{e $sgn(\dot{\hat{\alpha}}_{n+1}) = sgn(\dot{\hat{\alpha}}_{i})$}\\
+        \dot{\hat{\alpha}}_i, &\mbox{caso contrário}
+\end{array} \right.
+\end{equation}
+
+\subsection{Simulação 1 - Planta Instável de Segunda Ordem}
+
+Para demonstrar os resultados obtidos, simulamos uma planta de segunda ordem sem ruído de medição e sem perturbações. O vetor de parâmetros da planta é $\theta_p^T = [2.3 -3.6]$, correspondendo à função de transferência $G(s) = \frac{1}{s^2 + 3.6s - 2.3}$. Escolhemos os modelos de identificação $\theta_1^T = [-4 -5]$,  $\theta_2^T = [-3 -2]$,  $\theta_3^T = [8 -4]$. Queremos que a planta siga o modelo de referência $\theta_m^T = [-4 -4]$. Partimos do repouso com a planta e modelos de identificação, e escolhemos $x_m^T(0) = [0.2~0.3]$ e as condições iniciais da estimativa da planta $\hat{\alpha}^T(0) = [0~~1]$. Escolhemos $c=5$, $\gamma=20$, $q=10^4$, $v=10$, $l=0.2$, $w_1 =1$, $m=10^{-2}$. Os resultados se encontram na Figura 1. Em particular, verificamos que os parâmetros convergem para seus valores corretos após deslizar na superfície do fecho durante algum tempo. E também que, dada esta convergência, a parcela PE da referência é desligada pois $\eta\rightarrow0$ .
+
+
+
+
+\subsection{Simulação 2 - Planta Instável de Terceira Ordem}
+Simulamos também uma planta de terceira ordem sem ruído de medição e sem perturbações. O vetor de parâmetros da planta é $\theta_p^T = [-6~9~2]$, correspondendo à função de transferência $G(s) = \frac{1}{s^3 -2s^2 - 9s + 6}$. Escolhemos os modelos de identificação $\theta_1^T = [-8~7-1]$,  $\theta_2^T = [-2~13~6]$,  $\theta_3^T = [14~-6-2]$ e $\theta_4^T = [-15~~7~~9]$. Queremos que a planta siga o modelo de referência $\theta_m^T = [-9-10-12]$. Partimos com a planta e modelos de identificação com as condições iniciais $x_p^T(0) = x_i^T(0) = [0.1~0.2~0.3]$ e com o modelo de referência em repouso, e as condições iniciais da estimativa da planta $\hat{\alpha}^T(0) = [0~~0~~0]$. Escolhemos $c=5$, $\gamma=100$, $q=10^4$, $v=10$, $l=0.2$, $w_1 =1$,$w_2=2$, $m=10^{-2}$. Os resultados se encontram na Figura 2. Novamente, os parâmetros convergem e a parcela PE da referência é desligada.
+
+
+
+
+\subsection{Simulação 3 - Planta Instável de Segunda Ordem com Perturbação na Entrada}
+
+Neste caso introduzimos uma perturbação na planta de segunda ordem estudada na simulação 1,  no tempo $t_0 = 16s$, com $p(t_0)=-1$, e retiramos a perturbação em $t_1=22s$. Observamos que a introdução de uma perturbação na planta se reflete nas estimativas dos parâmetros e que, após a retirada, os valores retornam para uma vizinhança de $\theta_p$. Os resultados se encontram na Figura 3. 
+
+
+
+
+\subsection{Simulação 4 - Planta Instável de Segunda Ordem com Ruído de Medição}
+
+Também simulamos o que acontece no caso em que as medidas das variáveis de estado da planta não são livres de ruído. Com um ruído distribuído de forma normal no valor de $\pm7.5\%$ do valor da saída em regime permanente introduzido nas medições das variáveis de estado da planta, se verificou a convergência dos parâmetros e do erro de saída, porém com os seguintes ajustes: $m=0.2$, $\gamma=20$. Os resultados se encontram na Figura 4. Nota-se a influência do ruído mais pronunciadamente em $\eta$, enquanto que os outros gráficos permanecem praticamente idênticos aos da simulação 1. Todas as simulações foram feitas usando passo de integração fixo $h=10^{-3}s$
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=0.8\linewidth]{./pics/SIM1_Traj.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM1_ETA.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM1_E0.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM1_SinalCont.png}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/SIM1_Saida.png}
+  \caption{$a)$Trajetória dos parâmetros $b)$Comportamento da figura de Mérito $\eta$ $c)$Norma do vetor de erros entre as variáveis de estado da planta e do modelo de referência $d)$Sinal de Controle $e)$Comportamento da Saída da Planta, Referência/Ganho Estático e Saída do Modelo de Referência}
+\end{figure}
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=0.8\linewidth]{./pics/SIM2_Traj.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM2_ETA.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM2_E0.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM2_SinalCont.png}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/SIM2_Saida.png}
+  \caption{$a)$Trajetória dos parâmetros em termos do valor de cada $\alpha_i$ $b)$Comportamento da figura de Mérito $\eta$ $c)$Norma do vetor de erros entre as variáveis de estado da planta e do modelo de referência $d)$Sinal de Controle $e)$Comportamento da Saída da Planta, Referência/Ganho Estático e Saída do Modelo de Referência}
+\end{figure}
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=0.8\linewidth]{./pics/SIM3_Traj.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM3_ETA.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM3_E0.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM3_SinalCont.png}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/SIM3_Saida.png}
+  \caption{$a)$Trajetória dos parâmetros onde a linha em verde é o caminho feito após a introdução da perturbação $b)$Comportamento da figura de Mérito $\eta$ $c)$Norma do vetor de erros entre as variáveis de estado da planta e do modelo de referência $d)$Sinal de Controle $e)$Comportamento da Saída da Planta, Referência/Ganho Estático e Saída do Modelo de Referência}
+\end{figure}
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=0.8\linewidth]{./pics/SIM4_Traj.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM4_ETA.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM4_E0.png}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./pics/SIM4_SinalCont.png}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/SIM4_Saida.png}
+  \caption{$a)$Trajetória dos parâmetros $b)$Comportamento da figura de Mérito $\eta$ $c)$Norma do vetor de erros entre as variáveis de estado da planta e do modelo de referência $d)$Sinal de Controle $e)$Comportamento da Saída da Planta, Referência/Ganho Estático e Saída do Modelo de Referência}
+
+\end{figure}
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\section{Conclusões}
+A adaptação de segundo nível se mostra uma alternativa promissora em relação aos métodos convencionais de identificação e controle de plantas LTI com incertezas, dentro das limitações discutidas, pois demonstra boa rapidez de convergência dos parâmetros para seus valores corretos. As propriedades de robustez e estabilidade são iguais ou melhores que as da adaptação convencional, como mostrado em \cite{narendra_main}. Também mostrou-se nas simulações que a necessidade da presença de um sinal PE de forma a garantir tal convergência pode ser avaliada por uma figura de mérito criada a partir das leis adaptativas escolhidas.
+
+\section{Agradecimentos}
+
+Estendemos nosso obrigado à Universidade Federal do Rio Grande do Norte e aos nossos colegas no Laboratório de Automação, Controle e Instrumentação que possibilitaram a existência deste trabalho. Somos gratos à CAPES e CNPq pelas bolsas de fomento que permitem a continuidade sustentável dos trabalhos de pesquisa. Finalmente gostaríamos de agradecer especificamente a Leonardo Rodrigues de Lima Teixeira pela ajuda prestada, intuições, conceitos e revisões.
+    
+% BIBLIOGRAFIA 
+\bibliography{bib-controleadaptativo}
+\end{document}

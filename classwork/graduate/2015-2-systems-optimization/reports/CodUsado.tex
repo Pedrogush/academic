@@ -1,0 +1,257 @@
+\subsection*{Declaração das funções}
+
+\begin{verbatim}
+//definição da func. rosenbrock segundo o arquivo enviado
+function [x] = funcR(a,b)
+x = 100*(0.004*b-(0.004*a)^2)^2+(1-0.004*a)^2
+endfunction
+
+//definição da função z
+function [x] = funcZ(a,b)
+x = a*sin(sqrt(abs(a))) - b*sin(sqrt(abs((b))))
+endfunction
+
+//definição das funções pertinentes à w13
+function [x] = funcw1(a, b)
+a1 = funcR(a, b)
+a2 = funcZ(a, b)
+x = a1+a2
+endfunction
+
+function [x] = funcw3(a, b)
+a1 = funcR(a,b)
+a2 = funcZ(a,b)
+x = a1-a2
+endfunction
+
+function [x] = funcw4ant(a,b)
+a1 = funcR(a,b)
+a2 = funcZ(a,b)
+x = sqrt(a1^2 + a2^2)
+endfunction
+
+//definição de w13, func. a ser minimizada
+function [x] = funcw13(a,b)
+x = sqrt(abs(funcw1(a,b))) + sqrt(abs(funcw3(a,b))) - funcw4ant(a,b)*cos(0.004*a)
+endfunction
+
+\end{verbatim}
+
+\subsection*{Algoritmo da Nuvem de Partículas}
+\begin{verbatim}
+
+//inicialização do vetor de população de tamanho m=101, localizados numa diagonal do espaço de busca
+xpop = [-500:10:500;-500:10:500]
+//inicialização do vetor de melhor posição alcançada para um membro da pop.
+ppop = [-500:10:500;-500:10:500]
+//inicialização do vetor velocidade para cada membro da população
+vpop = zeros(2, 101)
+//inicialização das variáveis de melhor/mínimo global, g1 corresponde ao eixo x e g2 ao eixo y
+g1 = 0
+g2 = 0 
+//constantes pertinentes ao método usado (particle swarm, enxame de partículas) 
+c1 = 2
+c2 = 2
+peso = 0.70
+
+for k=1:50
+// condição de término é a de rodar 100 iterações do código
+    for l=1:101
+//para cada um dos membros da população definida rode:
+        if funcw13(xpop(1,l),xpop(2,l))<funcw13(ppop(1,l),ppop(2,l)) then
+           ppop(1,l) = xpop(1,l)
+           ppop(2,l) = xpop(2,l)
+           //se o valor de w13 é menor para esta posição xpop que ppop, grave em ppop
+        end
+           if funcw13(xpop(1,l),xpop(2,l))<funcw13(g1,g2) then
+           g1 = xpop(1,l)
+           g2 = xpop(2,l)
+           //se o valor de w13 é menor para esta posição de xpop que g1 e g2, grave em g1 e g2
+       end
+        r11 = rand()
+        r12 = rand()
+        r21 = rand()
+        r22 = rand()
+//escolha dos números randômicos a cada iteração do laço
+        vpop(1,l) = peso*vpop(1,l) + c1*r11*(ppop(1,l) - xpop(1,l)) + c2*r12*(g1 -         xpop(1,l))
+        vpop(2,l) = peso*vpop(2,l) + c1*r21*(ppop(2,l) - xpop(2,l)) + c2*r22*(g2 -         xpop(2,l))
+//determinação das velocidades
+        xpop(1,l) = xpop(1,l) + vpop(1,l)
+        xpop(2,l) = xpop(2,l) + vpop(2,l)
+//determinação das posições
+        if xpop(1,l)>=500 then
+            xpop(1,l) = 500
+        end
+        if xpop(1,l)<=-500 then
+            xpop(1,l) = -500
+        end
+        if xpop(2,l)>=500 then
+            xpop(2,l) = 500
+        end
+        if xpop(2,l)<=-500 then
+            xpop(2,l) = -500
+        end
+//projeção do espaço de busca nos eixos x e y (nos limitamos ao retângulo delimitado por -500<=x<=500 e -500<=y<=500.)
+    end
+end
+\end{verbatim}
+
+\subsection*{Algoritmo Genético e funções pertinentes à cadeias de bit}
+\begin{verbatim}
+
+//retornar a cadeia de bits para o membro da população index em xpop ou ypop
+function [x] = extCBit(a, index)
+    s = size(a)
+    x = zeros(s(1), 1)
+    for h=1:s(1)
+        x(h, 1) = a(h, index)
+    end
+endfunction
+
+// converter o valor da cadeia de bits para o valor real dados os limites
+function [x] = retCBit(a, LimS, LimI)
+    x = 0
+    for h=1:length(a)
+        x = x + a(h)*2^(h-1)
+    end
+    x = LimI+x*(LimS - LimI)/(2^(length(a)+1)-1)
+endfunction
+
+//função de randomização de um bit
+function [x] = ranBit(bit)
+x = bit
+    if rand()>0.5 then
+        x= 1
+    else
+        x=0       
+    end
+endfunction
+
+//função de randomização de uma cadeia de bits
+function [a] = ranCBit(a)
+    for h=1:length(a)
+        a(h)= ranBit(a(h))
+    end
+endfunction
+
+//cálculo da aptidão de duas cadeias de bit x e y
+function [x] = aptCBit(a, b)
+    a1 = retCBit(a, 500, -500)
+    a2 = retCBit(b, 500, -500)
+    x = 1/(funcw13(a1, a2) + 600)
+endfunction
+
+//função crossover entre duas cadeias de bit
+function [x, y] = crossover(a,b)
+    l = rand()
+    pcorte = (l - modulo(l, 1/length(a)))*length(a)
+    a1 = a
+    a2 = b
+    for h=1:pcorte
+        a(h) = a2(h)
+        b(h) = a1(h)
+    end
+    x = a
+    y = b
+endfunction
+
+//função mutação para cada bit
+function [x] = mutacao(a,mut)
+    x=a
+    if rand()<mut then
+        if a==0 then
+            x=1
+        else
+            x=0
+        end
+    end
+endfunction
+
+function [x] = mutCBit(a)
+    a1 = length(a)
+    x = zeros(a1, 1)
+    for h=1:length(a)
+    x(h, 1) = mutacao(a(h, 1), mut)
+    end
+endfunction
+
+
+
+// N é o numero de bits nas cadeias de bits, 10 bits para x e 10 bits para y
+s = size(xpop)
+m = s(1)
+N = s(2)
+//variáveis auxiliares
+cbitANx = zeros(16, 1)
+cbitANy = zeros(16, 1)
+ubitANx = zeros(16, 1)
+ubitANy = zeros(16, 1)
+//inicialização melhor par ordenado de cadeias
+mbitAPTx=zeros(16,1)
+mbitAPTy=zeros(16,1)
+//aptidão total
+VarAPTt = 0
+//chance de seleção para cada membro da população
+p = zeros(1,20)
+mut = 0.01
+cros = 0.75
+//inicialização dos membros da população
+xpop = zeros(16,20)
+ypop = zeros(16,20)
+for h=1:16
+    for e=1:20
+    xpop(h,e) = ranBit(xpop(h,e))
+    ypop(h,e) = ranBit(ypop(h,e))
+    end
+end
+
+
+//início do algoritmo
+// k é o número de iterações do algoritmo
+for k=1:36
+    for g=1:m
+        //cálculo do total de todas as aptidões
+        cbitANx = extCBit(xpop, g)
+        cbitANy = extCBit(ypop, g)
+        VarAPTt = VarAPTt + aptCBit(cbitANx, cbitANy)
+        if aptCBit(cbitANx, cbitANy)>aptCBit(mbitAPTx, mbitAPTy) then
+            mbitAPTx = cbitANx
+            mbitAPTy = cbitANy
+        end
+        end
+    end
+     //cálculo das probabilidades de seleção de cada membro
+    for g=1:m
+        p(1, g) = aptCBit(cbitANx, cbitANy)/VarAPTt
+    end
+    
+    for g=1:m
+        if rand()<cros then
+            for u=1:m
+                if rand()<p(1, u) then
+                    ubitANx = extCBit(xpop, u)
+                    ubitANy = extCBit(ypop, u)
+                    [ubitANx, cbitANx] = crossover(ubitANx, cbitANx)
+                    [ubitANy, cbitANy] = crossover(ubitANy, cbitANy)
+                    for h=1:N
+                    xpop(g, h) = cbitANx(g, 1)
+                    ypop(g, h) = cbitANy(g, 1)
+                    xpop(u, h) = ubitANx(u, 1)
+                    ypop(u, h) = ubitANy(u, 1)                   
+                    end
+                end
+            end
+        end
+       //mutação das cadeias de bit em x e y para o membro g da população
+       for g=1:m
+        cbitANx = extCBit(xpop, g)
+        cbitANy = extCBit(ypop, g)
+        cbitANx = mutCBit(cbitANx)
+        cbitANy = mutCBit(cbitANy)
+        for h=1:N
+            xpop(g, h) = cbitANx(g, 1)
+            ypop(g, h) = cbitANy(g, 1)
+        end    
+       end
+end
+\end{verbatim}

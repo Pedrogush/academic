@@ -1,0 +1,142 @@
+\documentclass[conference,harvard,brazil,english]{sbatex}
+\usepackage[latin1]{inputenc}
+\usepackage{ae}
+%
+% LaTeX2e class SBATeX
+%
+% Versão 1.0 alpha
+%   Walter Fetter Lages
+%   w.fetter@ieee.org
+%
+% Este arquivo cba.tex é uma adaptação do arquivo revista.tex,
+% Versão: 1.0 alpha, desenvolvido por Maurício C. de Oliveira,
+% mcdeoliveira@ieee.org.
+%
+% As adaptações fazem com que, por default, sejam utilizadas
+% as opções adequadas para o formato do CBA ou SBAI, ao contrário do arquivo
+% revista.tex, que, por default, utiliza opções adequadas para o formato
+% da Revista da SBA.
+%
+%
+% --------------------------------------------------
+%
+% Para compilar este exemplo use a seqüência de comandos:
+%
+%     latex cba
+%     bibtex cba
+%     latex cba
+%     latex cba
+%
+% Para gerar um arquivo Postscript (.ps):
+%
+%     dvips -t a4 cba
+%
+% Para gerar um arquivo Portable Document Format (.pdf):
+%
+%     dvips -Ppdf -t a4 cba
+%     ps2pdf -dMaxSubsetPct=100 -dSubsetFonts=true -dEmbedAllFonts=true -dCompatibilityLevel=1.2 -sPAPERSIZE=a4 cba.ps
+%
+
+% --------------------------------------------------
+%  Estes comandos são necessários apenas para a
+%  a geração deste artigo exemplo. Eles não fazem
+%  parte do estilo SBATeX.
+% --------------------------------------------------
+\makeatletter
+\def\verbatim@font{\normalfont\ttfamily\footnotesize}
+\makeatother
+\usepackage{amsmath}
+% --------------------------------------------------
+
+
+\begin{document}
+
+% CABEÇALHO
+
+\title{Adaptação de Segundo Nível Usando Modelos Fixos com Esquema de Desligamento do Sinal Persistentemente Excitante}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% O processo de revisao do CBA 2014 sera DOUBLE BLIND, portanto NAO inclua
+% autores na versão que será submetida para revisão
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\author{~}{~}
+\address{~~\\ ~~\\ ~~}
+
+\twocolumn[
+
+\maketitle
+
+\selectlanguage{english}
+\begin{abstract}
+  A new approach, described as second level adaptation, was introduced in Han2012 for the control of unknown 
+  linear time-invariant plants using multiple identification models, and its robustness properties were 
+  discussed in Narendra2014.If $\theta_p \in R^n$, the unknown parameter vector of an LTI system lies in the 
+  convex hull $P(t0)$ of (n+1) vectors $\theta_i(t0)$ in parameter space, then the estimate 
+  $\hat{\theta}_p(t)$ may be computed from a linear combination of the (n+1) vectors and the problem of 
+  identifying the plant parameter vector becomes that of estimating the coefficient vector $\bar{\alpha}(t)$ 
+  such that $\bar{\Theta}\bar{\alpha}(t) = \theta_p$, with $\bar{\Theta}$ being the matrix formed by the 
+  (n+1) vectors. If the representations of the plants and models are in companion form, and all the state 
+  variables are accessible, simulation results were presented to demonstrate that the new method would result 
+  in much better performance than conventional adaptive control.
+  
+  In this paper, we introduce a scheme for turning off the persistently exciting signal needed to achieve 
+  identification after the convergence of the parameter estimates by evaluating the rate of adaptation of the 
+  coefficients $\alpha$. We also highlight some details regarding the implementation of the second level 
+  adaptation concept, namely the need for projection of the coefficients $\alpha$ and the possibility of 
+  choosing a gain for the adaptive equation for $\dot{\alpha}$.
+\end{abstract}
+
+\keywords{Adaptive Control, Identification, Persistently Exciting, Multiple Models}
+
+\selectlanguage{brazil}
+\begin{abstract}
+  Uma nova abordagem, descrita como adaptação de segundo nível, foi introduzida em Han2012 para o controle de plantas lineares invariantes no tempo usando múltiplos modelos de identificação, e suas propriedades de robustez foram discutidas em Narendra2014. Se $\theta_p \in R^n$, o vetor de parâmetros desconhecido de um sistema LTI se encontra no fecho convexo $P(t0)$ de (n+1) vetores $\theta_i(t0)$ no espaço de parâmetros, então a estimativa $\hat{\theta}_p(t)$ pode ser computada como uma combinação linear dos (n+1) vetores e o problema da identificação do vetor de parâmetros da planta se torna o de estimar o vetor de coeficientes $\bar{\alpha}(t)$ tal que $\bar{\Theta}\bar{\alpha}(t) = \theta_p$, com $\bar{\Theta}$ sendo a matriz formada pelos (n+1) vetores. Se as representações das plantas e modelos se encontram em forma canônica, e todas as variáveis de estado são acessíveis, resultados de simulação foram foram apresentados para demonstrar que o novo método resultado em uma melhoria significativa de performance em relação ao controle adaptativo convencional.
+  
+  Neste trabalho, introduzimos uma estratégia para o desligamento do sinal persistentemente excitante necessário para atingir a identificação após a convergência das estimativas dos parâmetros através da avaliação da taxa de adaptação dos coeficientes $\alpha$. Também destacamos alguns detalhes em relação à implementação do conceito de adaptação de segundo nível: a necessidade do uso de técnicas de projeção nos coeficientes $\alpha$ e a possibilidade de escolher um ganho para a equação adaptativa para $\dot{\alpha}$.
+\end{abstract}
+
+\keywords{Controle Adaptativo, Identificação, Persistentemente Excitante, Múltiplos Modelos}
+]
+
+% CONTRIBUIÇÃO
+
+\selectlanguage{brazil}
+
+\section{Introdução}
+O controle adaptativo tem sido estudado como forma de lidar com incertezas paramétricas desde os anos de 1960 e uma literatura extensiva existe na área [artsHan2012]. Hoje é geralmente aceito que quando tais incertezas são pequenas o controle adaptativo convencional é capaz de garantir estabilidade e robustez do sistema. No entanto, na presença de grandes incertezas paramétricas, o que se observa são comportamentos de transitórios muito oscilatórios. Na tentativa de lidar com grandes incertezas paramétricas, uma abordagem envolvendo o uso de múltiplos modelos de identificação que delimitem um fecho convexo dentro do qual o vetor de parâmetros da planta se localiza foi proposta em [Han2012]. Esta abordagem apresenta propriedades promissoras de robustez, estabilidade e rapidez de convergência como mostrado em [Narendra2014], pois as informações dos diferentes modelos são usadas em conjunto. No entanto para que se garanta a convergência das estimativas dos parâmetros da planta para seus valores corretos é necessário que seja introduzido na planta um sinal rico em frequências, ou sinal persistentemente excitante. Tais sinais, por definição, produzem respostas oscilatórias na saída da planta, o que de forma geral é indesejável.
+
+Neste trabalho, introduzimos uma figura de mérito $\eta \in [0,1[$, que nos permite avaliar qual a velocidade de atualização das estimativas dos parâmetros da planta. A partir desta avaliação podemos decidir com algum grau de confiança se o vetor de parâmetros $\alpha$ atingiu seus valores corretos. Explicitamos um detalhe relativo à projeção do vetor de parâmetros $\alpha$ e mostramos que é possível obter tempos de convergência ainda menores caso introduzamos um ganho nas equação de adaptação de $\alpha$. 
+
+\section{Preliminares Matemáticas}
+
+Discutimos aqui algumas ideias referentes ao controle adaptativo convencional quando o objetivo é fazer com que a planta rastreie a saída de um modelo de referência. Assumimos que o vetor de estado da planta é acessível e que as matrizes $A_p$ da planta e $A_w$ do modelo estão em forma canônica.
+
+\subsection*{A. Controle Adaptativo Convencional com Variáveis de Estado Acessíveis}
+
+Seja a planta descrita por:
+\begin{equation}
+\Sigma_p: \dot{x}_p(t) = A_p x_p(t) + b u(t)
+\end{equation}
+
+
+
+\subsection*{B. Caracterização do Problema}
+
+
+\section{Adaptação de Segundo Nível}
+
+
+\section{Identificação e Controle}
+
+
+\section{Conclusões}
+A adaptação de segundo nível se mostra uma alternativa promissora em relação aos métodos convencionais de identificação e controle de plantas LTI com incertezas dentro das limitações discutidas, pois demonstra boa velocidade de convergência dos parâmetros para seus valores corretos e suas propriedades de robustez e estabilidade são iguais ou melhores que as da adaptação convencional, como mostrado em Narendra2014. Por se tratar de uma estratégia de identificação, pode ser usada sempre que a lei de controle escolhida necessite dos parâmetros da planta, o que gera diversas oportunidades de investigação destas interações.
+\section*{Agradecimentos}
+%Agradeço a ~~, ~~, e ~~. E aos colegas ~~ e ~~.
+
+% BIBLIOGRAFIA
+\bibliography{exemplo}
+\end{document}

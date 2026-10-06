@@ -1,0 +1,12 @@
+function [convhull, alpha] = gen_randconvhull(m,n, theta)
+convhull = zeros(m,n);
+radius = 2*norm(theta);
+
+while isinconvhull(convhull,theta)~=1
+convhull = radius*randn(m,n);
+radius = radius*1.01
+end
+
+
+end
+

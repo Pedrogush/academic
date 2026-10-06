@@ -1,0 +1,42 @@
+\paragraph{Letra A}
+ 
+Usamos o modelo paralelo para fazer a estimação da Resistência R num sistema sem dinâmica cuja entrada $u_(t)$ é a corrente e a saída $x_(t)$ é a tensão e equacionado na forma $V=R*i$. Escolhemos $R=5\Omega$ para todas as questões, $u_(t)=e^(-t)$ para a letra A. Notamos que apesar da saída do modelo convergir para a saída da planta a estimativa de R não atinge o valor correto.
+
+\includegraphics{./pic/Q1letraAmontagem.png}
+ 
+Podemos observar o comportamento da estimativa de R no gráfico a seguir:
+
+\includegraphics{./pic/Q1letraAteta.png} 
+
+E a saída do modelo seguindo a saída da planta (erro de saída convergindo para 0):
+
+\includegraphics{./pic/Q1letraAe0.png}
+ 
+\paragraph{Letra B}
+
+Da mesma forma da Letra A, porém com $u_(t)=1$, notamos que a estimativa de R converge para o valor correto pois $u_(t)$ é um sinal persistentemente excitante para uma planta sem dinâmica.
+\includegraphics{./pic/letraBmontagem.png}
+
+
+Podemos observar o comportamento da estimativa de R no gráfico a seguir:
+
+\includegraphics{./pic/Q1letraBteta.png} 
+
+E a saída do modelo seguindo a saída da planta (erro de saída convergindo para 0):
+
+\includegraphics{./pic/Q1letraBe0.png}
+
+\paragraph{Letra C}
+
+Aqui é necessário normalizar as grandezas que estão sendo tratadas de forma a lidar com números pertencentes ao $L_\infty$, ou seja, uniformemente limitados. Usamos $\bar{u_(t)} = u_(t)/m(t)$ e $\bar{y_(t)} = y_(t)/m$ onde $m=\sqrt{1+u^2}$, de forma que mesmo a entrada $u_(t)=e^t\notin L_(\infty)$ temos $\bar{y_(t)}\in L_\infty$ e $\bar{u_(t)} \in L_\infty$.
+
+
+\includegraphics{./pic/Q1letraCmontagem.png}
+
+Podemos observar o comportamento da estimativa de R no gráfico a seguir:
+
+\includegraphics{./pic/Q1letraCteta.png} 
+
+E a saída do modelo seguindo a saída da planta (erro de saída convergindo para 0):
+
+\includegraphics{./pic/Q1letraCe0.png}

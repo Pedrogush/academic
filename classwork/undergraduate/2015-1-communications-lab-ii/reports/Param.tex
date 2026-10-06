@@ -1,0 +1,23 @@
+\paragraph{Sinal PWM, Borda Direita}Os parâmetros do sinal PWM a ser introduzido no demodulador correspodem a uma frequência de 43.5kHz, diferente da do sinal que foi obtido em laboratório originalmente (48.1kHz) pois o circuito gerador PWM foi desmontado após a prática inicial em laboratório e tivemos que remontá-lo. Mantivemos o valor máximo de tensão de 5V entre a saída e o nível de referência, escolhido por conveniência de alimentação do CI 555. 
+
+\paragraph{Filtragem do Ruído na Alimentação} De forma a garantir que o ruído produzido pela fonte de alimentação , pelas capacitâncias entre os diferentes pontos da protoboard e pelas indutâncias próprias dos fios usados na montagem seja baixo introduzimos dois capacitores com um valor alto em relação aos valores presentes no resto do circuito, o valor escolhido foi de $4700\mu F$.
+ 
+\paragraph{Gerador de Rampa}: Integrador (resistor+capacitor, carga, subida) em paralelo com diodo (descarga), de forma que geramos uma série de ondas dente de serra que carrega a informação do sinal senoidal que injetamos na entrada do PWM: 
+%  \include{./pic/ondarampa.png}
+$f_c=1/2\pi RC$,
+Fixamos C em 1nF, estipulamos $f_c$=3.5kHz de forma que $R=45.472 \Omega$ e portanto usamos um resistor de 47k.
+
+\paragraph{Mono Estável com Retardo}: Circuito com apenas um estado lógico estável, de forma que quando estimulado por uma borda de descida na sua entrada gera um pulso durante um certo intervalo de tempo. Usamos o CI 74121 em conjunto com resistor e capacitor para determinar a largura do pulso. $T_s= 0.7*R*C$ , estipulamos $C=1nF$. Usamos um artifício que nos permite gerar um pulso sincronizado com a descida da onda dente de serra, isto é, geramos um pulso largo que acaba antes que a onda dente de serra acabe e usamos sua saída invertida $\bar{Q}$. Observamos a largura total do pulso como sendo $20\mu s$, como o pulso sincronizado tem $2.8\mu s$ de largura devemos gerar um pulso com duração $T_s = 17.2\mu s$, que nos leva a 
+$R   \tilde{=}  25k\Omega$ e portanto selecionamos um resistor de $27k\Omega$ por ser o valor maior mais próximo. 
+
+%http://www.lpm.fee.unicamp.br/~carlos_reis/m_robson_moreno.pdf
+\paragraph{Somador} Usamos o circuito de um somador não inversor. A saída do somador é a soma dos sinais de entrada multiplicados por seus respectivos ganhos. O esquema elétrico é apresentado a seguir onde $V_{out} = V_{in1}*R_2/(R_1+R_2)+V_{in2}*R_1/(R_2+R_1)$ , R1 = 1.2k, R2 = 10k.
+\pagebreak
+\paragraph{Ceifador} Nível de Decisão do Ceifador é de aproximadamente 1.4V, utilizamos dois diodos 1N4148 em série e um resistor de $12k\Omega$ para a terra, de forma que o sinal na saída do ceifador se torna um PAM:
+
+\paragraph{Sample and Hold} O artifício utilizado permite neste caso dispensar o uso do circuito de Amostragem e Retenção. 
+
+\paragraph{Filtro Passa Baixa} Filtro Butterworth, segunda ordem, $f_c = 2000Hz$, Ganho $A_v=2$. A função de transferência do filtro escolhido é dada por:
+$G_{(s)} = (1/(Z_{C2}+R1)//(R_3+R_4+Z_{C1})+R1))*(1-(R4/(R4+R3)))*(((Z_{C2}+R1)//(R_3+R_4+Z_{C1})) - (Z_{C1} + R_4 +R_3)R_2/((Z_{C2}+R1)//(R_3+R_4+Z_{C1}))) $. Que produz a frequência de corte estipulada para valores de R1, R2, R3, R4, C1 e C2 respectivamente iguais a 27k, 16k, 36k, 36k, 3.3nF, 4.7nF, confirmado em simulação da resposta em frequência do filtro.
+%\include{simulacao.png}
+

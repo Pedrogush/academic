@@ -1,0 +1,7 @@
+V = RI + LIdot
+Idot = -RI/L +V/L
+Xdot = -R/L (X) + U/L 
+a = R/L
+b = 1/L
+U = sin(2pi*100*t)
+Xd = -aX + bU 

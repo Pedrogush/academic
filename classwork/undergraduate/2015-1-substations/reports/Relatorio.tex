@@ -1,0 +1,55 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc} 
+\usepackage[brazil]{babel}    %%% Idioma default brazil
+\usepackage[utf8]{inputenc}
+\usepackage{ae}
+\usepackage{graphicx,url,geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{float}   
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{steinmetz}
+\usepackage{rotating}
+\usepackage{fancyhdr}
+
+
+
+\geometry{a4paper, left=3cm, right=2cm, top=2cm, bottom=2cm}
+
+\begin{document}
+
+%CAPA
+%\input{capa.tex}
+\pagebreak 
+
+%FOLHA DE ROSTo
+
+%SUMARIO
+\thispagestyle{empty}
+\tableofcontents
+\pagebreak
+%%% FINAL DO SUMARIO
+
+\input{Considerações_Iniciais.tex}
+
+\input{Finalidade_do_projeto.tex}
+
+\input{Dados_Tecnicos_da_obra.tex}
+
+\input{Detalhe_de_entrada_de_serviço.tex}
+
+\input{Resumo_da_carga_instalada.tex}
+
+\input{Subestacao.tex}
+
+\input{Especificacao_dos_componentes.tex}
+
+\input{Dispositivos_de_protecao.tex}
+
+\input{Memorial_de_calculo.tex}
+
+\input{Listademateriais.tex}
+
+\end{document}
+

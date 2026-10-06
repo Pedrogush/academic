@@ -1,0 +1,12 @@
+Nomenclatura dos algoritmos no MATLAB
+
+L - Level, Nível, L2 para adaptação de segundo nível, L1 para convencionais
+A - Aplicado, L2A - Adaptação de Segundo Nível aplicada ao Controle
+O - Ordem da planta, O2 - Planta de ordem 2
+M - Número de modelos da adaptação de segundo nível, 3M - 3 modelos
+Filtragem - Modelo de Identificação por Regressão Linear
+SP        - Modelo de Identificação Série Paralelo
+Paralelo  - Modelo de Identificação Paralelo
+Figs      - Adaptado para gerar figuras ou animações
+mod       - Lei adaptativa da adaptação de segundo nível modificada
+FE        - Relativo à adaptação de segundo nível com fator de esquecimento

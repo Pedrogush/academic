@@ -1,0 +1,24 @@
+Retiramos as equações relevantes do trabalho:\\
+
+\begin{equation}
+r = 100*(y-x^2)^2 + (1-x)^2\\
+\end{equation}
+\begin{equation}
+z = x*\sin(\sqrt{|x|}) - y*\sin(\sqrt{|y|})\\
+\end{equation}
+\begin{equation}
+w_1 = r+z\\
+\end{equation}
+\begin{equation}
+w_3 = r-z\\
+\end{equation}
+\begin{equation}
+w_{4ant} = \sqrt{r^2 + z^2}\\
+\end{equation}
+\begin{equation}
+w_{13} = \sqrt{|w_1|} + \sqrt{|w_3|} - w_{4ant}*\cos x   
+\end{equation}
+\begin{equation}
+\min(w_{13}) = ?
+\end{equation}
+Para a minimização da função $w_{13}$ definida para o trabalho, o algoritmo da nuvem de partículas com restrição no espaço de busca é de fácil implementação e tem capacidade de contornar o problema da não-convexidade da função $w_{13}$, que possui vários mínimos locais. O algoritmo da nuvem de partículas funciona através da movimentação dos elementos da nuvem dentro do espaço de busca de forma semi-aleatória. Determina-se, através de uma função de aptidão, escolhida aqui como a própria função $w_{13}$, o melhor valor de posição atingido por uma determinada partícula em relação a si mesma e em relação ao conjunto de todas as partículas. Após o registro destas variáveis, é feito o cálculo das velocidades de cada elemento usando constantes declaradas no código e números randômicos. Finalmente, com as velocidades calculadas, atualiza-se a posição da partícula para o passo seguinte. 

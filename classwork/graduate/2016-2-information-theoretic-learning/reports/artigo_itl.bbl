@@ -1,0 +1,48 @@
+\begin{thebibliography}{xx}
+
+\harvarditem{Bottou}{2010}{Bottou2010}
+Bottou, L.  \harvardyearleft 2010\harvardyearright .
+\newblock {\em Large-Scale Machine Learning with Stochastic Gradient Descent},
+  Physica-Verlag HD, Heidelberg.
+
+\harvarditem[Chen et~al.]{Chen, Zhu, Hu \harvardand\ Principe}{2013}{chen2}
+Chen, B., Zhu, Y., Hu, J. \harvardand\ Principe, J.~C.  \harvardyearleft
+  2013\harvardyearright .
+\newblock {\em System Parameter Identification: Information Criteria and
+  Algorithms}, 1st edn, Elsevier Science Publishers B. V., Amsterdam, The
+  Netherlands, The Netherlands.
+
+\harvarditem{Chen}{1999}{chen}
+Chen, C.-T.  \harvardyearleft 1999\harvardyearright .
+\newblock {\em Linear System Theory and Design}, Oxford University Press.
+
+\harvarditem{Ioannou \harvardand\ Sun}{1996}{ioannou2}
+Ioannou, P.~A. \harvardand\ Sun, J.  \harvardyearleft 1996\harvardyearright .
+\newblock {\em Robust Adaptive Control}, Pearson Education, Inc.
+
+\harvarditem[Liu et~al.]{Liu, Pokharel \harvardand\ Principe}{2007}{principe1}
+Liu, W., Pokharel, P.~P. \harvardand\ Principe, J.~C.  \harvardyearleft
+  2007\harvardyearright .
+\newblock Correntropy: Properties and applications in non-gaussian signal
+  processing, {\em IEEE Transactions on Signal Processing} {\bf
+  55}(11):~5286--5298.
+
+\harvarditem{M.~Krstic \harvardand\ Kokotovic}{1995}{krstic}
+M.~Krstic, I.~K. \harvardand\ Kokotovic, P.  \harvardyearleft
+  1995\harvardyearright .
+\newblock {\em Nonlinear and Adaptive Control Design}, Wiley.
+
+\harvarditem{Ogata}{2010}{ogata}
+Ogata, K.  \harvardyearleft 2010\harvardyearright .
+\newblock {\em Modern Control Engineering}, Pearson Education, Inc.
+
+\harvarditem{Principe}{2010}{principebook}
+Principe, J.~C.  \harvardyearleft 2010\harvardyearright .
+\newblock {\em Information Theoretic Learning: Renyi's Entropy and Kernel
+  Perspectives}, 1st edn, Springer Publishing Company, Incorporated.
+
+\harvarditem{Tao}{2003}{tao}
+Tao, G.  \harvardyearleft 2003\harvardyearright .
+\newblock {\em Adaptive Control Design and Analysis}, Wiley.
+
+\end{thebibliography}

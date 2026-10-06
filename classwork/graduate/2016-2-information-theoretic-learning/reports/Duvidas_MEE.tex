@@ -1,0 +1,72 @@
+\documentclass[11pt]{report}
+% define the title
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}		%Usar acentos diretos do teclado
+\usepackage[T1]{fontenc}		%Padrão para imagens
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{rotating}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{caption}
+\geometry{left=3cm, right=2cm, top=2cm, bottom=2cm}
+% Title Page
+\title{Draft}
+\author{Pedro}
+\begin{document}
+
+
+\section{Duvidas Básicas em relação ao MEE de ponto fixo}
+
+Dada a proposta de substituir o LMS recursivo em tempo real usado no controle adaptativo discreto por um algoritmo MEE de minimização da entropia, seguem as seguintes dúvidas, a maioria em relação à nomenclatura:\\
+\begin{enumerate}
+\item[1] Os pesos a serem adaptados são as estimativas dos parâmetros contidos na função de transferência da planta. ($w_k = \hat{\theta}(k)$)\\
+\item[2]A variável aleatória $D$ correspondente ao resultado desejado é simplesmente a saída $z(k)$ da planta que está sendo identificada, e portanto suas amostras $d_k$ correspondem a $z(k)$\\
+\item[3] A variável aleatória $Y$ de saída do sistema que está sendo adaptado corresponde à saída $\hat{z}(k)$ do modelo do sistema.\\
+
+\item[4] O sinal de entrada $X$ é a entrada $\phi(k)$ da planta e do modelo da planta, tal que $\hat{z} = \hat{\theta}^T(k)\phi(k)$\\
+
+\item[5] No algoritmo MEE de ponto fixo mostrado no slide 32 em cnel.ufl.edu/itl/images/8/83/Lecture2.pdf, dado que\\
+\begin{equation*}
+\bar{R}_E(w_k) = (1-\lambda)\bar{R}_E(w_{k-1}) + \frac{\lambda}{L} \sum_{i=k-L}^{k-1} K_{\sigma \sqrt{2} }(e_k - e_i) [u_k - u_i][u_k - u_i]^T
+\end{equation*}
+
+\begin{equation*}
+\bar{P}_E(w_k) = (1-\lambda)\bar{P}_E(w_{k-1}) + \frac{\lambda}{L} \sum_{i=k-L}^{k-1} K_{\sigma \sqrt{2} }(d_k - d_i) [u_k - u_i]
+\end{equation*}
+
+\begin{equation*}
+w(k+1) = R_E(w_k)^{-1}P_E
+\end{equation*}
+
+\begin{enumerate}
+\item[5.1]Lambda é um parâmetro escolhido pelo projetista ou um Lagrangiano?(estou assumindo que seja uma constante escolhida pelo projetista)  
+\item[5.2]L é a quantidade de amostras mais recentes que serão utilizadas para geração das matrizes? Isto é feito de forma a limitar o gasto computacional?
+\item[5.3]O erro $e(k)$ é equivalente a $z(k) - \hat{z}(k)$?
+\item[5.4]A entrada $\phi(k)$ é o vetor $u(k)$?
+\item[5.5]$d_k$ corresponde a $z(k)$?
+\item[5.6]A matriz $R_e$ pertence ao $R^{nxn}$
+\item[5.7]O vetor $P_e$ pertence ao $R^{nx1}$
+\item[5.8]$K$ é um kernel?
+\end{enumerate}
+\end{enumerate}
+     
+     \section{Dúvidas Complementares}
+     \begin{enumerate}
+     \item[1] É necessária uma prova de estabilidade usando teoria de Lyapunov? Caso seja, a prova apenas para a identificação tal que $V(z-\hat{z})>0$, $\Delta{V}(z-\hat{z})\leq 0$ é suficiente para os propósitos do trabalho? 
+     \item[2] O senhor tem uma cópia disponível do livro "System Parameter Identification: Information Criteria and Algorithms" publicado pelo professor José Principe em 2013?
+     \item[3] No MSE convencional a implementação é predicada na seguinte identidade:
+     \begin{equation*}
+     \dot{P} = -P\frac{d P^{-1}}{dt}P
+     \end{equation*}
+     que gera a matriz de ganhos P em tempo real como a solução de uma equação diferencial. Escolhi o MEE de ponto fixo com base na sua similaridade em relação a esse método, já que $R_E$ e $P_E$ são adaptadas a cada iteração. No entanto o algoritmo MEE-SIG também parece ser aplicável, neste caso, o senhor pode dar uma recomendação sobre qual método escolher?
+     \end{enumerate}
+ 
+ 
+ Agradeço desde já.
+     
+     
+\end{document}

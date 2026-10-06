@@ -1,0 +1,13 @@
+Rs=0.294
+lrr = 0.74m
+lm = 41m
+lss = 1.39m
+fm = 0.001
+Jm=0.4
+Rr=0.156
+ls=Lss+lm
+lr=Lrr+lm
+sigma=1-lm*lm/(ls*lr)
+Rsr=Rs+(ls-sigma*ls)*Rr/lr
+taus=sigma*ls/Rsr
+TauR = lr/Rr

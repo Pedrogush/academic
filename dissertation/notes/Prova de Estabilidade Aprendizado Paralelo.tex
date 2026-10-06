@@ -1,0 +1,134 @@
+\documentclass[11pt]{report}
+% define the title
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}		%Usar acentos diretos do teclado
+\usepackage[T1]{fontenc}		%Padrão para imagens
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{rotating}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{caption}
+\geometry{left=3cm, right=2cm, top=2cm, bottom=2cm}
+% Title Page
+\title{Draft}
+\author{Pedro}
+\begin{document}
+
+
+\section{Aprendizado Concorrente/Paralelo, Prova de Convergência para Identificação}
+
+Em [CHOWDHARY,2010], foi introduzido o conceito de "concurrent learning" para o controle adaptativo convencional, onde a necessidade de um sinal com a característica de persistência de excitação (como por exemplo um sinal rico em frequências) para garantir a convergência das estimativas dos parâmetros da planta para seus valores corretos é removida, sendo no lugar necessário apenas que os dados usados para gerar a taxa de adaptação dos parâmetros sejam armazenados em um certo número de instantes distintos e que tais dados formem um conjunto linearmente independente.
+
+No caso do controle adaptativo com adaptação de segundo nível e modelos de identificação fixos, seja a equação de adaptação dos parâmetros $\alpha$ da seguinte forma (apresentada na forma original sem projeção):
+
+\begin{equation}
+\dot{\alpha} = -E^T(t)E(t)\alpha(t) - E^T(t)e_{n+1}(t)
+\end{equation}
+
+Notamos o seguinte fato: A dimensionalidade dos pontos de equilíbrio na equação está diretamente relacionada com o posto da matriz $E^T(t)E(t)$. De fato, quando existe excitação de magnitude suficiente em todos os modos da planta e dos modelos de identificação, o posto da matriz é cheio e está distante de uma matriz de posto deficiente. Desta forma existe apenas um único $\alpha$ tal que $\dot{\alpha}=0$. Caso sejamos capazes de armazenar os dados em diferentes instantes de tempo garantindo que matriz $M = \sum E_j^TE_j$ tem posto cheio, propomos a seguinte equação:
+
+\begin{equation}
+\dot{\alpha} = -E^T(t)E(t)\alpha(t) - E^T(t)e_{n+1}(t) -\sum E_j^TE_j\alpha(t) -\sum E_j^Te_{n+1,j}
+\end{equation}
+
+Seja a candidata à função de Lyapunov:
+
+\begin{equation}
+V(\tilde{\alpha}) = \frac{1}{2}\tilde{\alpha}^T\tilde{\alpha} 
+\end{equation}
+
+Seja $\alpha^*$ invariante, $\dot{\tilde{\alpha}} = \dot{\alpha}$, diferenciando obtemos:
+
+\begin{equation}
+\dot{V}(\tilde{\alpha}) = \tilde{\alpha}^T(-E^T(t)E(t)\alpha(t) - E^T(t)e_{n+1}(t) -\sum E_j^TE_j\alpha(t) -\sum E_j^Te_{n+1,j})
+\end{equation}
+
+Como $\tilde{\alpha} = \alpha - \alpha^*$, substituímos $\alpha = \tilde{\alpha} + \alpha^*$. Já que assumimos que existe uma única solução para $\alpha=\alpha^*$ tal que $\sum E^T_jE_j \alpha = -\sum E^T_je_{n+1,j}$ pois o posto da matriz $M$ é cheio e $\alpha^*$ também é uma solução de $\alpha$ para o instante presente mesmo que $E^T(t)E(t)$ não tenha posto cheio, podemos escrever $E^T(t)E(t)\alpha^* = -E^T(t)e_{n+1}(t)$, desta forma, substituindo:
+
+\begin{equation}
+\dot{V}(\tilde{\alpha}) = -\tilde{\alpha}(E^T(t)E(t)+\sum E_j^TE_j)(\tilde{\alpha}+\alpha^*) - \tilde{\alpha}(E^T(t)e_{n+1}(t) + \sum E_j^Te_{n+1,j})
+\end{equation}
+
+Mas $(E^T(t)E(t)+\sum E_j^TE_j)\alpha^* = -(E^T(t)e_{n+1}(t) + \sum E_j^Te_{n+1,j})$, desta forma obtemos cancelamento dos termos de sinal indefinido, obtendo:
+
+\begin{equation}
+\dot{V}(\tilde{\alpha}) = -\tilde{\alpha}(E^T(t)E(t)+\sum E_j^TE_j)\tilde{\alpha}
+\end{equation}
+
+Como para uma matriz qualquer temos sempre que $P^TP$ possui autovalores positivos ou nulos, sabemos que $(E^T(t)E(t)+\sum E_j^TE_j)>0$, e portanto $\dot{V}(\tilde{\alpha})<0$ e $V(\tilde{\alpha})$ é uma função de Lyapunov. Concluímos que o sistema de identificação converge assintoticamente para a origem $\tilde{\alpha} = 0$.
+
+\section{Caso Discreto, Ganho Escalar}
+
+Por simplicidade, escrevemos:
+
+\begin{equation}
+M\equiv E^T(k) E(k)+\sum E_j^TE_j
+\end{equation}
+
+\begin{equation}
+v\equiv = E^T(t)e_{n+1}(t) + \sum E_j^Te_{n+1,j}
+\end{equation}
+
+Prosseguimos à análise para o caso discreto, substituindo as equações diferenciais por equações diferença e introduzindo um ganho $\gamma$ na análise. 
+
+
+\begin{equation}
+\alpha(k+1) = \alpha(k) + \gamma T_s*(-M \alpha(k) - v)
+\end{equation}
+
+Como $\alpha = \tilde{\alpha} + \alpha^*$, podemos escrever:
+
+\begin{equation}
+\alpha(k+1) = \alpha(k) + \gamma T_s*(-M \tilde{\alpha}(k))
+\end{equation}
+
+\begin{equation}
+\tilde{\alpha}(k+1) = \alpha(k+1) - \alpha^*
+\end{equation}
+
+\begin{equation}
+\tilde{\alpha}(k+1) = \tilde{\alpha}(k) + \gamma T_s*(-M \tilde{\alpha}(k))
+\end{equation}
+
+E denotamos a mudança na função de energia $V(\tilde{\alpha}, k) = \frac{1}{2}\tilde{\alpha}^T\tilde{\alpha} $, na amostra seguinte:
+
+\begin{equation}
+\Delta V(\tilde{\alpha}, k+1) = V(\tilde{\alpha}, k+1) - V(\tilde{\alpha}, k)
+\end{equation}
+
+que se torna:
+
+\begin{equation}
+\Delta V = (\tilde{\alpha}(k) + \gamma T_s*(-M \tilde{\alpha}(k)))^T(\tilde{\alpha}(k) + \gamma T_s*(-M \tilde{\alpha}(k))) - \tilde{\alpha}(k)^T\tilde{\alpha}(k)
+\end{equation}
+
+\begin{equation}
+\Delta V = -2 \gamma T_s\tilde{\alpha}^T M \tilde{\alpha} + \gamma^2 T_s^2\tilde{\alpha}^T M^2 \tilde{\alpha} 
+\end{equation}
+
+Que se torna:
+
+\begin{equation}
+\Delta V = \gamma T_s \tilde{\alpha}^T (-2M + \gamma T_s M^2)\tilde{\alpha}
+\end{equation}
+
+Fazer com que simultaneamente $\Delta V<0$ e maximizando o módulo desta quantia, recaímos num problema de autovalores, cuja solução ótima é:
+
+\begin{equation}
+\gamma = \frac{1}{T_s * \lambda_{M, max}}
+\end{equation}
+
+\section{Caso Discreto, Matriz de Ganhos}
+
+Como curiosidade, analisamos o caso:
+
+\begin{equation}
+\alpha(k+1) = \alpha(k) + P T_s*(-M \alpha(k) - v)
+\end{equation}
+
+Em que $P=P^T>0$, é trivial notar que, caso escolhamos $P = M^{-1}*T_s^{-1}$, temos $V(\tilde{\alpha}, k+1) = 0$, e o problema fica sujeito apenas ao condicionamento numérico da matriz $M$. Lembramos que a matriz $M$ não é formada a partir de processos físicos sujeitos a ruído de medição e perturbações, e sim de modelos de identificação fixos escolhidos pelo projetista.
+\end{document}

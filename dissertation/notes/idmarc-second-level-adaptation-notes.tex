@@ -1,0 +1,19 @@
+notas idmarc:
+
+As parcelas da lei adaptativa do idmarc podem ser expressas, mais ou menos, da seguinte forma:
+
+\dot{\theta}_{vs} = -\frac{\sigma}{\mu}(1-\mu)\hat{\theta}-\frac{\sigma}{\mu}(1-\mu)\bar{\theta}sign(e_o\phi sign(k_p))
+
+\dot{\theta}_{int} = -\frac{\sigma}{\mu} \hat{\theta}+ \Gamma e_{i,f} \phi sign(k_p)
+
+problema: efetivamente, ao assumir o modo vs, o idmarc descarta as informações que aprendeu acerca da planta com sua parcela integral, apesar de garantir a robustez e características desejáveis do vs desta forma, e não permitir que a estimativa integral tenda a infinito, a parcela $\theta_{int}$ indo para 0 não é ideal, caso tivessemos a intenção de fazer com que $\theta$ se aproxime gradualmente de $\theta^*$ com o processo de adaptação, por exemplo, um sinal PE poderia não ser suficiente para garantir esta condição, já que a medida que os modos da planta são excitados a tendência é de que o modo vs seja ativado.
+
+N>2n+1 modelos, usando adaptação de segundo nível, com parcela integral da forma:
+
+IDEIA: \dot{\theta}_{i,int} = -\frac{\sigma}{\mu} (\hat{\theta}_{i,int}-\hat{\theta}_{i,int}(0))+ \Gamma e_{i,f} \phi sign(k_p)
+
+Ao entrar no modo vs, as informações são descartadas dos modelos de primeiro nível, sem que, no entanto, as informações dos coeficientes da adaptação de segundo nível o sejam. assumindo que os coeficientes são constantes, temos os mesmos resultados para esta lei que para um primeiro nível sem fator de esquecimento (pois \alpha_1^*\theta_1+...+\alpha_N^*\theta_N=\alpha_1^*\theta_1(0)+...+\alpha_N^*\theta_N(0)=\theta^*)
+
+
+
+IDMARC com adapta;'ao de segundo nivel a partir do artigo de leonardo

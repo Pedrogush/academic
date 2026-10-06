@@ -1,0 +1,68 @@
+\chapter{Introdução}
+\paragraph{Modelo da Máquina}
+O modelo da máquina CC é descrito pelas seguintes equações de estado:
+\begin{subequations}
+
+$
+X=
+\begin{bmatrix}
+I_{a} \\
+W_{r}
+\end{bmatrix}
+$
+
+~
+
+$
+U=
+\begin{bmatrix}
+V_{a}\\
+T_{m}
+\end{bmatrix}
+$
+
+~
+
+$
+\begin{bmatrix}
+\dot{I}_{a} \\
+\dot{W}_{r}
+\end{bmatrix}
+=
+\begin{bmatrix}
+-\frac{R_{a}}{L_{a}}-\frac{K_{e}\lambda_{e}}{L_{a}} \\
+\frac{K_{e}\lambda_{e}}{J_{m}}-\frac{F_{m}}{J_{m}}
+\end{bmatrix}
+\begin{bmatrix}
+I_{a}\\
+W_{r}
+\end{bmatrix}
++
+\begin{bmatrix}
+1/L_{a} & 0 \\
+0 & -1/J_{m}
+\end{bmatrix}
+\begin{bmatrix}
+V_{a}\\
+T_{m}
+\end{bmatrix}
+$
+\end{subequations}
+
+Escolhemos controlar a máquina a partir da tensão de armadura $V_{a}$ e projetamos um controlador tendo em mente o cancelamento de polos. Usamos os seguintes parâmetros para a máquina:
+
+$
+K_{e}=476.16 ; R_{a}=0.08\Omega ; L_{a}=0.0001H ; I_{e}=2A ;
+J_{m}=0.001Kg.m^2 ; F_{m}=0.0001N.m.s/rad
+$
+
+
+\paragraph{Modelo do Controlador com parâmetros conhecidos}
+
+Assumindo que os parâmetros da planta são conhecidos calculamos os valores de $K_{p}, K_{i}, K_{d}$, assumindo $T_{d}$ da parte derivativa como sendo 0.005. Desta forma o controlador projetado para o caso em que os parâmetros da planta são conhecidos tem valores:
+
+
+$ K_{p}=-0.2339 ; K_{i}=47.6164; K_{d}=1.1747$, e portanto em malha fechada:
+~
+
+$ G(s)=\big(\frac{9999.444}{s^2 + 200s + 9999.444}) $

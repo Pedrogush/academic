@@ -1,0 +1,36 @@
+\paragraph{Letra A}
+
+Usamos novamente o modelo paralelo para estimar os parâmetros da planta. Neste caso escolhemos um sistema simples com uma Resistência R em série com um Indutor L. A equação que descreve o sistema neste caso é $V = RI + L\dot{I}$ que manipulamos para a forma $\dot{x} = -ax + bu$, onde $x=I; U=V;a = R/L;b = 1/L$. Os valores escolhidos foram de $R=12\Omega; L=1H$ para a letra A. Podemos notar que apesar de a saída do modelo da planta passar a ter o mesmo valor que a saída da planta após um certo intervalo de tempo, os valores dos parâmetros estimados não necessariamente irão convergir para os valores corretos.
+
+\includegraphics[width = 14 cm, height = 8 cm]{./pic/Q2letraAmontagem.png}
+ 
+Podemos observar o comportamento da estimativa de R/L no gráfico a seguir:
+
+\includegraphics[width = 14 cm, height = 8 cm]{./pic/Q2letraAteta1.png}
+
+E da estimativa de 1/L no gráfico a seguir:
+
+\includegraphics[width = 14 cm, height = 8 cm]{./pic/Q2LetraAteta2.png} 
+
+E a saída do modelo seguindo a saída da planta (erro de saída convergindo para 0):
+
+\includegraphics[width = 14 cm, height = 8 cm]{./pic/Q2letraAe0.png}
+ 
+\paragraph{Letra B}
+
+Para a letra B foram escolhidos valores de $R=1.2\Omega; L=0.01H$, neste caso, como um sinal senoidal é persistentemente excitante para uma planta de ordem 1 podemos observar a convergência dos valores das estimativas de R/L e 1/L para os valores corretos.
+
+\includegraphics[width = 14 cm, height = 8 cm]{./pic/Q2letraBmontagem.png}
+ 
+Podemos observar o comportamento da estimativa de R/L no gráfico a seguir:
+
+\includegraphics[width = 14 cm, height = 8 cm]{./pic/Q2letraBteta1.png} 
+
+E o comportamento da estimativa de 1/L no gráfico a seguir:
+
+\includegraphics[width = 14 cm, height = 8 cm]{./pic/Q2letraBteta2.png} 
+
+E a saída do modelo seguindo a saída da planta (erro de saída convergindo para 0):
+
+\includegraphics[width = 14 cm, height = 8 cm]{./pic/Q2letraBe0.png}
+ 

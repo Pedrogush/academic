@@ -1,127 +1,46 @@
-# Second Level Adaptation, formalised
+# academic
 
-Machine-checked formalisations — in **Coq**, **Lean 4 / Mathlib**,
-**Isabelle/HOL** and **KeYmaera X** — of Chapter 4 (equations 4.1–4.69) and
-Appendix A of
+Academic work of **Pedro Yochinori Gushiken**: Electrical Engineering at UFRN (until 2015) and an MSc at PPgEEC/UFRN (2016–2018, advisor Prof. Aldayr Dantas de Araújo) on **second-level adaptation**. The repository also holds a machine-checked formalisation of the dissertation's core chapter.
 
-> Pedro Yochinori Gushiken, *"Adaptação de Segundo Nível como Técnica de
-> Estimação de Parâmetros e sua Aplicação ao Controle Adaptativo por Modelo de
-> Referência"*, MSc dissertation, UFRN, 2018.
-> Chapter 4, *Estimação de Parâmetros, Ordem n* (document pages 55–78 =
-> PDF pages 81–104). The dissertation is included as [`DISSERT.pdf`](DISSERT.pdf).
-
-Second Level Adaptation (SLA), following Han–Narendra and Narendra–Wang–Chen,
-runs `N` first-level identification models in parallel and then identifies the
-*convex-combination coefficients* `α*` that reproduce the true plant parameters
-`θ*ᵖ` from the model estimates. The chapter develops the first level, the
-convex-hull argument, the second-level adaptive law, and a forgetting-factor
-variant (SLAFF).
-
-## Results of the formalisation
-
-Everything in Chapter 4 that is a mathematical statement — as opposed to a
-modelling assumption or an asymptotic argument via Barbalat's lemma /
-persistency of excitation — is formalised, in all four systems. Three things
-came out of doing it:
-
-**1. Two results do not hold as stated.** Both are *proved*, not assumed; they
-follow from exact derivative identities.
-
-* **(4.58)**: the dissertation's Lyapunov candidate (4.57), built on the
-  extended vector `ᾱ̃_f = [α̃_f ; −1⃗α̃_f]`, does not have the claimed derivative
-  `V̇ = −N α̃ᵀEᵀE α̃ − N α̃ᵀEᵀ e_α/m²`. Its exact derivative along (4.56) is
-  `V̇ = −(E α̃ + (1⃗α̃)(1⃗Eᵀ))·(E α̃ + e_α/m²)`, and that can be **strictly
-  positive** — witness `E_f = (2, −1)`, `α̃_f = (−1/3, −5/3)`, `e_α = 0`, where
-  the true value is `+1` and (4.58) predicts `−3`. So (4.57)+(4.58) do not
-  establish the boundedness of `α̃_f` claimed on page 66. The qualitative
-  conclusion of Section 4.3 survives via the reduced candidate
-  `V = α̃ᵀα̃/2` (eq. (24) of Narendra–Wang–Chen), for which
-  `V̇ = −γ(E α̃)² − γ(E α̃)(e_α/m²) ≤ 0`; the `N`-dependence of the convergence
-  rate read off from (4.58) does not survive.
-* **(4.69)** omits `v_f` from its residual term: it writes `−N α̃ᵀ M_f α*_f`
-  where the correct residual is `M_f α*_f + v_f`. The text's own justification
-  one line later is the value of `M_f α*_f + v_f`, so the intent is right and
-  only the written expression is incomplete. The residual is proved to vanish
-  identically once `θ*ᵖ` is in the convex hull.
-
-**2. The design rule needs `N = 2n + 1`, not `N ≥ 2n + 1`.** The inequality
-gives *existence* of a representation `θ*ᵖ = Σ αᵢ* θ̂ᵢ(0)` — which is exactly
-what the dissertation's own justification argues — but the second level
-*identifies* `α*_f`, so `α*_f` must be a single point, and uniqueness holds only
-at `N = d + 1 = 2n + 1`. Appendix A already builds exactly `d+1` affinely
-independent vertices, so nothing is lost. Full argument, a hexagon
-counterexample and the affected pages: [`NOTE_convex_uniqueness.md`](NOTE_convex_uniqueness.md).
-
-**3. Two places are more conservative than necessary.** The virtual model's
-error equals the convex combination of the first-level errors *identically*, not
-just asymptotically (no condition on initial values); and `Σ eᵢ α*ᵢ` is exactly
-`0` for every `t ≥ 0`, not merely `→ 0`, because `θ*ᵖ` never leaves the convex
-hull. Convex-hull invariance itself — stated in the dissertation without proof —
-is proved here by a Lyapunov argument plus the mean value theorem.
-
-## The four developments
-
-| Directory | System | Contents |
-|---|---|---|
-| [`coq/`](coq/) | Coq 8.18.0 | the reference development; `coq/annotated/` is the same proofs with prose annotations |
-| [`lean/`](lean/) | Lean 4.33.0 + Mathlib v4.33.0 | idiomatic port; slightly stronger in places (unused hypotheses dropped, unconditional counterexample witnesses) |
-| [`isabelle/`](isabelle/) | Isabelle2025-2 (HOL) | locale-based port, plus `SLA_Check.thy`, an audit theory that restates the headline results and proves each by a single `rule` |
-| [`keymaerax/`](keymaerax/) | KeYmaera X 5.1.2 + Z3 | the genuinely *dynamical* parts as differential dynamic logic: ODE invariants and Lyapunov arguments at fixed dimensions |
-
-Each directory has its own README with an equation → theorem map, build
-instructions, and an explicit list of what is *not* formalised.
-
-The four are independent: the Lean, Isabelle and KeYmaera X versions were
-written against the dissertation rather than transliterated, and they agree on
-the two findings — including on the same explicit counterexample for (4.58),
-which KeYmaera X produced by quantifier elimination.
-
-## Verification status
-
-All four toolchains were re-run from clean state; see
-[`VERIFICATION.md`](VERIFICATION.md) for the full record.
-
-| System | Result |
+| Folder | What's in it |
 |---|---|
-| Coq 8.18.0 | 4 files compile, no `admit`/`Admitted`; 23 headline theorems audited with `Print Assumptions` — only the axioms Coq's own `Reals` is built on |
-| Lean 4.33.0 / Mathlib v4.33.0 | 5 modules build, no `sorry`; 21 headline theorems audited with `#print axioms` — only `propext`, `Classical.choice`, `Quot.sound` |
-| Isabelle2025-2 | 5 theories build, no `sorry`/`oops`/`axiomatization` |
-| KeYmaera X 5.1.2 | 33/33 intended entries proved; the 2 entries of `05_eq458_dI_fails.kyx` deliberately do not close |
+| [`sla-machine-checked/`](sla-machine-checked/) | Formalisation of Chapter 4 and Appendix A of the dissertation in **Coq, Lean 4/Mathlib, Isabelle/HOL and KeYmaera X**. It found two results that don't hold as stated, (4.58) and (4.69), and that the design rule must be `N = 2n+1`. See its [README](sla-machine-checked/README.md). |
+| [`dissertation/`](dissertation/) | The MSc dissertation (2018): final PDF, committee version, defense and qualification slides, chapter drafts, research notes, and the MATLAB code behind its figures. |
+| [`papers/`](papers/) | CBA 2016 (published), plus the forgetting-factor follow-up (submitted to CBA 2018 and SBAI 2019). Each paper has its PDF, LaTeX, slides and simulation code. |
+| [`classwork/`](classwork/) | Undergraduate and graduate course reports, slides and simulations (MATLAB/Simulink/PSIM), organised as `<level>/<year>-<semester>-<course>/`. Includes the undergraduate thesis (TCC, 2015). |
+| [`study_material/`](study_material/) | Catalog of the books, papers, theses and course handouts by other authors that this work used. The files are in a separate private repository because they are copyrighted. |
+| [`CLASSMATE_WORK.md`](CLASSMATE_WORK.md) | Credits for files written by classmates and other authors that were in the same archive but are **not** included here, and a list of items held back for privacy. |
+| [`catalog.csv`](catalog.csv) | One row per file: title, authors, what it is, which course/paper/chapter it belongs to, role (final / draft / experiment…), and where it originally lived. |
 
-## Building
+## Timeline
 
-Each subdirectory is self-contained:
+- **2015, undergraduate:** drives, communications, substations, installations, internship. Took the graduate *Controle Adaptativo* course, whose PE-attenuation "bonus" idea became the **TCC** on automatic switch-off of the persistently exciting signal (Dec 2015).
+- **2016:** MSc starts with Narendra's second-level adaptation. Wrote a MATLAB toolbox. Published the **CBA 2016** paper (second-level adaptation with fixed models and PE switch-off). Courses: Control Systems, Adaptive Control, Information Theoretic Learning, Numerical Linear Algebra.
+- **2017–2018:** qualification (Jun 2017), **dissertation** defended 31 Jan 2018. Forgetting-factor paper submitted to CBA 2018, then SBAI 2019.
+- **2026:** machine-checked formalisation of Chapter 4 and Appendix A (`sla-machine-checked/`).
 
-```bash
-cd coq       && source ./coqenv.sh && make     # or: sudo apt install coq && make
-cd lean      && lake build                     # needs the .lake symlink, see lean/README.md
-cd isabelle  && ./build.sh
-cd keymaerax && ./build.sh                     # ~3.5 min fixed start-up per file
-```
+## Co-authors and classmates
 
-## What is deliberately not formalised
+Joint work is included with all authors credited in the folder READMEs. The co-authors are:
+- Prof. Aldayr Dantas de Araújo
+- Isaac Dantas Isidório
+- Luan Garcia
+- José Verismar Júnior
+- Felipe Ferreira Moreira
+- Frankelene Pinheiro de Souza
+- Lucas Marcelino dos Santos
+- Prof. Kurios Queiroz
+- Isael Calistrato Jácome
 
-Consistently across all four: the asymptotic theory the dissertation itself
-cites Ioannou & Sun (1996) for (Barbalat's lemma, `L²` membership of `ε m`,
-persistency of excitation and the resulting parameter convergence); the
-projection operator of (4.59); the state-space/transfer-function correspondence
-of (4.1)–(4.7); and the *necessity* half of the design rule (an affine-dimension
-argument asserted on page 64). Per-system limitations — in particular what
-cannot be expressed in dL — are listed in each directory's README.
+Work written **solely** by other students is not published here; it is credited in [`CLASSMATE_WORK.md`](CLASSMATE_WORK.md). Personal data (addresses, phone numbers, ID numbers, other people's e-mail addresses) has been removed from the published LaTeX sources. Compiled PDFs that print such data are not included.
 
-## Sources consulted
+## Notes
 
-* Z. Han & K. S. Narendra, "New concepts in adaptive control using multiple
-  models", *IEEE TAC* 57(1):78–89, 2012.
-* K. S. Narendra, Y. Wang, W. Chen, "The Rationale for Second Level Adaptation",
-  [arXiv:1510.04989](https://arxiv.org/abs/1510.04989).
-* P. Ioannou & J. Sun, *Robust Adaptive Control*, 1996.
-* G. Chowdhary, T. Yucelen, M. Mühlegg, E. N. Johnson, "Concurrent learning
-  adaptive control of linear systems with exponentially convergent bounds",
-  *IJACSP* 27(4):280–301, 2013.
+- **Simulations** keep their original file names and folder layout so that PSIM subcircuits and MATLAB `load(...)` paths keep working; `catalog.csv` explains each one. PSIM files need PSIM 9; `.slx` files need MATLAB/Simulink (R2015a or later). Large generated outputs (PSIM `.smv` waveforms, workspaces >10 MB) are not included.
+- **LaTeX** sources are included where they survive. Most compile with TeX Live: the papers use the SBA `sbatex` class and the theses/slides use abnTeX2. The final dissertation's LaTeX source was not found.
 
 ## Licence
 
-The formalisations and accompanying notes are [MIT](LICENSE) licensed.
-`DISSERT.pdf` is the author's MSc dissertation (UFRN, 2018), included for
-reference; the MIT licence does not extend to it.
+- [`sla-machine-checked/`](sla-machine-checked/) is MIT-licensed ([licence](sla-machine-checked/LICENSE)).
+- Everything else (papers, dissertation, coursework, code) is © its authors, all rights reserved, and is published here for reference. Co-authored items remain the joint work of the authors listed.
+- Third-party LaTeX classes and styles (abnTeX2, `sbatex`, `harvard.sty`, IEEEtran) keep their own licences.

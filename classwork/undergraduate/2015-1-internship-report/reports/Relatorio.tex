@@ -1,0 +1,74 @@
+\documentclass[11pt]{report}
+% define the title
+\usepackage[alf]{abntex2cite}	% Citações padrão ABNT
+\usepackage{microtype}
+\usepackage{lmodern}
+
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}	
+\usepackage[T1]{fontenc}		
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{left=3cm, right=2cm, top=2cm, bottom=2cm}   
+\usepackage{booktabs}
+
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+
+
+
+
+\usepackage{titlesec}
+
+\titleformat{\chapter}
+  {\Large\bfseries} % format
+  {}                % label
+  {0pt}             % sep
+  {\huge}           % before-code
+
+
+
+%\instituicao{Universidade Federal do Rio Grande do Norte \par
+%		 Departamento de Engenharia Elétrica}
+\title{Relatório de Estágio Obrigatório}
+\author{Pedro Yochinori Gushiken}
+%\orientador{Kurios Iuri Pinheiro de Melo Queiroz}
+%\coorientador[Supervisor:\\]{Wilson Medeiros de Góis}
+%\preambulo{Este relatório tem por objetivo descrever as atividades desenvolvidas 
+%			no estágio curricular supervisionado, realizado na empresa CCW 
+%			Engenharia LTDA,  que é requisito necessário para obter o título de 
+%			Engenheira Eletricista.}
+%\tipotrabalho{Relatório técnico}
+%\local{Natal, RN}
+%\data{2015}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Agradecimentos}
+\input{agradecimento}
+
+\chapter{Identificação}
+\input{identifica}
+
+\chapter{Responsabilidades e Compromissos}
+\input{responsabilidade}
+
+\chapter{Introdução}
+\input{introdu}
+
+\chapter{CCW Engenharia LTDA}
+\input{empresa}
+
+\chapter{Descrição das Atividades Desenvolvidas}
+\input{descricao_atividades}
+
+\chapter{Conclusão}
+\input{Conclusao}
+
+
+
+
+\end{document}         

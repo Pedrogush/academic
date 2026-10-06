@@ -1,0 +1,15 @@
+       R1=12.3                %R1 is defined as12.3
+       R2 23.4Ohm 
+       % R3 is the load resistance 
+       R3=R1+R2/2.        //Math expression isallowed
+       L1=3m
+       C1=20uF
+       N=234
+       LIMIT R3 5. 25.
+
+V = RI + LIs
+U = RX + LXs
+U = X(R+Ls)
+X. = -AX + BU
+X.L = U - RX
+X. = - XR/L + U/L

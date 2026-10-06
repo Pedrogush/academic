@@ -1,0 +1,46 @@
+Correções, lista de Aldayr
+
+%%%%%%Francisco%%%%%%
+
+1.Resumo -> Introduzir conceitos básicos
+2.Introdução -> Reorganizar o texto
+                Falar sobre APPC
+3.Explicar melhor os parágrafos
+4.Legendas das figuras (letras pequenas em alguns casos)
+5.Pg. 46 - 50, Pg 91-95, saltos no texto
+6.Citar referências para os lemas
+7.Usar letras maiúsculas para se referir a Capítulos e Seções
+8.Introdução -> Primeira referência na pag. 8
+9.Referência do Utkin
+10.Padronizar MRAC (usar siglas)
+11.Introduzir algumas siglas
+12.Explicar melhor N=2n+1
+13.Padronizar tamanho das figuras (padrão de 2.2 e 2.3)
+14.Gráficos dos erros para todas as estratégias
+15.Comparação injusta entre VS-MRAC e Adaptação de Segundo Nível --
+16.IVS-MRAC ao invés de VS-MRAC --respondido durante a defesa
+17.Oscilações nas simulações --respondido durante a defesa
+18.Outros algoritmos de identificação (Gradiente e Mínimos Quadrados)
+19.Fig 5.5 (explicar a convergência nível 1)
+20.Padronizar o tempo final de simulação nas figuras.
+
+
+21.Implementação prática (perspectiva)
+22.Publicar em congresso internacional(revista).
+
+
+%%%%%Josenalde%%%%%
+
+1.Situar melhor a contribuição do trabalho
+2.Reorganizar a introdução
+3.Padronização dos gráficos
+4.Tabelas (equações necessárias)
+5.Verificar sinal de controle (referência degrau ou PE)
+6.Desligamento do sinal PE (citar trabalho CBA)
+7.r(t) = 1+eps1 sin t + eps2 sin 1.7t + eps3 sin 3t
+8.Artigo do Narendra, 2015
+9.Parâmetro \gamma_{n2,f} está faltando nas tabelas 4.1 e 5.1 e na eq 4.26
+10.Comparação com o VS-MRAC desnecessária --
+11.Simulação com mudança de referência, distúrbio, mudança brusca de parâmetros.
+12.Condição suficiente para \gamma, esta utilizando valor menor, plotar \gamma versus abs(y\phi_1) + abs(u\phi_2)
+13.Explicar melhor os valores iniciais. (projeção+escolha ingênua)

@@ -1,0 +1,30 @@
+\documentclass[a4paper,10pt]{report}
+% define the title
+\usepackage{graphicx}
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}		%Usar acentos diretos do teclado
+\usepackage[T1]{fontenc}		%Padrão para imagens
+\usepackage{subfigure}
+\usepackage{rotating}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\author{Pedro Gushiken}
+\date{4 de Abril de 2015}
+\title{Controle Adaptativo de Velocidade de uma Máquina CC em vazio pela regra do MIT e pelo m\'{e}todo da sensibilidade}
+
+\begin{document}
+\maketitle
+  \tableofcontents
+  \input(./tex/comc.tex)
+  \chapter{Implementação do Controle Adaptativo através da regra do MIT}
+
+  \chapter{Implementação do Controle Adaptativo através do método da sensibilidade}
+
+  \chapter{Convergência dos parâmetros do controlador}
+  \paragraph{Para uma referência constante}
+  \paragraph{Para uma referência persistentemente excitante}
+  \chapter{Conclusão}
+% insert the table of contents
+\end{document}

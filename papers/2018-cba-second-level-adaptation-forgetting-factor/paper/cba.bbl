@@ -1,0 +1,61 @@
+\begin{thebibliography}{xx}
+
+\harvarditem[Chowdhary et~al.]{Chowdhary, Yucelen, M\"{u}hlegg \harvardand\
+  Johnson}{2013}{ch13}
+Chowdhary, G., Yucelen, T., M\"{u}hlegg, M. \harvardand\ Johnson, E.~N.
+  \harvardyearleft 2013\harvardyearright .
+\newblock Concurrent learning adaptive control of linear systems with
+  exponentially convergent bounds, {\em International Journal of Adaptive
+  Control and Signal Processing} {\bf 27}(4):~280--301.
+
+\harvarditem{Gushiken \harvardand\ Araujo}{2016}{ga16}
+Gushiken, P.~Y. \harvardand\ Araujo, A.~D.  \harvardyearleft
+  2016\harvardyearright .
+\newblock Adapta\c{c}{\=a}o de segundo n{\'\i}vel usando modelos fixos com
+  desligamento do sinal persistentemente excitante, {\em Anais do XXI Congresso
+  Brasileiro de Autom{\'a}tica. Vit{\'o}ria - Esp{\'\i}rito Santo} pp.~1--6.
+
+\harvarditem{Han \harvardand\ Narendra}{2010}{han2010}
+Han, Z. \harvardand\ Narendra, K.~S.  \harvardyearleft 2010\harvardyearright .
+\newblock Multiple adaptive models for control, {\em Decision and Control
+  (CDC), 2010 49th IEEE Conference on}, pp.~60--65.
+
+\harvarditem{Han \harvardand\ Narendra}{2011}{han2011}
+Han, Z. \harvardand\ Narendra, K.~S.  \harvardyearleft 2011\harvardyearright .
+\newblock Second level adaptation using multiple models, {\em Proceedings of
+  the 2011 American Control Conference}, pp.~2350--2355.
+
+\harvarditem{Han \harvardand\ Narendra}{2012}{han2012}
+Han, Z. \harvardand\ Narendra, K.~S.  \harvardyearleft 2012\harvardyearright .
+\newblock New concepts in adaptive control using multiple models, {\em IEEE
+  Transactions on Automatic Control} {\bf 57}(1):~78--89.
+
+\harvarditem{Ioannou \harvardand\ Sun}{1996}{ioannou2}
+Ioannou, P.~A. \harvardand\ Sun, J.  \harvardyearleft 1996\harvardyearright .
+\newblock {\em Robust adaptive control}, Pearson Education, Inc.
+
+\harvarditem{Narendra \harvardand\ Annaswamy}{1989}{narendrabook}
+Narendra, K.~S. \harvardand\ Annaswamy, A.~M.  \harvardyearleft
+  1989\harvardyearright .
+\newblock {\em Stable adaptive systems}, Prentice-Hall.
+
+\harvarditem[Narendra et~al.]{Narendra, Wang \harvardand\
+  Chen}{2014}{narendra2014}
+Narendra, K.~S., Wang, Y. \harvardand\ Chen, W.  \harvardyearleft
+  2014\harvardyearright .
+\newblock Stability, robustness, and performance issues in second level
+  adaptation, {\em American Control Conference (ACC), 2014}, pp.~2377--2382.
+
+\harvarditem[Rohrs et~al.]{Rohrs, Valavani, Athans \harvardand\
+  Stein}{1985}{rvas85}
+Rohrs, C.~E., Valavani, L., Athans, M. \harvardand\ Stein, G.  \harvardyearleft
+  1985\harvardyearright .
+\newblock Robustness of continuous-time adaptive control algorithms in the
+  presence of unmodeled dynamics, {\em IEEE Trans. Automatic Control AC-} {\bf
+  30}(9):~881--889.
+
+\harvarditem{Tao}{2003}{tao}
+Tao, G.  \harvardyearleft 2003\harvardyearright .
+\newblock {\em Adaptive control design and analysis}, Wiley.
+
+\end{thebibliography}

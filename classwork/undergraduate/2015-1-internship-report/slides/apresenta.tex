@@ -1,0 +1,328 @@
+% 29/03/2011 at 17:00
+% Written by Tordar
+
+\documentclass{beamer}
+\usepackage[brazil]{babel}		
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+\renewcommand{\mathfamilydefault}{\rmdefault}
+
+\mode<presentation>
+{
+  \usetheme{Warsaw} % Um de muitos temas...
+  \setbeamercovered{transparent}
+  \usecolortheme{dove}
+  \usefonttheme{serif}
+  %serif, avant, bookman, chancery, charter, euler, helvet, 
+  %mathtime, mathptm, mathptmx,
+	%newcent, palatino, pifont e utopia.
+}
+%possibilidade de usecolortheme
+%albatross crane beetle dove
+%fly seagull wolverine beaver
+
+\title[Adaptação Level 2]  
+{Demonstração}
+
+\subtitle{\textcolor{blue}{UFRN}}
+
+\author[Kumpati S. Narendra]{Kumpati S. Narendr}
+
+\institute[Universidade Federal do Rio Grande do Norte]
+{ \inst{}
+  Departamento de Engenharia Elétrica\\
+Universidade Federal do Rio Grande do Norte\\
+}
+
+\date[\today]{\includegraphics[width = 1 cm, height = 1.5 cm]{logoufrn.jpg}\textcolor{white}{Natal}\includegraphics[width = 1.5 cm, height = 1 cm]{ccwlogo.png} \\\small{Natal\\Junho de 2015}}
+
+\subject{Estagio ccw}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Identificação}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Identificação}
+
+\begin{enumerate}
+\item<1-> Pedro Yochinori Gushiken\\
+\scriptsize{Estagiário\\ Graduando em Engenharia Elétrica}
+
+\item<2-> Local\\
+\scriptsize{Empresa CCW Engenharia LTDA } 
+
+\item<3-> Período\\
+\scriptsize{Março a Junho de 2015} 
+
+\item<4-> Wilson Medeiros de Góis\\
+\scriptsize{Supervisor Técnico\\
+Engenheiro Eletricista\\
+Sócio Administrador da CCW Engenharia LTDA}
+
+\item<5-> Kurios Iuri Pinheiro de Melo Queiroz\\
+\scriptsize{Orientador Pedagógico\\Professor Doutor do Departamento de Engenharia Elétrica}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{CCW Engenharia LTDA}
+\begin{enumerate}
+\item<1-> Fundada em 1998
+\item<2-> Especializada em serviços em eletricidade em média, alta e 
+em baixa tensão
+\begin{enumerate}
+\item<3-> \small{ ASSESSORIA E CONSULTORIA}
+\item<4-> \small{PROJETO, CONSTRUÇÃO E MANUTENÇÃO }
+\begin{enumerate}
+\item<5-> \small{LINHAS, REDES E SUBESTAÇÕES DE ALTA E MÉDIA TENSÃO}
+\item<6-> \small{MALHAS DE ATERRAMENTO}
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\begin{figure}
+\includegraphics[width = 2.5 cm, height = 2 cm]{post.png}
+\includegraphics[width = 2.5 cm, height = 2 cm]{ft_empresa.jpg}
+\includegraphics[width = 2.5 cm, height = 2 cm]{seg.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Atividades Realizadas}
+\begin{enumerate}
+\item<1-> Teste Com Megômetro
+\item<2-> Montagem de Quadro de Força
+\item<3-> Acompanhamento da Obra do Campus de Macaíba
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Teste com Megômetro}
+\begin{columns}[t]
+\begin{column}{5 cm}
+Medição
+\begin{enumerate}
+\item<1-> Megômetro
+\item<2-> Terminal Terra, Fase e Guarda
+\item<3-> Tensões de Teste
+\item<4-> Esquema de Ligação
+\item<5-> Segurança
+\end{enumerate}
+\end{column}
+\begin{column}{5 cm}
+Procedimento
+\begin{enumerate}
+\item<6-> Obter Resistência de Continuidade dos Trafos
+\item<7-> Repetir o teste em um intervalo razoávelmente longo
+\item<8-> Observar a Evolução dos valores
+\end{enumerate}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Esquema de Ligação}
+\begin{figure}
+\includegraphics[width = 10 cm, height = 7 cm]{EsquemaMegometro.png}
+\caption{\scriptsize{Esquema de Ligação}}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Medidas Obtidas}
+\begin{figure}
+\begin{table}[htbp]
+  \centering
+
+    \begin{tabular}{cccc}
+    \textbf{Trafo} & \textbf{M1} & \textbf{M2} & \textbf{M3}\\
+    1     & $419.05M\Omega$ &  $412.20M\Omega$ & $408.02M\Omega$ \\
+    2     & $356.46M\Omega$ &  $368.71M\Omega$   & $371.95M\Omega$  \\
+    3     & $54.64M\Omega$ & $53.67M\Omega$   & $52.81M\Omega$  \\
+    4     & $290.10M\Omega$& $289.11M\Omega$   & $291.64M\Omega$  \\  
+    \end{tabular}%
+  \caption{Medição, Março}
+\end{table}
+
+  \begin{table}[htbp]
+    \centering
+  
+      \begin{tabular}{cccc}
+      \textbf{Trafo} & \textbf{M1} & \textbf{M2} & \textbf{M3}\\
+      1     & $418.02M\Omega$ & $416.1M\Omega$  & $407.89M\Omega$  \\ 
+      2     & $354.14M\Omega$ & $356.66M\Omega$   & $355.51M\Omega$   \\
+      3     & $69.27M\Omega$ & $60.30M\Omega$   & $57.31M\Omega$  \\  
+      4     & $285.51M\Omega$ & $287.37M\Omega$   & $286.13M\Omega$  \\  
+      \end{tabular}%
+    \caption{Medição, Maio}
+  \end{table}
+  
+
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Megômetro MG-3200}
+\begin{figure}
+\includegraphics[width = 6 cm, height = 7 cm]{Megometro.jpg}
+\caption{\scriptsize{Foto do Megômetro utilizado}}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Montagem de Quadro de Força}
+\begin{columns}[t]
+\begin{column}{5 cm}
+Construção
+\begin{enumerate}
+\item<1-> Principais materiais utilizados
+\item<2-> Diagrama Unifilar
+\end{enumerate}
+\end{column}
+\begin{column}{5 cm}
+Operação
+\begin{enumerate}
+\item<3-> Através dos Transformadores de baixa tensão
+\item<4-> Através do Gerador na Unidade de Supervisão de Corrente Alternada
+\end{enumerate}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Principais Materiais Utilizados}
+\begin{itemize}
+\item 7 disjuntores BT trifásicos, $I_n=1600A, I_i = 36kA$
+\item 5 disjuntores BT trifásicos, $I_n=450A, I_i = 36kA$
+\item 1 disjuntor BT trifásico, $I_n = 350A, I_i = 36kA$
+\item 1 disjuntor BT trifásico, $I_n = 250A, I_i = 36kA$
+\item 1 chave tripolar, $I_n = 1600A$
+\item 53.5 metros de barramentos chatos de cobre pintado de $2.1/2"$ por $3/8"$
+\end{itemize} 
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Montagem de Quadro de Força}
+\begin{figure}
+\includegraphics[width = 9 cm, height = 6 cm]{base.png}
+\caption{\scriptsize{Diagrama Unifilar}}
+\end{figure}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Montagem de Quadro de Força}
+\begin{figure}
+\includegraphics[width = 6 cm, height = 7 cm, angle=-90]{q3.jpg}
+\caption{\scriptsize{Detalhe dos barramentos com seus TCs afixados}}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Montagem de Quadro de Força}
+\begin{figure}
+\includegraphics[width = 6 cm, height = 7 cm, angle = -90]{q2.jpg}
+\caption{\scriptsize{Barramentos duplos alimentando os disjuntores}}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Operação}
+\begin{figure}
+\includegraphics[width = 9 cm, height = 6 cm]{normal.png}
+\caption{\scriptsize{Operação Normal, através dos Transformadores de Baixa Tensão}}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Operação}
+\begin{figure}
+\includegraphics[width = 9 cm, height = 6 cm]{gerador.png}
+\caption{\scriptsize{Alimentação das Cargas Essenciais através do Gerador na Unidade de Supervisão de Corrente Alternada}}
+\end{figure}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Acompanhamento da Obra no campus da UFRN em Macaíba}
+\begin{enumerate}
+\item<1-> Projeto
+\begin{enumerate}
+\item<2-> Rede de média tensão em cabo 336,4 AWG CAA (170$mm^2$ de secção com alma de aço)
+\item<3-> Rede de baixa tensão com transformadores abaixadores distribuídos e cabo multiplexado
+\item<4-> Iluminação com postes tubulares
+\end{enumerate}
+\item<5-> Padrão de Estruturas
+\item<6-> Montagem com Munck
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Projeto}
+\begin{figure}
+\includegraphics[width = 6 cm, height = 9 cm, angle=90]{ATREDE.jpg}
+\caption{\scriptsize{Projeto da Rede Elétrica e da Iluminação do campus da UFRN no município de Macaíba}}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Padrão de Estruturas}
+\begin{figure}
+\includegraphics[width = 6 cm, height = 9 cm, angle=-90]{N1_Trafo.jpg}
+\caption{\scriptsize{Estrutura N3 de final de linha com Transformador montado}}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Padrão de Estruturas}
+\begin{figure}
+\includegraphics[width = 6 cm, height = 9 cm, angle=-90]{N1N3.jpg}
+\caption{\scriptsize{Estrutura N1-N3 (N1 tangente a linha e N3 é a cruzeta usada para derivação em $90^\circ$)}}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Padrão de Estruturas}
+\begin{figure}
+\includegraphics[width = 6 cm, height = 9 cm, angle=-90]{N3N3.jpg}
+\caption{\scriptsize{Estrutura N3-N3 usada para "curva" fechada na linha}}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Montagem com Munck}
+\begin{figure}
+\includegraphics[width = 9 cm, height = 6 cm, angle=180]{Muck_Extendido.jpg}
+\caption{\scriptsize{Montagem de luminária em poste tubular usando braço mecânico para erguer uma cesta com dois operários}}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\centering
+Obrigado a Todos!
+\end{frame}
+
+\end{document}

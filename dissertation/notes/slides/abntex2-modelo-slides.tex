@@ -1,0 +1,613 @@
+%% abtex2-modelo-slides.tex, v-1.0 gfabinhomat
+%% Copyright 2012-2015 by abnTeX2 group at http://www.abntex.net.br/ 
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is Fábio Rodrigues Silva, 
+%% member of abnTeX2 team, led by Lauro César Araujo. 
+%% Further information are available on 
+%% http://www.abntex.net.br/
+%%
+%% This work consists of the files abntex2-modelo-slides.tex, 
+%% abntex2-modelo-references.bib and abntex2-modelo-marca.pdf
+%%
+%% Modelo desenvolvido por Fábio Rodrigues Silva (gfabinhomat@gmail.com)
+%% Mais informações podem ser obtidas no guia do usuário Beamer 
+%% (http://linorg.usp.br/CTAN/macros/latex/contrib/beamer/doc/beameruserguide.pdf)
+%% Informações rápidas podem ser acessadas em http://en.wikibooks.org/wiki/LaTeX/Presentations
+
+
+% Apresentações em widescreen. Outros valores possíveis: 1610, 149, 54, 43 e 32.
+% Por padrão, as apresentações são no formato 4:3 (sem o aspectratio).
+\documentclass[aspectratio=169]{beamer}	 	
+
+\usetheme{Berlin}
+\usecolortheme{dolphin}
+\usefonttheme[onlymath]{serif}			% para fontes matemáticas
+% Enconte mais temas e cores em http://www.hartwork.org/beamer-theme-matrix/ 
+% Veja também http://deic.uab.es/~iblanes/beamer_gallery/index.html
+
+% Customizações de Cores: fg significa cor do texto e bg é cor do fundo
+% ---
+% PACOTES
+% ---
+\usepackage[alf]{abntex2cite}		% Citações padrão ABNT
+\usepackage[brazil]{babel}		% Idioma do documento
+\usepackage{color}			% Controle das cores
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{txfonts}			% Fontes virtuais
+% ---
+\usepackage{caption}
+% --- Informações do documento ---
+\title{Demonstração do Controle por Modelo de Referência com Adaptação de Segundo Nível}
+\author{Pedro Yochinori Gushiken}
+\institute{Universidade Federal do Rio Grande do Norte}
+\date{\today}
+% ---
+
+% ----------------- INÍCIO DO DOCUMENTO --------------------------------------
+\begin{document}
+
+% ----------------- NOVO SLIDE --------------------------------
+\begin{frame}
+
+\begin{minipage}{1\linewidth}
+  \centering
+\end{minipage}
+
+\titlepage
+
+\end{frame}
+
+% ----------------- NOVO SLIDE --------------------------------
+\begin{frame}{Sumário}
+\tableofcontents
+\end{frame}
+
+% ----------------- NOVO SLIDE --------------------------------
+\section{Introdução}
+\begin{frame}
+\frametitle{Contextualização}
+\begin{enumerate}
+\item<1-> Controle por Modelo de Referência\\
+\item<2-> Identificação, Caso Indireto\\ 
+\item<3-> Leis Adaptativas, Não-Linearidade\\
+\item<4-> Calibragem dos Ganhos Adaptativos\\
+\item<5-> Desempenho\\
+\end{enumerate}
+\end{frame}
+
+
+% ----------------- NOVO SLIDE --------------------------------
+\section{Conceitos}
+\subsection{Problema do Controle Indireto Usando 1 Modelo de Identificação}
+
+\begin{frame}
+\frametitle{Descrição da Planta}
+
+Seja a planta descrita pela equação de espaço de estado:
+\begin{equation}
+\dot{x}_p(t) = A_p x_p(t) + b u(t)
+\end{equation}
+
+Onde todas as variáveis de estado da planta são acessíveis, com $b=e_n$ e $A_p$ na seguinte forma canônica:
+
+\[ 
+A_p =
+ \begin{bmatrix}
+    0       & 1       &  0       &  ... &  0      \\
+    0       & 0       &  1       &  ... &  0      \\
+    0       & 0       &  0       &  ... &  0      \\
+    ...     & ...     &  ...     &      &  ...    \\
+    a_1     & a_2     &  a_3     &  ... &  a_n
+  \end{bmatrix}
+\]
+
+Onde ${\theta_p}^*$ é o vetor transposto da última linha de $A_p$.  
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Descrição do Modelo de Referência}
+
+
+Seja o modelo de referência descrito pela equação de espaço de estado:
+\begin{equation}
+\dot{x}_m(t) = A_m x_m(t) + b r(t)
+\end{equation}
+
+Com $b=e_n$ e $A_m$ na seguinte forma canônica:
+
+\[ 
+A_p =
+ \begin{bmatrix}
+    0       & 1       &  0       &  ... &  0      \\
+    0       & 0       &  1       &  ... &  0      \\
+    0       & 0       &  0       &  ... &  0      \\
+    ...     & ...     &  ...     &      &  ...    \\
+    {a_m}_1     & {a_m}_2     &  {a_m}_3     &  ... &  {a_m}_n
+  \end{bmatrix}
+\]
+
+Onde o vetor $\theta_m$ transposto que corresponde à última linha da matriz $A_m$ é escolhido de forma que o modelo de referência seja estável.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Declaração do Problema}
+
+Queremos uma entrada $u(t)$ para a planta tal que a norma da diferença entre os vetores de variáveis de estado tenda a 0 na medida em que o tempo t tende a infinito. O método proposto de adaptação é indireto. No controle adaptativo indireto usando apenas um modelo, usamos as seguintes equações:
+
+\begin{equation}
+\dot{\hat{x}}_p = A_m\hat{x}_p(t) + [A_1(t)-A_m]x_p(t) +bu(t)
+\end{equation}
+
+É o modelo da planta, onde $A_1$ está na mesma forma canônica das matrizes mostradas anteriormente e sua última linha é o vetor $\theta_1$ transposto de estimativas dos parâmetros da planta, e $\phi_1(t)$ é o vetor de erros na estimativa de ${\theta_p}^*$.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Equações, Cont.}
+
+\begin{equation}
+u(t) = r(t) +k^T(t)x_p(t)
+\end{equation}
+
+É a lei de controle.
+
+\begin{equation}
+k(t) = \theta_m - \theta_1 = k^* - \phi_1(t)
+\end{equation}
+
+É a parcela ajustada de forma adaptativa do controlador. Onde $k^*$ é o vetor de parâmetros do controlador caso a planta fosse conhecida e $\phi_1(t)$ é o vetor de erros entre os parâmetros da planta e as estimativas dos parâmetros.
+
+\end{frame}
+\begin{frame}
+\frametitle{Lei Adaptativa}
+
+Definindo o erro de identificação $e_1$ como:
+\begin{equation}
+e_1(t) = \hat{x}_p(t) - x_p(t)
+\end{equation}
+
+Temos a seguinte lei adaptativa:
+
+\begin{equation}
+\dot{\theta_1} = \dot{\phi_1} = -{e_1}^TPbx_p(t)
+\end{equation}
+
+A partir da teoria de Lyapunov usando a candidata $V(e_1(t), \phi_1(t))= \frac{1}{2} {e_1}^T(t)Pe_1(t) + {\phi_1}^T\phi_1(t)$ é possível provar que o erro de controle $e_1$ tende a 0 para o tempo t tendendo a infinito para qualquer referência e que o erro de estimativa dos parâmetros $\phi_1$ tende a 0 para t tendendo a infinito para r(t) que é persistentemente excitante.
+
+
+\end{frame}
+
+\subsection{Controle Indireto com Adaptação de Segundo Nível (Múltiplos Modelos de Identificação)}
+
+\begin{frame}
+\frametitle{Localização de ${\theta_p}^*$}
+
+Em \cite{han1}, foi provado que, se o vetor de parâmetros desconhecidos ${\theta_p}^*$ da planta a ser controlada estiver contido no casco convexo dos parâmetros iniciais $\theta_i(0)$ de N modelos (onde $N\geq n+1$), dentro de certas condições ${\theta_p}^*$ continuará contido dentro do casco convexo delimitado pelos vetores $\theta_i(t)$ de cada modelo a medida que estes de adaptam.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Perguntas Decorrentes}
+
+Assumindo que o vetor de parâmetros desconhecidos da planta ${\theta_p}^*$ se encontra em alguma região conhecida, as seguintes questões se seguem:
+
+a)Quantos Modelos são necessários para identificar ${\theta_p}^*$?\\
+b)Estes Modelos devem ser fixos ou adaptativos?\\
+c)Em ambos os casos, como seriam escolhidos os parâmetros iniciais de cada modelo?\\
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Regiões Convexas/ Cascos Convexos}
+Para delimitar uma região convexa do $\Re^n$ cuja dimensão seja $\Re^n$ são necessários no mínimo $n+1$ pontos naquele espaço.\\
+
+Qualquer ponto no interior de uma região convexa pode ser expresso como uma combinação linear dos vetores que delimitam a região cumprindo as seguintes condições:\\ 
+
+a) A soma dos coeficientes da combinação seja igual a 1\\ 
+b) Todos os coeficientes maiores que 0\\
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Exemplo 1: Região Convexa}
+
+\centering
+\begin{figure}
+  \includegraphics[width=.69\linewidth]{./pics/Ex_Regiao.png}
+    \captionof{figure}{Em roxo uma região convexa do $\Re^2$, delimitada por [2 5], [6 1] e [9 4]}
+    \label{fig:test2912}
+\end{figure}
+
+
+\end{frame}
+\begin{frame}
+\frametitle{Múltiplos Modelos}
+
+Tanto no caso de modelos fixos quanto adaptativos, a equação diferencial que descreve o modelo é a mesma. Com $x_i(t_0) = x_p(t_0)$. $A_i$ se encontra na mesma forma canônica descrita anteriormente. Desta forma o modelo $\Sigma_i$ é descrito por:
+
+\begin{equation}
+\Sigma_i: \dot{\hat{x}}_i = A_m\hat{x}_p(t) + [A_i(t)-A_m]x_p(t) +bu(t)
+\end{equation}
+
+No caso em que os modelos são adaptativos, os vetores de parâmetros $\theta_i$ são atualizados usando as leis adaptativas descritas anteriormente, com $e_i(t) =x_i(t)-x_p(t) $. No caso em que os modelos são fixos, estes vetores são constantes, e portanto os modelos não são estritamente de identificação, porém mesmo assim ainda é possível estimar ${\theta_p}^*$.
+
+\end{frame}
+
+\begin{frame}
+
+Tendo em mente para o caso adaptativo que:
+
+
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+\begin{equation}
+\sum_{i=1}^{n+1}\alpha_i\theta_i(t_0) = \theta_p
+\end{equation}
+\begin{equation}
+\dot{e}_i = A_m e_i(t) + b{\phi_i}^T(t)x_p(t)
+\end{equation}
+\begin{equation}
+e_i(t_0)=0
+\end{equation}
+\end{minipage}%
+  \hfill
+\begin{minipage}{.48\textwidth}
+  \centering
+
+\begin{equation}
+\dot{\theta}_i(t) = \dot{\phi}_i(t) = -{e_i}^T(t)Pbx_p(t)
+\end{equation}
+\begin{equation}
+\theta_i(t_0) = \theta_{i0}
+\end{equation}
+\begin{equation}
+\sum_{i=1}^{n+1}\alpha_i\phi(t_0)=0
+\end{equation}
+\end{minipage}
+
+
+\end{frame}
+
+
+\begin{frame}
+
+É possível enxergar as constantes $\alpha_1,\alpha_2,...,\alpha_{n+1}$ como uma alternativa de parametrização da planta. Consequentemente, a velocidade e precisão na estimação de $\alpha_i$ é que determinam seu desempenho em comparação com a adaptação de primeiro nível. Dadas as equações anteriores se seguem as seguintes equações:
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+  \begin{equation}
+  \sum_{i=1}^{n+1}\alpha_i\theta_i(t) = \theta_p \space 
+  \end{equation}
+\end{minipage}%
+  \hfill
+
+\begin{minipage}{.48\textwidth}
+  \centering
+    \begin{equation}
+    \sum_{i=1}^{n+1}\alpha_i e_i(t) = 0 \space
+    \end{equation}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}
+E em forma matricial:
+
+\begin{equation}
+\bar{\Theta}(t)\bar{\alpha} = \theta_p
+\end{equation}
+\begin{equation}
+\bar{E}(t)\bar{\alpha} = 0
+\end{equation}
+
+Onde $\bar{\Theta}$ e $\bar{E}$ são matrizes $n\times(n+1)$.
+
+\end{frame}
+
+\begin{frame}
+E devido às propriedades da região convexa, podemos expressar:
+\begin{equation}
+\Theta(t)\alpha = \theta_p - \theta_{n+1}
+\end{equation}
+\begin{equation}
+E(t)\alpha = -e_{n+1}(t)
+\end{equation}
+
+Onde $\Theta(t)$ e $E(t)$ são matrizes $n\times n$, onde cada vetor coluna é $\theta_i(t)-\theta_{n+1}(t)$ e $e_i(t)-e_{n+1}(t)$ respectivamente e $\alpha^T = [\alpha_1,...,\alpha_n]$. Finalmente, substituindo $\sum_{i=1}^{n+1}\alpha_i\theta_p = \theta_p$ em (19), obtemos:
+
+\begin{equation}
+\Phi(t)\alpha = \phi_{n+1}(t)
+\end{equation}
+
+Onde $\Phi(t)$ é uma matriz $n\times n$ cujas colunas são os vetores de erros de parâmetro até $i=n$.
+
+\end{frame}
+
+\subsection{Computação de $\alpha$}
+\begin{frame}
+\frametitle{Computação Algébrica usando (19)}
+Como $\theta_p$ e $\alpha$ são ambos desconhecidos, os vetores $\theta_i$ devem ser avaliados em instantes de tempo distintos, para estimar $\alpha$. Se as medidas são feitas nos tempos $t_1$ e $t_2$ obtemos:
+
+\begin{equation}
+[\Theta(t_1)-\Theta(t_2)]\alpha =-[\theta_{n+1}(t_1) - \theta_{n+1}(t_2)]
+\end{equation}
+
+A partir da qual podemos computar $\alpha$. Alternativamente, fazendo uma operação de diferenciação sobre os dois lados de (19) obtemos:
+
+\begin{equation}
+\dot{\Theta}(t)\alpha = -\dot{\theta}_{n+1}(t)
+\end{equation}
+
+\end{frame}
+
+\begin{frame}
+Como $\dot{\theta_i}$ são as leis adaptativas, chegamos novamente a:
+\begin{equation}
+E(t)\alpha = -e_{n+1}(t)
+\end{equation}
+
+Como $E(t)$ é obrigatoriamente uma matriz invertível, $\alpha$ também pode ser computado a partir de (24) usando a inversa de $E(t)$.  
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Comentário sobre Múltiplos Modelos Fixos}
+
+Embora para um único modelo fixo não seja possível identificar o vetor de parâmetros $\theta_p$ da planta, como as equações de erro de identificação são lineares obtemos (24) novamente, relacionando os erros de saída $e_i(t)$ à $\alpha$. Desta forma, coletivamente, modelos fixos podem ser utilizados para identificar uma planta desde que tenhamos algum conhecimento prévio da região em que estão localizados seus parâmetros.
+ 
+\end{frame}
+
+
+% ----------------- NOVO SLIDE --------------------------------
+\section{Simulações com Modelos Fixos}
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\subsection{Simulação 1}
+\begin{frame}
+\frametitle{Dados da Simulação}
+
+\begin{equation}
+\theta_p^T = [-2~~~-1]
+\end{equation}
+
+\begin{equation}
+\theta_m^T = [-1~~~-3]
+\end{equation}
+
+\begin{equation}
+\theta_1^T = [-2~~~-4]
+\end{equation}
+
+\begin{equation}
+\theta_2^T = [-6~~~-6]
+\end{equation}
+
+\begin{equation}
+\theta_3^T = [3~~~-6]
+\end{equation}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Erro de Saída, Norma do Erro de Saída}
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/ES_SIM1.png}
+  \captionof{figure}{Erro de Saída}
+\end{minipage}%
+  \hfill
+\begin{minipage}{.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/Norm2_ES_SIM1.png}
+  \captionof{figure}{Norma 2 do Erro de Saída}
+\end{minipage}
+\end{frame}
+
+\begin{frame}
+\frametitle{Saída}
+  \centering
+  \includegraphics[width=0.7\linewidth]{./pics/S_MeP_SIM1.png}
+  \captionof{figure}{Saída da Planta e do Modelo}
+\end{frame}
+
+\subsection{Simulação 2}
+
+\begin{frame}
+\frametitle{Dados da Simulação}
+
+\begin{equation}
+\theta_p^T = [2~~~1]
+\end{equation}
+
+\begin{equation}
+\theta_m^T = [-1~~~-3]
+\end{equation}
+
+\begin{equation}
+\theta_1^T = [3~~~-6]
+\end{equation}
+
+\begin{equation}
+\theta_2^T = [-2~~~-2]
+\end{equation}
+
+\begin{equation}
+\theta_3^T = [7~~~-3]
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Erro de Saída, Norma do Erro de Saída}
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/ES_SIM2.png}
+  \captionof{figure}{Erro de Saída}
+\end{minipage}%
+  \hfill
+\begin{minipage}{.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/Norm2_ES_SIM2.png}
+  \captionof{figure}{Norma 2 do Erro de Saída}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Saída}
+  \centering
+  \includegraphics[width=0.7\linewidth]{./pics/S_MeP_SIM2.png}
+  \captionof{figure}{Saída da Planta e do Modelo}
+\end{frame}
+
+\subsection{Simulação 3}
+
+\begin{frame}
+\frametitle{Dados da Simulação}
+
+\begin{equation}
+\theta_p^T = [5~~~3]
+\end{equation}
+
+\begin{equation}
+\theta_m^T = [-24~~~-8]
+\end{equation}
+
+\begin{equation}
+\theta_1^T = [-10~~~-10]
+\end{equation}
+
+\begin{equation}
+\theta_2^T = [15~~~-10]
+\end{equation}
+
+\begin{equation}
+\theta_3^T = [5~~~15]
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Erro de Saída, Norma do Erro de Saída}
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/ES_SIM3.png}
+  \captionof{figure}{Erro de Saída}
+\end{minipage}%
+  \hfill
+\begin{minipage}{.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/Norm2_ES_SIM3.png}
+  \captionof{figure}{Norma 2 do Erro de Saída}
+\end{minipage}
+\end{frame}
+
+\begin{frame}
+\frametitle{Saída}
+  \centering
+  \includegraphics[width=0.7\linewidth]{./pics/S_MeP_SIM3.png}
+  \captionof{figure}{Saída da Planta e do Modelo}
+\end{frame}
+
+\subsection{Simulação 4}
+
+\begin{frame}
+\frametitle{Dados da Simulação}
+
+\begin{equation}
+\theta_p^T = [3+sin(t)~~~4+cos(t)~~~3*]
+\end{equation}
+
+\begin{equation}
+\theta_m^T = [-15~~~-23~~~-9]
+\end{equation}
+
+\begin{equation}
+\theta_1^T = [5~~~3~~~3]
+\end{equation}
+
+\begin{equation}
+\theta_2^T = [1~~~3~~~3]
+\end{equation}
+
+\begin{equation}
+\theta_3^T = [3~~~6~~~3]
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Erro de Saída, Norma do Erro de Saída}
+\centering
+\begin{minipage}{.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/ES_SIM4.png}
+  \captionof{figure}{Erro de Saída}
+\end{minipage}%
+  \hfill
+\begin{minipage}{.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{./pics/Norm2_ES_SIM4.png}
+  \captionof{figure}{Norma 2 do Erro de Saída}
+\end{minipage}
+\end{frame}
+
+\begin{frame}
+\frametitle{Saída}
+  \centering
+  \includegraphics[width=0.7\linewidth]{./pics/S_MeP_SIM4.png}
+  \captionof{figure}{Saída da Planta e do Modelo}
+\end{frame}
+
+% ----------------- NOVO SLIDE --------------------------------
+\section{Referências}
+
+% --- O comando \allowframebreaks ---
+% Se o conteúdo não se encaixa em um quadro, a opção allowframebreaks instrui 
+% beamer para quebrá-lo automaticamente entre dois ou mais quadros,
+% mantendo o frametitle do primeiro quadro (dado como argumento) e acrescentando 
+% um número romano ou algo parecido na continuação.
+% --- O comando \allowframebreaks ---
+% Se o conteúdo não se encaixa em um quadro, a opção allowframebreaks instrui 
+% beamer para quebrá-lo automaticamente entre dois ou mais quadros,
+% mantendo o frametitle do primeiro quadro (dado como argumento) e acrescentando 
+% um número romano ou algo parecido na continuação.
+
+\begin{frame}[allowframebreaks]
+\frametitle{Referências}
+\nocite{narendra1}
+\nocite{narendra_main}
+\nocite{narendra2012rationale}
+\nocite{narendra1997}
+\nocite{han1}
+\nocite{han2010}
+\nocite{han2012}
+\nocite{kuipers1}
+\nocite{ioannou2}
+\nocite{chen}
+\nocite{ogata}
+\nocite{khalil}
+\end{frame}
+% ----------------- FIM DO DOCUMENTO -----------------------------------------
+\bibliography{bib-controleadaptativo}
+\end{document}
