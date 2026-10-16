@@ -9,6 +9,7 @@ Academic work of **Pedro Yochinori Gushiken**: Electrical Engineering at UFRN (u
 | [`papers/`](papers/) | CBA 2016 (published), plus the forgetting-factor follow-up (submitted to CBA 2018 and SBAI 2019). Each paper has its PDF, LaTeX, slides and simulation code. |
 | [`classwork/`](classwork/) | Undergraduate and graduate course reports, slides and simulations (MATLAB/Simulink/PSIM), organised as `<level>/<year>-<semester>-<course>/`. Includes the undergraduate thesis (TCC, 2015). |
 | [`study_material/`](study_material/) | Catalog of the books, papers, theses and course handouts by other authors that this work used. The files are in a separate private repository because they are copyrighted. |
+| [`m2python_port/`](m2python_port/) | Python (numpy/scipy/matplotlib) ports of all the MATLAB code, at the same relative paths, including the parameter-convergence animations. See its [README](m2python_port/README.md). |
 | [`CLASSMATE_WORK.md`](CLASSMATE_WORK.md) | Credits for files written by classmates and other authors that were in the same archive but are **not** included here, and a list of items held back for privacy. |
 | [`catalog.csv`](catalog.csv) | One row per file: title, authors, what it is, which course/paper/chapter it belongs to, role (final / draft / experiment…), and where it originally lived. |
 
